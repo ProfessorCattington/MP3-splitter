@@ -1,0 +1,20 @@
+C:\Users\Mike\Documents\Visual Studio 2013\Projects\testapplication\testapplication\bin\Debug\testapplication.exe.config
+C:\Users\Mike\Documents\Visual Studio 2013\Projects\testapplication\testapplication\obj\Debug\testapplication.exe
+C:\Users\Mike\Documents\Visual Studio 2013\Projects\testapplication\testapplication\obj\Debug\testapplication.pdb
+C:\Users\Mike\Documents\Visual Studio 2013\Projects\testapplication\coldcuts\bin\Debug\testapplication.exe.config
+C:\Users\Mike\Documents\Visual Studio 2013\Projects\testapplication\coldcuts\obj\Debug\testapplication.exe
+C:\Users\Mike\Documents\Visual Studio 2013\Projects\testapplication\coldcuts\obj\Debug\testapplication.pdb
+H:\programming projects\coldcuts\coldcuts\bin\Debug\testapplication.exe.config
+H:\programming projects\coldcuts\coldcuts\obj\Debug\testapplication.exe
+H:\programming projects\coldcuts\coldcuts\obj\Debug\testapplication.pdb
+C:\Users\Mike\Desktop\coldcuts\coldcuts\bin\Debug\Bass.Net.dll
+C:\Users\Mike\Desktop\coldcuts\coldcuts\bin\Debug\Bass.Net.xml
+C:\Users\Mike\Desktop\coldcuts\coldcuts\obj\Debug\ColdCutsNS.MainForm.resources
+C:\Users\Mike\Desktop\coldcuts\coldcuts\obj\Debug\ColdCutsNS.Properties.Resources.resources
+C:\Users\Mike\Desktop\coldcuts\coldcuts\obj\Debug\coldcuts.csproj.GenerateResource.Cache
+C:\Users\Mike\Desktop\coldcuts\coldcuts\obj\Debug\coldcuts.csprojResolveAssemblyReference.cache
+C:\Users\Mike\Desktop\coldcuts\coldcuts\bin\Debug\MP3Splitter.exe.config
+C:\Users\Mike\Desktop\coldcuts\coldcuts\bin\Debug\MP3Splitter.exe
+C:\Users\Mike\Desktop\coldcuts\coldcuts\bin\Debug\MP3Splitter.pdb
+C:\Users\Mike\Desktop\coldcuts\coldcuts\obj\Debug\MP3Splitter.exe
+C:\Users\Mike\Desktop\coldcuts\coldcuts\obj\Debug\MP3Splitter.pdb

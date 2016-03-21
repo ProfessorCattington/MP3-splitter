@@ -1,0 +1,11 @@
+c:\users\mike\documents\visual studio 2013\Projects\testapplication\testapplication\bin\Debug\testapplication.exe.config
+c:\users\mike\documents\visual studio 2013\Projects\testapplication\testapplication\bin\Debug\testapplication.exe
+c:\users\mike\documents\visual studio 2013\Projects\testapplication\testapplication\bin\Debug\testapplication.pdb
+c:\users\mike\documents\visual studio 2013\Projects\testapplication\testapplication\obj\Debug\testapplication.csprojResolveAssemblyReference.cache
+c:\users\mike\documents\visual studio 2013\Projects\testapplication\testapplication\obj\Debug\testapplication.Properties.Resources.resources
+c:\users\mike\documents\visual studio 2013\Projects\testapplication\testapplication\obj\Debug\testapplication.csproj.GenerateResource.Cache
+c:\users\mike\documents\visual studio 2013\Projects\testapplication\testapplication\obj\Debug\testapplication.exe
+c:\users\mike\documents\visual studio 2013\Projects\testapplication\testapplication\obj\Debug\testapplication.pdb
+c:\users\mike\documents\visual studio 2013\Projects\testapplication\testapplication\obj\Debug\testapplication.MainForm.resources
+C:\Users\Mike\documents\visual studio 2013\Projects\testapplication\testapplication\bin\Debug\Bass.Net.dll
+C:\Users\Mike\documents\visual studio 2013\Projects\testapplication\testapplication\bin\Debug\Bass.Net.xml
