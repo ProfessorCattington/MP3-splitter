@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using Un4seen.Bass.AddOn.Tags;
 
@@ -78,26 +80,41 @@ namespace ColdCutsNS{
         }
         private void encodeButton_Click(object sender, EventArgs e){
 
+            Leave(sender, e);
+            PerformEncodingTasks();
+        }
+
+        private async void PerformEncodingTasks(){
+
             DisableTheEditingControls();
 
             feedBackLabel.Visible = true;
-            feedBackLabel2.Visible = true;
             feedBackLabel.Text = "Encoding...";
 
-            new StartEncodingStrategy(this, m_outputFileController);
+            await EncodeFilesAsync();
 
             sourceBrowseButton.Enabled = true;
             destinationBrowseButton.Enabled = true;
-            EnableTheEditingControls();    
+            EnableTheEditingControls();
 
             feedBackLabel.Text = "Done!";
             feedBackLabel2.Visible = false;
         }
 
-        public void FileEncodingNotification(long bytesTotal, long bytesDone){
+        private Task<Encoder> EncodeFilesAsync(){
 
-            Console.Write("Encoding: {0:P}\r", Math.Round((double)bytesDone / (double)bytesTotal, 2));
-            feedBackLabel2.Text = Math.Round((double)bytesDone / (double)bytesTotal).ToString();
+            return Task.Factory.StartNew(() => MakeAnEncoder());
+        } 
+
+        private Encoder MakeAnEncoder(){
+
+            return new Encoder(this, m_outputFileController);
+        }
+
+        public void FileEncodingNotification(long bytesDone, long bytesTotal){
+
+            //Console.Write("Encoding: {0:P}\r", Math.Round((double)bytesDone / (double)bytesTotal, 2));
+            //feedBackLabel2.Text = Math.Round((double)bytesDone / (double)bytesTotal).ToString(); 
         }
 
         public bool AreSourceAndDestinationFilled(){
@@ -115,6 +132,7 @@ namespace ColdCutsNS{
             if (StartAndEndTimesAreValid()){
 
                 SaveFieldsToFileObject();
+                UpdateDataGrid();
             }
         }
 
@@ -170,6 +188,23 @@ namespace ColdCutsNS{
                                                  titleOutputTextBox.Text,
                                                  albumOutputTextBox.Text,
                                                  commentOutputTextBox.Text);
+        }
+
+        private void UpdateDataGrid(){
+
+            dataGridView1.Rows.Clear();
+
+            List<NewSoundFile> soundFiles = m_outputFileController.GetOutputFiles().GetSoundFiles();
+
+            for(int i = 0; i < soundFiles.Count; i++){
+
+                dataGridView1.Rows.Add();
+
+                dataGridView1.Rows[i].Cells[0].Value = i;
+                dataGridView1.Rows[i].Cells[1].Value = soundFiles[i].fileName;
+                dataGridView1.Rows[i].Cells[2].Value = soundFiles[i].startTimeSeconds;
+                dataGridView1.Rows[i].Cells[3].Value = soundFiles[i].endTimeSeconds;
+            }
         }
 
         public void FillFieldsFromFileObject(){
@@ -289,11 +324,6 @@ namespace ColdCutsNS{
         public OutputFileController GetOutputFileController(){
 
             return m_outputFileController;
-        }
-
-        private void MainForm_Load(object sender, EventArgs e)
-        {
-
         }
     }
 }

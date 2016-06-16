@@ -66,8 +66,14 @@
             this.fileRightButton = new System.Windows.Forms.Button();
             this.addFileButton = new System.Windows.Forms.Button();
             this.editPositionLabel = new System.Windows.Forms.Label();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.gridtracknumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.gridtrackname = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.gridstarttime = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.gridendtime = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.inputFileGroupbox.SuspendLayout();
             this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // sourceBrowseButton
@@ -448,11 +454,58 @@
             this.editPositionLabel.TabIndex = 15;
             this.editPositionLabel.Text = "Editing Output File: ";
             // 
+            // dataGridView1
+            // 
+            this.dataGridView1.AllowUserToAddRows = false;
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.gridtracknumber,
+            this.gridtrackname,
+            this.gridstarttime,
+            this.gridendtime});
+            this.dataGridView1.Location = new System.Drawing.Point(608, 37);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.Size = new System.Drawing.Size(315, 353);
+            this.dataGridView1.TabIndex = 16;
+            // 
+            // gridtracknumber
+            // 
+            this.gridtracknumber.HeaderText = "#";
+            this.gridtracknumber.Name = "gridtracknumber";
+            this.gridtracknumber.ReadOnly = true;
+            this.gridtracknumber.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.gridtracknumber.Width = 20;
+            // 
+            // gridtrackname
+            // 
+            this.gridtrackname.HeaderText = "Track Name";
+            this.gridtrackname.Name = "gridtrackname";
+            this.gridtrackname.ReadOnly = true;
+            this.gridtrackname.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.gridtrackname.Width = 150;
+            // 
+            // gridstarttime
+            // 
+            this.gridstarttime.HeaderText = "Start Time";
+            this.gridstarttime.Name = "gridstarttime";
+            this.gridstarttime.ReadOnly = true;
+            this.gridstarttime.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.gridstarttime.Width = 50;
+            // 
+            // gridendtime
+            // 
+            this.gridendtime.HeaderText = "End Time";
+            this.gridendtime.Name = "gridendtime";
+            this.gridendtime.ReadOnly = true;
+            this.gridendtime.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.gridendtime.Width = 50;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(594, 402);
+            this.ClientSize = new System.Drawing.Size(932, 396);
+            this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.editPositionLabel);
             this.Controls.Add(this.addFileButton);
             this.Controls.Add(this.fileRightButton);
@@ -468,11 +521,11 @@
             this.Controls.Add(this.sourceBrowseButton);
             this.Name = "MainForm";
             this.Text = "Cold Cuts";
-            this.Load += new System.EventHandler(this.MainForm_Load);
             this.inputFileGroupbox.ResumeLayout(false);
             this.inputFileGroupbox.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -520,7 +573,11 @@
         public System.Windows.Forms.TextBox endMinTextBox;
         public System.Windows.Forms.TextBox endSecTextBox;
         public System.Windows.Forms.Label label1;
-
+        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn gridtracknumber;
+        private System.Windows.Forms.DataGridViewTextBoxColumn gridtrackname;
+        private System.Windows.Forms.DataGridViewTextBoxColumn gridstarttime;
+        private System.Windows.Forms.DataGridViewTextBoxColumn gridendtime;
     }
 }
 

@@ -3,9 +3,9 @@ using Un4seen.Bass.Misc;
 
 namespace ColdCutsNS
 {
-    public class StartEncodingStrategy{
+    public class Encoder{
 
-        public StartEncodingStrategy(MainForm mainForm, OutputFileController outputFileController){
+        public Encoder(MainForm mainForm, OutputFileController outputFileController){
 
             EncoderLAME lameEncoder = new EncoderLAME(0);
             lameEncoder.LAME_UseVBR = true;
@@ -18,8 +18,7 @@ namespace ColdCutsNS
 
             int numberOfSoundFiles = outputFileController.GetNumberOfSoundFiles();
 
-            for (int i = 0; i < numberOfSoundFiles; i++)
-            {
+            for (int i = 0; i < numberOfSoundFiles; i++){
 
                 outputFileController.GoToIndex(i);
 
@@ -40,11 +39,7 @@ namespace ColdCutsNS
                       new BaseEncoder.ENCODEFILEPROC(mainForm.FileEncodingNotification),
                       overwriteOutput, deleteInput, useInputFileTags,
                       startPoint + 0.0f, endPoint + 0.0f);
-
-                mainForm.UpdateEditingPosition();
-                mainForm.FillFieldsFromFileObject();
             }
-
         }
     }
 }

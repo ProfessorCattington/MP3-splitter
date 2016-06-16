@@ -38,5 +38,10 @@ namespace ColdCutsNS
 
             return m_numberOfFiles;
         }
+
+        public List<NewSoundFile> GetSoundFiles(){
+
+            return soundFiles;
+        }
     }
 }

@@ -18,3 +18,14 @@ C:\Users\Mike\Desktop\coldcuts\coldcuts\bin\Debug\MP3Splitter.exe
 C:\Users\Mike\Desktop\coldcuts\coldcuts\bin\Debug\MP3Splitter.pdb
 C:\Users\Mike\Desktop\coldcuts\coldcuts\obj\Debug\MP3Splitter.exe
 C:\Users\Mike\Desktop\coldcuts\coldcuts\obj\Debug\MP3Splitter.pdb
+C:\cygwin64\home\Mike\mp3split\coldcuts\bin\Debug\MP3Splitter.exe.config
+C:\cygwin64\home\Mike\mp3split\coldcuts\obj\Debug\MP3Splitter.exe
+C:\cygwin64\home\Mike\mp3split\coldcuts\obj\Debug\MP3Splitter.pdb
+C:\cygwin64\home\Mike\mp3split\coldcuts\bin\Debug\MP3Splitter.exe
+C:\cygwin64\home\Mike\mp3split\coldcuts\bin\Debug\MP3Splitter.pdb
+C:\cygwin64\home\Mike\mp3split\coldcuts\bin\Debug\Bass.Net.dll
+C:\cygwin64\home\Mike\mp3split\coldcuts\bin\Debug\Bass.Net.xml
+C:\cygwin64\home\Mike\mp3split\coldcuts\obj\Debug\coldcuts.csprojResolveAssemblyReference.cache
+C:\cygwin64\home\Mike\mp3split\coldcuts\obj\Debug\ColdCutsNS.MainForm.resources
+C:\cygwin64\home\Mike\mp3split\coldcuts\obj\Debug\ColdCutsNS.Properties.Resources.resources
+C:\cygwin64\home\Mike\mp3split\coldcuts\obj\Debug\coldcuts.csproj.GenerateResource.Cache
