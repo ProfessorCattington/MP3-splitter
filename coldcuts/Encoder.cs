@@ -5,7 +5,7 @@ namespace ColdCutsNS
 {
     public class Encoder{
 
-        public Encoder(MainForm mainForm, OutputFileController outputFileController){
+        public Encoder(MainForm mainForm, MainFormHelper mainFormHelper, OutputFileController outputFileController){
 
             EncoderLAME lameEncoder = new EncoderLAME(0);
             lameEncoder.LAME_UseVBR = true;
@@ -36,9 +36,11 @@ namespace ColdCutsNS
                 lameEncoder.TAGs = tempTags;
 
                 BaseEncoder.EncodeFile(inputFile, fileName + ".mp3", lameEncoder,
-                      new BaseEncoder.ENCODEFILEPROC(mainForm.FileEncodingNotification),
+                      new BaseEncoder.ENCODEFILEPROC(mainFormHelper.FileEncodingNotification),
                       overwriteOutput, deleteInput, useInputFileTags,
                       startPoint + 0.0f, endPoint + 0.0f);
+
+                mainFormHelper.ColorDataGrid(i);
             }
         }
     }

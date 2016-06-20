@@ -78,7 +78,7 @@
             // 
             // sourceBrowseButton
             // 
-            this.sourceBrowseButton.Location = new System.Drawing.Point(12, 12);
+            this.sourceBrowseButton.Location = new System.Drawing.Point(11, 52);
             this.sourceBrowseButton.Name = "sourceBrowseButton";
             this.sourceBrowseButton.Size = new System.Drawing.Size(67, 30);
             this.sourceBrowseButton.TabIndex = 0;
@@ -88,7 +88,7 @@
             // 
             // sourceFilePathTextBox
             // 
-            this.sourceFilePathTextBox.Location = new System.Drawing.Point(13, 62);
+            this.sourceFilePathTextBox.Location = new System.Drawing.Point(11, 26);
             this.sourceFilePathTextBox.Name = "sourceFilePathTextBox";
             this.sourceFilePathTextBox.Size = new System.Drawing.Size(310, 20);
             this.sourceFilePathTextBox.TabIndex = 2;
@@ -96,7 +96,7 @@
             // sourceLabel
             // 
             this.sourceLabel.AutoSize = true;
-            this.sourceLabel.Location = new System.Drawing.Point(11, 45);
+            this.sourceLabel.Location = new System.Drawing.Point(9, 9);
             this.sourceLabel.Name = "sourceLabel";
             this.sourceLabel.Size = new System.Drawing.Size(71, 13);
             this.sourceLabel.TabIndex = 3;
@@ -104,7 +104,8 @@
             // 
             // destinationBrowseButton
             // 
-            this.destinationBrowseButton.Location = new System.Drawing.Point(13, 99);
+            this.destinationBrowseButton.Enabled = false;
+            this.destinationBrowseButton.Location = new System.Drawing.Point(11, 130);
             this.destinationBrowseButton.Name = "destinationBrowseButton";
             this.destinationBrowseButton.Size = new System.Drawing.Size(67, 30);
             this.destinationBrowseButton.TabIndex = 4;
@@ -115,7 +116,7 @@
             // destinationLabel
             // 
             this.destinationLabel.AutoSize = true;
-            this.destinationLabel.Location = new System.Drawing.Point(10, 132);
+            this.destinationLabel.Location = new System.Drawing.Point(9, 88);
             this.destinationLabel.Name = "destinationLabel";
             this.destinationLabel.Size = new System.Drawing.Size(90, 13);
             this.destinationLabel.TabIndex = 5;
@@ -123,7 +124,8 @@
             // 
             // destinationFilePathTextBox
             // 
-            this.destinationFilePathTextBox.Location = new System.Drawing.Point(12, 148);
+            this.destinationFilePathTextBox.Enabled = false;
+            this.destinationFilePathTextBox.Location = new System.Drawing.Point(11, 104);
             this.destinationFilePathTextBox.Name = "destinationFilePathTextBox";
             this.destinationFilePathTextBox.Size = new System.Drawing.Size(310, 20);
             this.destinationFilePathTextBox.TabIndex = 6;
@@ -328,6 +330,7 @@
             this.deleteButton.Text = "Delete";
             this.deleteButton.UseVisualStyleBackColor = true;
             this.deleteButton.Click += new System.EventHandler(this.deleteButton_Click);
+            this.deleteButton.Click += new System.EventHandler(this.Leave);
             // 
             // commentOutputTextBox
             // 
@@ -337,6 +340,7 @@
             this.commentOutputTextBox.Name = "commentOutputTextBox";
             this.commentOutputTextBox.Size = new System.Drawing.Size(217, 59);
             this.commentOutputTextBox.TabIndex = 24;
+            this.commentOutputTextBox.Leave += new System.EventHandler(this.Leave);
             // 
             // commentOutputLabel
             // 
@@ -354,6 +358,7 @@
             this.albumOutputTextBox.Name = "albumOutputTextBox";
             this.albumOutputTextBox.Size = new System.Drawing.Size(217, 20);
             this.albumOutputTextBox.TabIndex = 23;
+            this.albumOutputTextBox.Leave += new System.EventHandler(this.Leave);
             // 
             // fileNameOutputBox
             // 
@@ -362,6 +367,7 @@
             this.fileNameOutputBox.Name = "fileNameOutputBox";
             this.fileNameOutputBox.Size = new System.Drawing.Size(217, 20);
             this.fileNameOutputBox.TabIndex = 16;
+            this.fileNameOutputBox.Leave += new System.EventHandler(this.Leave);
             // 
             // titleOutputTextBox
             // 
@@ -387,6 +393,7 @@
             this.artistOutputTextBox.Name = "artistOutputTextBox";
             this.artistOutputTextBox.Size = new System.Drawing.Size(217, 20);
             this.artistOutputTextBox.TabIndex = 21;
+            this.artistOutputTextBox.Leave += new System.EventHandler(this.Leave);
             // 
             // artistOutputLabel
             // 
@@ -444,6 +451,7 @@
             this.addFileButton.TabIndex = 14;
             this.addFileButton.Text = "+";
             this.addFileButton.Click += new System.EventHandler(this.addFileButton_Click);
+            this.addFileButton.Click += new System.EventHandler(this.Leave);
             // 
             // editPositionLabel
             // 
@@ -573,11 +581,11 @@
         public System.Windows.Forms.TextBox endMinTextBox;
         public System.Windows.Forms.TextBox endSecTextBox;
         public System.Windows.Forms.Label label1;
-        private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn gridtracknumber;
-        private System.Windows.Forms.DataGridViewTextBoxColumn gridtrackname;
-        private System.Windows.Forms.DataGridViewTextBoxColumn gridstarttime;
-        private System.Windows.Forms.DataGridViewTextBoxColumn gridendtime;
+        public System.Windows.Forms.DataGridView dataGridView1;
+        public System.Windows.Forms.DataGridViewTextBoxColumn gridtracknumber;
+        public System.Windows.Forms.DataGridViewTextBoxColumn gridtrackname;
+        public System.Windows.Forms.DataGridViewTextBoxColumn gridstarttime;
+        public System.Windows.Forms.DataGridViewTextBoxColumn gridendtime;
     }
 }
 

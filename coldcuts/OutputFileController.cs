@@ -26,6 +26,19 @@ namespace ColdCutsNS{
         public void RemoveASoundFile(){
 
             m_outputFiles.RemoveASoundFile(m_currentFileIndex);
+
+            //make sure we aren't going outside the bounds of the list
+            int numberOfFiles = m_outputFiles.soundFiles.Count;
+
+            if (m_currentFileIndex >= numberOfFiles){
+
+                m_currentFileIndex = numberOfFiles - 1;
+            }
+
+            if (m_currentFileIndex < 0){
+
+                m_currentFileIndex = 0;
+            }
         }
 
         public void GoToIndex(int index){
@@ -36,11 +49,23 @@ namespace ColdCutsNS{
         public void IncreaseIndex(){
 
             m_currentFileIndex++;
+
+            int numberOfFiles = m_outputFiles.soundFiles.Count;
+
+            if (m_currentFileIndex >= numberOfFiles){
+
+                m_currentFileIndex = numberOfFiles - 1;
+            }
         }
 
         public void DecreaseIndex(){
 
             m_currentFileIndex--;
+
+            if(m_currentFileIndex < 0){
+
+                m_currentFileIndex = 0;
+            }
         }
 
         public TAG_INFO GetTagInfo(){
