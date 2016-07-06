@@ -475,6 +475,7 @@
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.Size = new System.Drawing.Size(315, 353);
             this.dataGridView1.TabIndex = 16;
+            this.dataGridView1.CurrentCellChanged += new System.EventHandler(this.DataGridViewLeave);
             // 
             // gridtracknumber
             // 
@@ -486,7 +487,7 @@
             // 
             // gridtrackname
             // 
-            this.gridtrackname.HeaderText = "Track Name";
+            this.gridtrackname.HeaderText = "File Name";
             this.gridtrackname.Name = "gridtrackname";
             this.gridtrackname.ReadOnly = true;
             this.gridtrackname.Resizable = System.Windows.Forms.DataGridViewTriState.False;
@@ -582,10 +583,10 @@
         public System.Windows.Forms.TextBox endSecTextBox;
         public System.Windows.Forms.Label label1;
         public System.Windows.Forms.DataGridView dataGridView1;
-        public System.Windows.Forms.DataGridViewTextBoxColumn gridtracknumber;
-        public System.Windows.Forms.DataGridViewTextBoxColumn gridtrackname;
-        public System.Windows.Forms.DataGridViewTextBoxColumn gridstarttime;
-        public System.Windows.Forms.DataGridViewTextBoxColumn gridendtime;
+        private System.Windows.Forms.DataGridViewTextBoxColumn gridtracknumber;
+        private System.Windows.Forms.DataGridViewTextBoxColumn gridtrackname;
+        private System.Windows.Forms.DataGridViewTextBoxColumn gridstarttime;
+        private System.Windows.Forms.DataGridViewTextBoxColumn gridendtime;
     }
 }
 

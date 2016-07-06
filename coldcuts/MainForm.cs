@@ -46,10 +46,19 @@ namespace ColdCutsNS{
             if (endMinTextBox.Text == "") { endMinTextBox.Text = "0"; }
             if (endSecTextBox.Text == "") { endSecTextBox.Text = "0"; }
 
-            if (m_mainFormHelper.StartAndEndTimesAreValid()){
+            if (m_mainFormHelper.StartAndEndTimesInEditFieldsAreValid()){
 
                 m_mainFormHelper.SaveFieldsToFileObject();
                 m_mainFormHelper.UpdateDataGrid();
+            }
+        }
+
+        public void DataGridViewLeave(object sender, EventArgs e){
+
+            if (m_mainFormHelper.StartAndEndTimesInDGVAreValid(dataGridView1)){
+
+                m_mainFormHelper.UpdateFromDataGridLeave(this, m_outputFileController);
+                m_mainFormHelper.SaveFieldsToFileObject();
             }
         }
 

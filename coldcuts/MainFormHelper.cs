@@ -5,16 +5,16 @@ using System.Windows.Forms;
 
 namespace ColdCutsNS
 {
-    public class MainFormHelper{
+    public class MainFormHelper {
 
         protected MainForm m_mainForm;
         private const string m_editLabelString = "Editing Output File: ";
-        public MainFormHelper(MainForm mainForm){
+        public MainFormHelper(MainForm mainForm) {
 
             m_mainForm = mainForm;
         }
 
-        public void EnableTheEditingControls(){
+        public void EnableTheEditingControls() {
 
             m_mainForm.encodeButton.Enabled = true;
             m_mainForm.addFileButton.Enabled = true;
@@ -33,7 +33,7 @@ namespace ColdCutsNS
             FillFieldsFromFileObject();
         }
 
-        public void UpdateEditingPosition(){
+        public void UpdateEditingPosition() {
 
             OutputFileController outputFileController = m_mainForm.GetOutputFileController();
 
@@ -41,7 +41,7 @@ namespace ColdCutsNS
                 " / " + outputFileController.GetNumberOfSoundFiles().ToString();
         }
 
-        public void DisableTheEditingControls(){
+        public void DisableTheEditingControls() {
 
             m_mainForm.fileLeftButton.Enabled = false;
             m_mainForm.fileRightButton.Enabled = false;
@@ -59,7 +59,7 @@ namespace ColdCutsNS
             m_mainForm.encodeButton.Enabled = false;
         }
 
-        public void SaveFieldsToFileObject(){
+        public void SaveFieldsToFileObject() {
 
             OutputFileController outputFileController = m_mainForm.GetOutputFileController();
 
@@ -73,7 +73,7 @@ namespace ColdCutsNS
                                                 m_mainForm.commentOutputTextBox.Text);
         }
 
-        public void UpdateDataGrid(){
+        public void UpdateDataGrid() {
 
             m_mainForm.dataGridView1.Rows.Clear();
 
@@ -81,14 +81,49 @@ namespace ColdCutsNS
 
             List<NewSoundFile> soundFiles = outputfileController.GetOutputFiles().GetSoundFiles();
 
-            for (int i = 0; i < soundFiles.Count; i++){
+            for (int i = 0; i < soundFiles.Count; i++) {
 
                 m_mainForm.dataGridView1.Rows.Add();
 
                 m_mainForm.dataGridView1.Rows[i].Cells[0].Value = i;
+                m_mainForm.dataGridView1.Rows[i].Cells[0].ReadOnly = true;
+
                 m_mainForm.dataGridView1.Rows[i].Cells[1].Value = soundFiles[i].fileName;
+                m_mainForm.dataGridView1.Rows[i].Cells[1].ReadOnly = false;
+
                 m_mainForm.dataGridView1.Rows[i].Cells[2].Value = soundFiles[i].startTimeSeconds;
+                m_mainForm.dataGridView1.Rows[i].Cells[2].ReadOnly = false;
+
                 m_mainForm.dataGridView1.Rows[i].Cells[3].Value = soundFiles[i].endTimeSeconds;
+                m_mainForm.dataGridView1.Rows[i].Cells[3].ReadOnly = false;
+            }
+        }
+
+        public void UpdateFromDataGridLeave(MainForm mainForm, OutputFileController outputFileController) {
+
+            for(int i = 0; i < mainForm.dataGridView1.Rows.Count; i++){
+
+                if(i == outputFileController.GetCurrentFileIndex()){
+
+                    mainForm.fileNameOutputBox.Text = mainForm.dataGridView1.Rows[i].Cells[1].Value.ToString();
+
+                    int secondsToMins = int.Parse(mainForm.dataGridView1.Rows[i].Cells[2].Value.ToString()) / 60;
+
+                    mainForm.startMinTextBox.Text = secondsToMins.ToString();
+
+                    int remainingSecs = int.Parse(mainForm.dataGridView1.Rows[i].Cells[2].Value.ToString()) % 60;
+
+                    mainForm.startSecTextBox.Text = remainingSecs.ToString();
+
+                    secondsToMins = int.Parse(mainForm.dataGridView1.Rows[i].Cells[3].Value.ToString()) / 60;
+
+                    mainForm.endMinTextBox.Text = secondsToMins.ToString();
+
+                    remainingSecs = int.Parse(mainForm.dataGridView1.Rows[i].Cells[3].Value.ToString()) % 60;
+
+                    mainForm.endSecTextBox.Text = remainingSecs.ToString();
+
+                }
             }
         }
 
@@ -100,13 +135,13 @@ namespace ColdCutsNS
 
             int numberOfCells = 4;
 
-            for (int i = 0; i < numberOfCells; i++){
+            for (int i = 0; i < numberOfCells; i++) {
 
                 m_mainForm.dataGridView1.Rows[rowNumber].Cells[i].Style = cellStyle;
             }
         }
 
-        public void FillFieldsFromFileObject(){
+        public void FillFieldsFromFileObject() {
 
             OutputFileController outputFileController = m_mainForm.GetOutputFileController();
 
@@ -122,21 +157,52 @@ namespace ColdCutsNS
 
         }
 
-        public bool StartAndEndTimesAreValid(){
+        public bool StartAndEndTimesInEditFieldsAreValid() {
 
-            try{
+            try {
 
                 if (int.Parse(m_mainForm.startMinTextBox.Text) >= 0 &&
                     int.Parse(m_mainForm.startSecTextBox.Text) >= 0 &&
                     int.Parse(m_mainForm.endMinTextBox.Text) >= 0 &&
-                    int.Parse(m_mainForm.endSecTextBox.Text) >= 0){
+                    int.Parse(m_mainForm.endSecTextBox.Text) >= 0) {
 
                     return true;
                 }
-                else{
+                else {
 
                     MessageBox.Show("Please enter valid start and end times.");
                     return false;
+                }
+            }
+            catch {
+
+                MessageBox.Show("Please enter valid start and end times.");
+                return false;
+            }
+        }
+
+        public bool StartAndEndTimesInDGVAreValid(DataGridView dataGridView) {
+
+            try{
+
+                bool goodToGo = true;
+
+                for (int i = 0; i < dataGridView.Rows.Count; i++){
+
+                    if (!(int.Parse(dataGridView.Rows[i].Cells[2].Value.ToString()) >= 0) ||
+                       !(int.Parse(dataGridView.Rows[i].Cells[3].Value.ToString()) >= 0)){
+
+                        goodToGo = false;
+                    }
+                }
+                if (!goodToGo){
+
+                    MessageBox.Show("Please enter valid start and end times.");
+                    return goodToGo;
+                }
+                else{
+
+                    return goodToGo;
                 }
             }
             catch{
