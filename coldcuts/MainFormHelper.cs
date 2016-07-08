@@ -189,6 +189,11 @@ namespace ColdCutsNS
 
                 for (int i = 0; i < dataGridView.Rows.Count; i++){
 
+                    //DGV Leave gets called after you call Add on it. This makes sure the important cells aren't null after you press the + button
+                    if (dataGridView.Rows[i].Cells[1].Value == null) dataGridView.Rows[i].Cells[1].Value = "<blank>";
+                    if (dataGridView.Rows[i].Cells[2].Value == null) dataGridView.Rows[i].Cells[2].Value = 0;
+                    if (dataGridView.Rows[i].Cells[3].Value == null) dataGridView.Rows[i].Cells[3].Value = 0;
+
                     if (!(int.Parse(dataGridView.Rows[i].Cells[2].Value.ToString()) >= 0) ||
                        !(int.Parse(dataGridView.Rows[i].Cells[3].Value.ToString()) >= 0)){
 

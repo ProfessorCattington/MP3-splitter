@@ -5,8 +5,8 @@ namespace ColdCutsNS
 {
     public class DestinationFileBrowser{
 
-        public DestinationFileBrowser(MainForm mainForm, MainFormHelper mainFormHelper)
-        {
+        public DestinationFileBrowser(MainForm mainForm, MainFormHelper mainFormHelper){
+
             FolderBrowserDialog openDestinationFolderBrowserDialog = new FolderBrowserDialog();
 
             openDestinationFolderBrowserDialog.RootFolder = Environment.SpecialFolder.Desktop;
