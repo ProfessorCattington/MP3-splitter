@@ -158,6 +158,7 @@ namespace ColdCutsNS
             int index = outputfileController.GetCurrentFileIndex();
 
             m_mainForm.dataGridView1.Rows.RemoveAt(index);
+
         }
 
         public void AddRowToDataGridView(){
