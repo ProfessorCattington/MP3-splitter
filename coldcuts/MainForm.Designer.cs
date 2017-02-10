@@ -330,7 +330,6 @@
             this.deleteButton.Text = "Delete";
             this.deleteButton.UseVisualStyleBackColor = true;
             this.deleteButton.Click += new System.EventHandler(this.deleteButton_Click);
-            this.deleteButton.Click += new System.EventHandler(this.Leave);
             // 
             // commentOutputTextBox
             // 
@@ -451,7 +450,6 @@
             this.addFileButton.TabIndex = 14;
             this.addFileButton.Text = "+";
             this.addFileButton.Click += new System.EventHandler(this.addFileButton_Click);
-            this.addFileButton.Click += new System.EventHandler(this.Leave);
             // 
             // editPositionLabel
             // 
@@ -475,7 +473,7 @@
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.Size = new System.Drawing.Size(315, 353);
             this.dataGridView1.TabIndex = 16;
-            this.dataGridView1.CurrentCellChanged += new System.EventHandler(this.DataGridViewLeave);
+            this.dataGridView1.CellLeave += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridViewLeave);
             // 
             // gridtracknumber
             // 

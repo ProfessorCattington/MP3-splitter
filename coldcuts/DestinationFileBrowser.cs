@@ -22,6 +22,7 @@ namespace ColdCutsNS
             if (mainFormHelper.AreSourceAndDestinationFilled()){
 
                 mainFormHelper.EnableTheEditingControls();
+                mainFormHelper.InitializeDGV();
             }
         }
     }

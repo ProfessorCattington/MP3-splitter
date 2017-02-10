@@ -29,3 +29,13 @@ C:\cygwin64\home\Mike\mp3split\coldcuts\obj\Debug\coldcuts.csprojResolveAssembly
 C:\cygwin64\home\Mike\mp3split\coldcuts\obj\Debug\ColdCutsNS.MainForm.resources
 C:\cygwin64\home\Mike\mp3split\coldcuts\obj\Debug\ColdCutsNS.Properties.Resources.resources
 C:\cygwin64\home\Mike\mp3split\coldcuts\obj\Debug\coldcuts.csproj.GenerateResource.Cache
+C:\git_stuff\mp3\coldcuts\bin\Debug\MP3Splitter.exe.config
+C:\git_stuff\mp3\coldcuts\obj\Debug\MP3Splitter.exe
+C:\git_stuff\mp3\coldcuts\obj\Debug\MP3Splitter.pdb
+C:\git_stuff\mp3\coldcuts\bin\Debug\MP3Splitter.exe
+C:\git_stuff\mp3\coldcuts\bin\Debug\MP3Splitter.pdb
+C:\git_stuff\mp3\coldcuts\bin\Debug\Bass.Net.xml
+C:\git_stuff\mp3\coldcuts\obj\Debug\coldcuts.csprojResolveAssemblyReference.cache
+C:\git_stuff\mp3\coldcuts\obj\Debug\ColdCutsNS.MainForm.resources
+C:\git_stuff\mp3\coldcuts\obj\Debug\ColdCutsNS.Properties.Resources.resources
+C:\git_stuff\mp3\coldcuts\obj\Debug\coldcuts.csproj.GenerateResource.Cache

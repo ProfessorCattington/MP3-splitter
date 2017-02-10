@@ -36,6 +36,7 @@ namespace ColdCutsNS{
         private void encodeButton_Click(object sender, EventArgs e){
 
             Leave(sender, e);
+            DataGridViewLeave(sender, e);
             m_mainFormHelper.PerformEncodingTasks();
         }
 
@@ -57,7 +58,7 @@ namespace ColdCutsNS{
 
             if (m_mainFormHelper.StartAndEndTimesInDGVAreValid(dataGridView1)){
 
-                m_mainFormHelper.UpdateFromDataGridLeave(this, m_outputFileController);
+                m_mainFormHelper.UpdateFromDataGridLeave();
                 m_mainFormHelper.SaveFieldsToFileObject();
             }
         }
@@ -73,6 +74,8 @@ namespace ColdCutsNS{
 
             m_mainFormHelper.LeftAndRightButtonsEnableDisable();
             m_mainFormHelper.UpdateEditingPosition();
+
+            m_mainFormHelper.AddRowToDataGridView();
         }
 
         private void deleteButton_Click(object sender, EventArgs e){
@@ -84,10 +87,12 @@ namespace ColdCutsNS{
             m_mainFormHelper.LeftAndRightButtonsEnableDisable();
             m_mainFormHelper.UpdateEditingPosition();
 
+            m_mainFormHelper.DeleteRowFromDataGridView();
+
             if (m_outputFileController.GetNumberOfSoundFiles() == 1){
 
                 deleteButton.Enabled = false;
-            }
+            }  
         }
 
         private void fileLeftButton_Click(object sender, EventArgs e){

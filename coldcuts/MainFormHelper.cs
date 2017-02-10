@@ -33,6 +33,17 @@ namespace ColdCutsNS
             FillFieldsFromFileObject();
         }
 
+        public void InitializeDGV(){
+
+            m_mainForm.dataGridView1.Rows.Add();
+
+            m_mainForm.dataGridView1.Rows[0].Cells[0].Value = 0;
+            m_mainForm.dataGridView1.Rows[0].Cells[1].Value = "<blank>";
+            m_mainForm.dataGridView1.Rows[0].Cells[2].Value = 0;
+            m_mainForm.dataGridView1.Rows[0].Cells[3].Value = 0;
+
+        }
+
         public void UpdateEditingPosition() {
 
             OutputFileController outputFileController = m_mainForm.GetOutputFileController();
@@ -75,15 +86,11 @@ namespace ColdCutsNS
 
         public void UpdateDataGrid() {
 
-            m_mainForm.dataGridView1.Rows.Clear();
-
             OutputFileController outputfileController = m_mainForm.GetOutputFileController();
 
             List<NewSoundFile> soundFiles = outputfileController.GetOutputFiles().GetSoundFiles();
 
             for (int i = 0; i < soundFiles.Count; i++) {
-
-                m_mainForm.dataGridView1.Rows.Add();
 
                 m_mainForm.dataGridView1.Rows[i].Cells[0].Value = i;
                 m_mainForm.dataGridView1.Rows[i].Cells[0].ReadOnly = true;
@@ -99,29 +106,31 @@ namespace ColdCutsNS
             }
         }
 
-        public void UpdateFromDataGridLeave(MainForm mainForm, OutputFileController outputFileController) {
+        public void UpdateFromDataGridLeave() {
 
-            for(int i = 0; i < mainForm.dataGridView1.Rows.Count; i++){
+            OutputFileController outputfileController = m_mainForm.GetOutputFileController();
 
-                if(i == outputFileController.GetCurrentFileIndex()){
+            for (int i = 0; i < m_mainForm.dataGridView1.Rows.Count; i++){
 
-                    mainForm.fileNameOutputBox.Text = mainForm.dataGridView1.Rows[i].Cells[1].Value.ToString();
+                if(i == outputfileController.GetCurrentFileIndex()){
 
-                    int secondsToMins = int.Parse(mainForm.dataGridView1.Rows[i].Cells[2].Value.ToString()) / 60;
+                    m_mainForm.fileNameOutputBox.Text = m_mainForm.dataGridView1.Rows[i].Cells[1].Value.ToString();
 
-                    mainForm.startMinTextBox.Text = secondsToMins.ToString();
+                    int secondsToMins = int.Parse(m_mainForm.dataGridView1.Rows[i].Cells[2].Value.ToString()) / 60;
 
-                    int remainingSecs = int.Parse(mainForm.dataGridView1.Rows[i].Cells[2].Value.ToString()) % 60;
+                    m_mainForm.startMinTextBox.Text = secondsToMins.ToString();
 
-                    mainForm.startSecTextBox.Text = remainingSecs.ToString();
+                    int remainingSecs = int.Parse(m_mainForm.dataGridView1.Rows[i].Cells[2].Value.ToString()) % 60;
 
-                    secondsToMins = int.Parse(mainForm.dataGridView1.Rows[i].Cells[3].Value.ToString()) / 60;
+                    m_mainForm.startSecTextBox.Text = remainingSecs.ToString();
 
-                    mainForm.endMinTextBox.Text = secondsToMins.ToString();
+                    secondsToMins = int.Parse(m_mainForm.dataGridView1.Rows[i].Cells[3].Value.ToString()) / 60;
 
-                    remainingSecs = int.Parse(mainForm.dataGridView1.Rows[i].Cells[3].Value.ToString()) % 60;
+                    m_mainForm.endMinTextBox.Text = secondsToMins.ToString();
 
-                    mainForm.endSecTextBox.Text = remainingSecs.ToString();
+                    remainingSecs = int.Parse(m_mainForm.dataGridView1.Rows[i].Cells[3].Value.ToString()) % 60;
+
+                    m_mainForm.endSecTextBox.Text = remainingSecs.ToString();
 
                 }
             }
@@ -139,6 +148,25 @@ namespace ColdCutsNS
 
                 m_mainForm.dataGridView1.Rows[rowNumber].Cells[i].Style = cellStyle;
             }
+        }
+
+
+        public void DeleteRowFromDataGridView(){
+
+            OutputFileController outputfileController = m_mainForm.GetOutputFileController();
+
+            int index = outputfileController.GetCurrentFileIndex();
+
+            m_mainForm.dataGridView1.Rows.RemoveAt(index);
+        }
+
+        public void AddRowToDataGridView(){
+
+            OutputFileController outputfileController = m_mainForm.GetOutputFileController();
+
+            int index = outputfileController.GetCurrentFileIndex();
+
+            m_mainForm.dataGridView1.Rows.Insert(index);
         }
 
         public void FillFieldsFromFileObject() {
