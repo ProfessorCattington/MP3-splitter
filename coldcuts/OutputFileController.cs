@@ -20,7 +20,7 @@ namespace ColdCutsNS{
 
         public void AddANewSoundFile(){
 
-            m_outputFiles.AddANewSoundFile();
+            m_outputFiles.AddANewSoundFile(m_currentFileIndex);
         }
 
         public void RemoveASoundFile(){
@@ -66,6 +66,11 @@ namespace ColdCutsNS{
 
                 m_currentFileIndex = 0;
             }
+        }
+
+        public void GotoIndex(int index){
+
+            m_currentFileIndex = index;
         }
 
         public TAG_INFO GetTagInfo(){

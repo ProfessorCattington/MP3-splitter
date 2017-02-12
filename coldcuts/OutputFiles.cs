@@ -9,12 +9,12 @@ namespace ColdCutsNS
 
         public OutputFiles(){
 
-            AddANewSoundFile();
+            AddANewSoundFile(0);
         }
 
-        public void AddANewSoundFile(){
+        public void AddANewSoundFile(int index){
 
-            soundFiles.Add(new NewSoundFile());
+            soundFiles.Insert(index, new NewSoundFile());
             m_numberOfFiles++;
         }
 

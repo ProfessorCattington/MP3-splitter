@@ -56,16 +56,34 @@ namespace ColdCutsNS{
 
         public void DataGridViewLeave(object sender, EventArgs e){
 
-            if (m_mainFormHelper.StartAndEndTimesInDGVAreValid(dataGridView1)){
+            //inserting a new row into the DGV also calls leave, which can cause an exception since we end up trying to add stuff to the row before it's initialized
+            bool wasARowJustAddedToDGV = dataGridView1.RowCount == m_outputFileController.GetNumberOfSoundFiles() ? false : true;
 
-                m_mainFormHelper.UpdateFromDataGridLeave();
-                m_mainFormHelper.SaveFieldsToFileObject();
+            if (m_mainFormHelper.StartAndEndTimesInDGVAreValid(dataGridView1) && !wasARowJustAddedToDGV){
+
+                m_mainFormHelper.SaveDataGridToFileObject();
+                m_mainFormHelper.UpdateTextBoxesFromDataGridLeave();
             }
+        }
+
+        public void DataGridViewClickedNewRow(object sender, DataGridViewCellEventArgs e){
+
+            //get the file index we are switching to
+            int index = e.RowIndex;
+
+            if (index <= 0) index = 0;
+
+            m_outputFileController.GotoIndex(index);
+            m_mainFormHelper.UpdateEditingPosition();
+            m_mainFormHelper.LeftAndRightButtonsEnableDisable();
+            m_mainFormHelper.UpdateTextBoxesFromDataGridLeave();
         }
 
         private void addFileButton_Click(object sender, EventArgs e){
 
             m_outputFileController.AddANewSoundFile();
+            m_mainFormHelper.AddRowToDataGridView();
+            m_mainFormHelper.UpdateDGVRowNumbers();
 
             if (m_outputFileController.GetNumberOfSoundFiles() > 1){
 
@@ -74,20 +92,19 @@ namespace ColdCutsNS{
 
             m_mainFormHelper.LeftAndRightButtonsEnableDisable();
             m_mainFormHelper.UpdateEditingPosition();
-
-            m_mainFormHelper.AddRowToDataGridView();
         }
 
         private void deleteButton_Click(object sender, EventArgs e){
 
+            m_mainFormHelper.DeleteRowFromDataGridView();//DGV doesn't get updated properly if you modify the editing position before it
             m_outputFileController.RemoveASoundFile();
+            
+            m_mainFormHelper.UpdateDGVRowNumbers();
 
             m_mainFormHelper.FillFieldsFromFileObject();
 
             m_mainFormHelper.LeftAndRightButtonsEnableDisable();
             m_mainFormHelper.UpdateEditingPosition();
-
-            m_mainFormHelper.DeleteRowFromDataGridView();
 
             if (m_outputFileController.GetNumberOfSoundFiles() == 1){
 

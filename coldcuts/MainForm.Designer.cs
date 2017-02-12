@@ -474,6 +474,7 @@
             this.dataGridView1.Size = new System.Drawing.Size(315, 353);
             this.dataGridView1.TabIndex = 16;
             this.dataGridView1.CellLeave += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridViewLeave);
+            this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridViewClickedNewRow);
             // 
             // gridtracknumber
             // 

@@ -42,6 +42,11 @@ namespace ColdCutsNS
             m_mainForm.dataGridView1.Rows[0].Cells[2].Value = 0;
             m_mainForm.dataGridView1.Rows[0].Cells[3].Value = 0;
 
+            foreach(DataGridViewColumn column in m_mainForm.dataGridView1.Columns){
+
+                column.SortMode = DataGridViewColumnSortMode.NotSortable;
+            }
+
         }
 
         public void UpdateEditingPosition() {
@@ -84,6 +89,36 @@ namespace ColdCutsNS
                                                 m_mainForm.commentOutputTextBox.Text);
         }
 
+        public void SaveDataGridToFileObject(){
+
+            OutputFileController outputfileController = m_mainForm.GetOutputFileController();
+
+            List<NewSoundFile> soundFiles = outputfileController.GetOutputFiles().GetSoundFiles();
+
+            for(int i = 0; i < soundFiles.Count; i++){
+
+                soundFiles[i].fileName = m_mainForm.dataGridView1.Rows[i].Cells[1].Value.ToString();
+
+                string stringValue = m_mainForm.dataGridView1.Rows[i].Cells[2].Value.ToString();
+                soundFiles[i].startTimeSeconds = System.Convert.ToInt64(stringValue);
+
+                stringValue = m_mainForm.dataGridView1.Rows[i].Cells[3].Value.ToString();
+                soundFiles[i].endTimeSeconds = System.Convert.ToInt64(stringValue);
+            }
+        }
+
+        public void UpdateDGVRowNumbers(){
+
+            OutputFileController outputfileController = m_mainForm.GetOutputFileController();
+
+            List<NewSoundFile> soundFiles = outputfileController.GetOutputFiles().GetSoundFiles();
+
+            for (int i = 0; i < soundFiles.Count; i++){
+
+                m_mainForm.dataGridView1.Rows[i].Cells[0].Value = i;
+            }
+        }
+
         public void UpdateDataGrid() {
 
             OutputFileController outputfileController = m_mainForm.GetOutputFileController();
@@ -92,7 +127,6 @@ namespace ColdCutsNS
 
             for (int i = 0; i < soundFiles.Count; i++) {
 
-                m_mainForm.dataGridView1.Rows[i].Cells[0].Value = i;
                 m_mainForm.dataGridView1.Rows[i].Cells[0].ReadOnly = true;
 
                 m_mainForm.dataGridView1.Rows[i].Cells[1].Value = soundFiles[i].fileName;
@@ -106,7 +140,7 @@ namespace ColdCutsNS
             }
         }
 
-        public void UpdateFromDataGridLeave() {
+        public void UpdateTextBoxesFromDataGridLeave() {
 
             OutputFileController outputfileController = m_mainForm.GetOutputFileController();
 
@@ -165,9 +199,13 @@ namespace ColdCutsNS
 
             OutputFileController outputfileController = m_mainForm.GetOutputFileController();
 
-            int index = outputfileController.GetCurrentFileIndex();
+            int index = outputfileController.GetCurrentFileIndex() + 1;
 
             m_mainForm.dataGridView1.Rows.Insert(index);
+
+            m_mainForm.dataGridView1.Rows[index].Cells[1].Value = "new";
+            m_mainForm.dataGridView1.Rows[index].Cells[2].Value = 0;
+            m_mainForm.dataGridView1.Rows[index].Cells[3].Value = 0;
         }
 
         public void FillFieldsFromFileObject() {
@@ -208,7 +246,7 @@ namespace ColdCutsNS
                 MessageBox.Show("Please enter valid start and end times.");
                 return false;
             }
-        }
+        } 
 
         public bool StartAndEndTimesInDGVAreValid(DataGridView dataGridView) {
 
