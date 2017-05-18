@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Windows.Forms;
 using Un4seen.Bass;
 
@@ -152,6 +153,37 @@ namespace ColdCutsNS{
         {
             if (!Bass.BASS_Init(-1, 44100, BASSInit.BASS_DEVICE_DEFAULT, IntPtr.Zero))
                 MessageBox.Show("Error loading Un4seen.Bass", "Un4seen.Bass", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+
+        private void backgroundWorker_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
+        {
+            for (int i = 0; i < 50; i++)
+            {
+                Thread.Sleep(100);
+                backgroundWorker.ReportProgress(i, null);
+            }
+        }
+
+        private void backgroundWorker_ProgressChanged(object sender, System.ComponentModel.ProgressChangedEventArgs e)
+        {
+            feedBackLabel2.Visible = true;
+            feedBackLabel2.Text += ".";
+        }
+
+        private void backgroundWorker_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
+        {
+            feedBackLabel2.Text = "";
+            feedBackLabel2.Visible = false;
+            Cursor.Current = Cursors.Default;
+            btnAutoSplit.Enabled = true;
+        }
+
+        private void btnAutoSplit_Click(object sender, EventArgs e)
+        {
+            feedBackLabel2.Text = "";
+            btnAutoSplit.Enabled = false;
+            Cursor.Current = Cursors.WaitCursor;
+            backgroundWorker.RunWorkerAsync();
         }
     }
 }

@@ -18,8 +18,8 @@ namespace ColdCutsNS
             openSourceFileDialog.FilterIndex = 1;
             openSourceFileDialog.RestoreDirectory = true;
 
-            if (openSourceFileDialog.ShowDialog() == DialogResult.OK) { 
-
+            if (openSourceFileDialog.ShowDialog() == DialogResult.OK) {
+                Cursor.Current = Cursors.WaitCursor;
                 if ((stream = openSourceFileDialog.OpenFile()) != null){
 
                     mainForm.sourceFilePathTextBox.Text = openSourceFileDialog.FileName;
@@ -33,12 +33,14 @@ namespace ColdCutsNS
                     stream.Close();
                     mainForm.destinationBrowseButton.Enabled = true;
                     mainForm.destinationFilePathTextBox.Enabled = true;
+                    mainForm.btnAutoSplit.Enabled = true;
                 }
 
                 if (mainFormHelper.AreSourceAndDestinationFilled()){
 
                    mainFormHelper.EnableTheEditingControls();
                 }
+                Cursor.Current = Cursors.Default;
             }
         }
     }
