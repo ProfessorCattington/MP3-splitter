@@ -172,11 +172,22 @@ namespace ColdCutsNS{
         #region AutoSplit
         private void backgroundWorker_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
-            for (int i = 0; i < 50; i++)
+            float block = 20;
+            var chan = Bass.BASS_StreamCreateFile(sourceFilePathTextBox.Text, 0, 0, BASSFlag.BASS_STREAM_DECODE);
+            var len = Bass.BASS_ChannelSeconds2Bytes(chan, block / (float)1000 - (float)0.02);
+
+            int level = 0;
+            int count = 0;
+            float position = block;
+            var buffer = new IntPtr();
+            while (-1 != (level = Bass.BASS_ChannelGetLevel(chan)))
             {
-                Thread.Sleep(100);
-                backgroundWorker.ReportProgress(i, null);
+                if ((count = (level < 600) ? count++ : 0) == 50)
+                    backgroundWorker.ReportProgress(level, null);
+                Bass.BASS_ChannelGetData(chan, buffer, (int)len);
+                position += block;
             }
+            Bass.BASS_StreamFree(chan);
         }
 
         private void backgroundWorker_ProgressChanged(object sender, System.ComponentModel.ProgressChangedEventArgs e)
