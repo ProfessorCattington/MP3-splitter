@@ -84,7 +84,7 @@ namespace ColdCutsNS
 
         public void SaveDataGridToFileObject()
         {
-            List<NewSoundFile> soundFiles = OutputFileController.GetOutputFiles().GetSoundFiles();
+            List<NewSoundFile> soundFiles = OutputFileController.GetOutputFiles();
 
             for(int i = 0; i < soundFiles.Count; i++){
 
@@ -100,7 +100,7 @@ namespace ColdCutsNS
 
         public void UpdateDGVRowNumbers()
         {
-            List<NewSoundFile> soundFiles = OutputFileController.GetOutputFiles().GetSoundFiles();
+            List<NewSoundFile> soundFiles = OutputFileController.GetOutputFiles();
 
             for (int i = 0; i < soundFiles.Count; i++){
 
@@ -110,7 +110,7 @@ namespace ColdCutsNS
 
         public void UpdateDataGrid()
         {
-            List<NewSoundFile> soundFiles = OutputFileController.GetOutputFiles().GetSoundFiles();
+            List<NewSoundFile> soundFiles = OutputFileController.GetOutputFiles();
 
             for (int i = 0; i < soundFiles.Count; i++) {
 

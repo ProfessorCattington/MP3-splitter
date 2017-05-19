@@ -20,15 +20,15 @@ namespace ColdCutsNS{
 
         public void AddANewSoundFile(){
 
-            m_outputFiles.AddANewSoundFile(m_currentFileIndex);
+            m_outputFiles.Add(m_currentFileIndex);
         }
 
         public void RemoveASoundFile(){
 
-            m_outputFiles.RemoveASoundFile(m_currentFileIndex);
+            m_outputFiles.RemoveAt(m_currentFileIndex);
 
             //make sure we aren't going outside the bounds of the list
-            int numberOfFiles = m_outputFiles.soundFiles.Count;
+            int numberOfFiles = m_outputFiles.Count;
 
             if (m_currentFileIndex >= numberOfFiles){
 
@@ -50,7 +50,7 @@ namespace ColdCutsNS{
 
             m_currentFileIndex++;
 
-            int numberOfFiles = m_outputFiles.soundFiles.Count;
+            int numberOfFiles = m_outputFiles.Count;
 
             if (m_currentFileIndex >= numberOfFiles){
 
@@ -94,7 +94,7 @@ namespace ColdCutsNS{
         }
         public int GetNumberOfSoundFiles(){
 
-            return m_outputFiles.soundFiles.Count;
+            return m_outputFiles.Count;
         }
 
         public void UpdateStartAndEndTimes(){
@@ -116,65 +116,65 @@ namespace ColdCutsNS{
 
         public void UpdateInputTags(string fileName, string artist, string title, string album, string comment){
 
-            m_outputFiles.soundFiles[m_currentFileIndex].UpdateArtist(artist);
-            m_outputFiles.soundFiles[m_currentFileIndex].UpdateTitle(title);
-            m_outputFiles.soundFiles[m_currentFileIndex].UpdateAlbum(album);
-            m_outputFiles.soundFiles[m_currentFileIndex].UpdateComment(comment);
-            m_outputFiles.soundFiles[m_currentFileIndex].fileName = fileName;
+            m_outputFiles[m_currentFileIndex].UpdateArtist(artist);
+            m_outputFiles[m_currentFileIndex].UpdateTitle(title);
+            m_outputFiles[m_currentFileIndex].UpdateAlbum(album);
+            m_outputFiles[m_currentFileIndex].UpdateComment(comment);
+            m_outputFiles[m_currentFileIndex].fileName = fileName;
         }
 
         public string GetStartMinString(){
 
-           return (m_outputFiles.soundFiles[m_currentFileIndex].startTimeSeconds / 60).ToString();
+           return (m_outputFiles[m_currentFileIndex].startTimeSeconds / 60).ToString();
         }
 
         public string GetStartSecString(){
 
-            return (m_outputFiles.soundFiles[m_currentFileIndex].startTimeSeconds % 60).ToString();
+            return (m_outputFiles[m_currentFileIndex].startTimeSeconds % 60).ToString();
         }
 
         public string GetEndMinString(){
 
-            return (m_outputFiles.soundFiles[m_currentFileIndex].endTimeSeconds / 60).ToString();
+            return (m_outputFiles[m_currentFileIndex].endTimeSeconds / 60).ToString();
         }
 
         public string GetEndSecString(){
 
-            return (m_outputFiles.soundFiles[m_currentFileIndex].endTimeSeconds % 60).ToString();
+            return (m_outputFiles[m_currentFileIndex].endTimeSeconds % 60).ToString();
         }
 
         public string GetFileName(){
 
-            return m_outputFiles.soundFiles[m_currentFileIndex].fileName;
+            return m_outputFiles[m_currentFileIndex].fileName;
         }
 
         public string GetArtist(){
 
-            return m_outputFiles.soundFiles[m_currentFileIndex].outputFileTags.artist;
+            return m_outputFiles[m_currentFileIndex].outputFileTags.artist;
         }
 
         public string GetTitle(){
 
-            return m_outputFiles.soundFiles[m_currentFileIndex].outputFileTags.title;
+            return m_outputFiles[m_currentFileIndex].outputFileTags.title;
         }
 
         public string GetAlbum(){
 
-            return m_outputFiles.soundFiles[m_currentFileIndex].outputFileTags.album;
+            return m_outputFiles[m_currentFileIndex].outputFileTags.album;
         }
 
         public string GetComment(){
 
-            return m_outputFiles.soundFiles[m_currentFileIndex].outputFileTags.comment;
+            return m_outputFiles[m_currentFileIndex].outputFileTags.comment;
         }
         public long GetStartTime(){
 
-            return m_outputFiles.soundFiles[m_currentFileIndex].startTimeSeconds;
+            return m_outputFiles[m_currentFileIndex].startTimeSeconds;
         }
 
         public long GetEndTime(){
 
-            return m_outputFiles.soundFiles[m_currentFileIndex].endTimeSeconds;
+            return m_outputFiles[m_currentFileIndex].endTimeSeconds;
         }
     }
 }
