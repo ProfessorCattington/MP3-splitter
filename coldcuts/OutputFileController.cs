@@ -116,10 +116,10 @@ namespace ColdCutsNS{
 
         public void UpdateInputTags(string fileName, string artist, string title, string album, string comment){
 
-            m_outputFiles[m_currentFileIndex].UpdateArtist(artist);
-            m_outputFiles[m_currentFileIndex].UpdateTitle(title);
-            m_outputFiles[m_currentFileIndex].UpdateAlbum(album);
-            m_outputFiles[m_currentFileIndex].UpdateComment(comment);
+            m_outputFiles[m_currentFileIndex].tag.artist = artist;
+            m_outputFiles[m_currentFileIndex].tag.title = title;
+            m_outputFiles[m_currentFileIndex].tag.album = album;
+            m_outputFiles[m_currentFileIndex].tag.comment = comment;
             m_outputFiles[m_currentFileIndex].fileName = fileName;
         }
 
@@ -150,22 +150,22 @@ namespace ColdCutsNS{
 
         public string GetArtist(){
 
-            return m_outputFiles[m_currentFileIndex].outputFileTags.artist;
+            return m_outputFiles[m_currentFileIndex].tag.artist;
         }
 
         public string GetTitle(){
 
-            return m_outputFiles[m_currentFileIndex].outputFileTags.title;
+            return m_outputFiles[m_currentFileIndex].tag.title;
         }
 
         public string GetAlbum(){
 
-            return m_outputFiles[m_currentFileIndex].outputFileTags.album;
+            return m_outputFiles[m_currentFileIndex].tag.album;
         }
 
         public string GetComment(){
 
-            return m_outputFiles[m_currentFileIndex].outputFileTags.comment;
+            return m_outputFiles[m_currentFileIndex].tag.comment;
         }
         public long GetStartTime(){
 
