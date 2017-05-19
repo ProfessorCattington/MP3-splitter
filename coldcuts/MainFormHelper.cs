@@ -5,28 +5,24 @@ using System.Windows.Forms;
 
 namespace ColdCutsNS
 {
-    public class MainFormHelper {
+    partial class MainForm
+    {
 
-        protected MainForm m_mainForm;
         private const string m_editLabelString = "Editing Output File: ";
-        public MainFormHelper(MainForm mainForm) {
-
-            m_mainForm = mainForm;
-        }
 
         public void EnableTheEditingControls() {
 
-            m_mainForm.encodeButton.Enabled = true;
-            m_mainForm.addFileButton.Enabled = true;
-            m_mainForm.startMinTextBox.Enabled = true;
-            m_mainForm.startSecTextBox.Enabled = true;
-            m_mainForm.endMinTextBox.Enabled = true;
-            m_mainForm.endSecTextBox.Enabled = true;
-            m_mainForm.fileNameOutputBox.Enabled = true;
-            m_mainForm.artistOutputTextBox.Enabled = true;
-            m_mainForm.titleOutputTextBox.Enabled = true;
-            m_mainForm.albumOutputTextBox.Enabled = true;
-            m_mainForm.commentOutputTextBox.Enabled = true;
+            this.encodeButton.Enabled = true;
+            this.addFileButton.Enabled = true;
+            this.startMinTextBox.Enabled = true;
+            this.startSecTextBox.Enabled = true;
+            this.endMinTextBox.Enabled = true;
+            this.endSecTextBox.Enabled = true;
+            this.fileNameOutputBox.Enabled = true;
+            this.artistOutputTextBox.Enabled = true;
+            this.titleOutputTextBox.Enabled = true;
+            this.albumOutputTextBox.Enabled = true;
+            this.commentOutputTextBox.Enabled = true;
 
             UpdateEditingPosition();
             LeftAndRightButtonsEnableDisable();
@@ -35,136 +31,125 @@ namespace ColdCutsNS
 
         public void InitializeDGV(){
 
-            m_mainForm.dataGridView1.Rows.Add();
+            this.dataGridView1.Rows.Add();
 
-            m_mainForm.dataGridView1.Rows[0].Cells[0].Value = 0;
-            m_mainForm.dataGridView1.Rows[0].Cells[1].Value = "<blank>";
-            m_mainForm.dataGridView1.Rows[0].Cells[2].Value = 0;
-            m_mainForm.dataGridView1.Rows[0].Cells[3].Value = 0;
+            this.dataGridView1.Rows[0].Cells[0].Value = 0;
+            this.dataGridView1.Rows[0].Cells[1].Value = "<blank>";
+            this.dataGridView1.Rows[0].Cells[2].Value = 0;
+            this.dataGridView1.Rows[0].Cells[3].Value = 0;
 
-            foreach(DataGridViewColumn column in m_mainForm.dataGridView1.Columns){
+            foreach(DataGridViewColumn column in this.dataGridView1.Columns){
 
                 column.SortMode = DataGridViewColumnSortMode.NotSortable;
             }
 
         }
 
-        public void UpdateEditingPosition() {
-
-            OutputFileController outputFileController = m_mainForm.GetOutputFileController();
-
-            m_mainForm.editPositionLabel.Text = m_editLabelString + (outputFileController.GetCurrentFileIndex() + 1).ToString() +
-                " / " + outputFileController.GetNumberOfSoundFiles().ToString();
+        public void UpdateEditingPosition()
+        {
+            this.editPositionLabel.Text = m_editLabelString + (OutputFileController.GetCurrentFileIndex() + 1).ToString() +
+                " / " + OutputFileController.GetNumberOfSoundFiles().ToString();
         }
 
         public void DisableTheEditingControls() {
 
-            m_mainForm.fileLeftButton.Enabled = false;
-            m_mainForm.fileRightButton.Enabled = false;
-            m_mainForm.addFileButton.Enabled = false;
-            m_mainForm.startMinTextBox.Enabled = false;
-            m_mainForm.startSecTextBox.Enabled = false;
-            m_mainForm.endMinTextBox.Enabled = false;
-            m_mainForm.endSecTextBox.Enabled = false;
-            m_mainForm.deleteButton.Enabled = false;
-            m_mainForm.fileNameOutputBox.Enabled = false;
-            m_mainForm.artistOutputTextBox.Enabled = false;
-            m_mainForm.titleOutputTextBox.Enabled = false;
-            m_mainForm.albumOutputTextBox.Enabled = false;
-            m_mainForm.commentOutputTextBox.Enabled = false;
-            m_mainForm.encodeButton.Enabled = false;
+            this.fileLeftButton.Enabled = false;
+            this.fileRightButton.Enabled = false;
+            this.addFileButton.Enabled = false;
+            this.startMinTextBox.Enabled = false;
+            this.startSecTextBox.Enabled = false;
+            this.endMinTextBox.Enabled = false;
+            this.endSecTextBox.Enabled = false;
+            this.deleteButton.Enabled = false;
+            this.fileNameOutputBox.Enabled = false;
+            this.artistOutputTextBox.Enabled = false;
+            this.titleOutputTextBox.Enabled = false;
+            this.albumOutputTextBox.Enabled = false;
+            this.commentOutputTextBox.Enabled = false;
+            this.encodeButton.Enabled = false;
         }
 
-        public void SaveFieldsToFileObject() {
+        public void SaveFieldsToFileObject()
+        {
 
-            OutputFileController outputFileController = m_mainForm.GetOutputFileController();
+            OutputFileController.UpdateStartAndEndTimes(this.startMinTextBox.Text, this.startSecTextBox.Text,
+                                                              this.endMinTextBox.Text, this.endSecTextBox.Text);
 
-            outputFileController.UpdateStartAndEndTimes(m_mainForm.startMinTextBox.Text, m_mainForm.startSecTextBox.Text,
-                                                              m_mainForm.endMinTextBox.Text, m_mainForm.endSecTextBox.Text);
-
-            outputFileController.UpdateInputTags(m_mainForm.fileNameOutputBox.Text,
-                                                m_mainForm.artistOutputTextBox.Text,
-                                                 m_mainForm.titleOutputTextBox.Text,
-                                                 m_mainForm.albumOutputTextBox.Text,
-                                                m_mainForm.commentOutputTextBox.Text);
+            OutputFileController.UpdateInputTags(this.fileNameOutputBox.Text,
+                                                this.artistOutputTextBox.Text,
+                                                 this.titleOutputTextBox.Text,
+                                                 this.albumOutputTextBox.Text,
+                                                this.commentOutputTextBox.Text);
         }
 
-        public void SaveDataGridToFileObject(){
-
-            OutputFileController outputfileController = m_mainForm.GetOutputFileController();
-
-            List<NewSoundFile> soundFiles = outputfileController.GetOutputFiles().GetSoundFiles();
+        public void SaveDataGridToFileObject()
+        {
+            List<NewSoundFile> soundFiles = OutputFileController.GetOutputFiles().GetSoundFiles();
 
             for(int i = 0; i < soundFiles.Count; i++){
 
-                soundFiles[i].fileName = m_mainForm.dataGridView1.Rows[i].Cells[1].Value.ToString();
+                soundFiles[i].fileName = this.dataGridView1.Rows[i].Cells[1].Value.ToString();
 
-                string stringValue = m_mainForm.dataGridView1.Rows[i].Cells[2].Value.ToString();
+                string stringValue = this.dataGridView1.Rows[i].Cells[2].Value.ToString();
                 soundFiles[i].startTimeSeconds = System.Convert.ToInt64(stringValue);
 
-                stringValue = m_mainForm.dataGridView1.Rows[i].Cells[3].Value.ToString();
+                stringValue = this.dataGridView1.Rows[i].Cells[3].Value.ToString();
                 soundFiles[i].endTimeSeconds = System.Convert.ToInt64(stringValue);
             }
         }
 
-        public void UpdateDGVRowNumbers(){
-
-            OutputFileController outputfileController = m_mainForm.GetOutputFileController();
-
-            List<NewSoundFile> soundFiles = outputfileController.GetOutputFiles().GetSoundFiles();
+        public void UpdateDGVRowNumbers()
+        {
+            List<NewSoundFile> soundFiles = OutputFileController.GetOutputFiles().GetSoundFiles();
 
             for (int i = 0; i < soundFiles.Count; i++){
 
-                m_mainForm.dataGridView1.Rows[i].Cells[0].Value = i;
+                this.dataGridView1.Rows[i].Cells[0].Value = i;
             }
         }
 
-        public void UpdateDataGrid() {
-
-            OutputFileController outputfileController = m_mainForm.GetOutputFileController();
-
-            List<NewSoundFile> soundFiles = outputfileController.GetOutputFiles().GetSoundFiles();
+        public void UpdateDataGrid()
+        {
+            List<NewSoundFile> soundFiles = OutputFileController.GetOutputFiles().GetSoundFiles();
 
             for (int i = 0; i < soundFiles.Count; i++) {
 
-                m_mainForm.dataGridView1.Rows[i].Cells[0].ReadOnly = true;
+                this.dataGridView1.Rows[i].Cells[0].ReadOnly = true;
 
-                m_mainForm.dataGridView1.Rows[i].Cells[1].Value = soundFiles[i].fileName;
-                m_mainForm.dataGridView1.Rows[i].Cells[1].ReadOnly = false;
+                this.dataGridView1.Rows[i].Cells[1].Value = soundFiles[i].fileName;
+                this.dataGridView1.Rows[i].Cells[1].ReadOnly = false;
 
-                m_mainForm.dataGridView1.Rows[i].Cells[2].Value = soundFiles[i].startTimeSeconds;
-                m_mainForm.dataGridView1.Rows[i].Cells[2].ReadOnly = false;
+                this.dataGridView1.Rows[i].Cells[2].Value = soundFiles[i].startTimeSeconds;
+                this.dataGridView1.Rows[i].Cells[2].ReadOnly = false;
 
-                m_mainForm.dataGridView1.Rows[i].Cells[3].Value = soundFiles[i].endTimeSeconds;
-                m_mainForm.dataGridView1.Rows[i].Cells[3].ReadOnly = false;
+                this.dataGridView1.Rows[i].Cells[3].Value = soundFiles[i].endTimeSeconds;
+                this.dataGridView1.Rows[i].Cells[3].ReadOnly = false;
             }
         }
 
-        public void UpdateTextBoxesFromDataGridLeave() {
+        public void UpdateTextBoxesFromDataGridLeave()
+        {
+            for (int i = 0; i < this.dataGridView1.Rows.Count; i++){
 
-            OutputFileController outputfileController = m_mainForm.GetOutputFileController();
+                if(i == OutputFileController.GetCurrentFileIndex()){
 
-            for (int i = 0; i < m_mainForm.dataGridView1.Rows.Count; i++){
+                    this.fileNameOutputBox.Text = this.dataGridView1.Rows[i].Cells[1].Value.ToString();
 
-                if(i == outputfileController.GetCurrentFileIndex()){
+                    int secondsToMins = int.Parse(this.dataGridView1.Rows[i].Cells[2].Value.ToString()) / 60;
 
-                    m_mainForm.fileNameOutputBox.Text = m_mainForm.dataGridView1.Rows[i].Cells[1].Value.ToString();
+                    this.startMinTextBox.Text = secondsToMins.ToString();
 
-                    int secondsToMins = int.Parse(m_mainForm.dataGridView1.Rows[i].Cells[2].Value.ToString()) / 60;
+                    int remainingSecs = int.Parse(this.dataGridView1.Rows[i].Cells[2].Value.ToString()) % 60;
 
-                    m_mainForm.startMinTextBox.Text = secondsToMins.ToString();
+                    this.startSecTextBox.Text = remainingSecs.ToString();
 
-                    int remainingSecs = int.Parse(m_mainForm.dataGridView1.Rows[i].Cells[2].Value.ToString()) % 60;
+                    secondsToMins = int.Parse(this.dataGridView1.Rows[i].Cells[3].Value.ToString()) / 60;
 
-                    m_mainForm.startSecTextBox.Text = remainingSecs.ToString();
+                    this.endMinTextBox.Text = secondsToMins.ToString();
 
-                    secondsToMins = int.Parse(m_mainForm.dataGridView1.Rows[i].Cells[3].Value.ToString()) / 60;
+                    remainingSecs = int.Parse(this.dataGridView1.Rows[i].Cells[3].Value.ToString()) % 60;
 
-                    m_mainForm.endMinTextBox.Text = secondsToMins.ToString();
-
-                    remainingSecs = int.Parse(m_mainForm.dataGridView1.Rows[i].Cells[3].Value.ToString()) % 60;
-
-                    m_mainForm.endSecTextBox.Text = remainingSecs.ToString();
+                    this.endSecTextBox.Text = remainingSecs.ToString();
 
                 }
             }
@@ -180,47 +165,37 @@ namespace ColdCutsNS
 
             for (int i = 0; i < numberOfCells; i++) {
 
-                m_mainForm.dataGridView1.Rows[rowNumber].Cells[i].Style = cellStyle;
+                this.dataGridView1.Rows[rowNumber].Cells[i].Style = cellStyle;
             }
         }
 
 
-        public void DeleteRowFromDataGridView(){
-
-            OutputFileController outputfileController = m_mainForm.GetOutputFileController();
-
-            int index = outputfileController.GetCurrentFileIndex();
-
-            m_mainForm.dataGridView1.Rows.RemoveAt(index);
-
+        public void DeleteRowFromDataGridView()
+        {
+            int index = OutputFileController.GetCurrentFileIndex();
+            this.dataGridView1.Rows.RemoveAt(index);
         }
 
-        public void AddRowToDataGridView(){
-
-            OutputFileController outputfileController = m_mainForm.GetOutputFileController();
-
-            int index = outputfileController.GetCurrentFileIndex() + 1;
-
-            m_mainForm.dataGridView1.Rows.Insert(index);
-
-            m_mainForm.dataGridView1.Rows[index].Cells[1].Value = "new";
-            m_mainForm.dataGridView1.Rows[index].Cells[2].Value = 0;
-            m_mainForm.dataGridView1.Rows[index].Cells[3].Value = 0;
+        public void AddRowToDataGridView()
+        {
+            int index = OutputFileController.GetCurrentFileIndex() + 1;
+            this.dataGridView1.Rows.Insert(index);
+            this.dataGridView1.Rows[index].Cells[1].Value = "new";
+            this.dataGridView1.Rows[index].Cells[2].Value = 0;
+            this.dataGridView1.Rows[index].Cells[3].Value = 0;
         }
 
-        public void FillFieldsFromFileObject() {
-
-            OutputFileController outputFileController = m_mainForm.GetOutputFileController();
-
-            m_mainForm.startMinTextBox.Text = outputFileController.GetStartMinString();
-            m_mainForm.startSecTextBox.Text = outputFileController.GetStartSecString();
-            m_mainForm.endMinTextBox.Text = outputFileController.GetEndMinString();
-            m_mainForm.endSecTextBox.Text = outputFileController.GetEndSecString();
-            m_mainForm.fileNameOutputBox.Text = outputFileController.GetFileName();
-            m_mainForm.artistOutputTextBox.Text = outputFileController.GetArtist();
-            m_mainForm.titleOutputTextBox.Text = outputFileController.GetTitle();
-            m_mainForm.albumOutputTextBox.Text = outputFileController.GetAlbum();
-            m_mainForm.commentOutputTextBox.Text = outputFileController.GetComment();
+        public void FillFieldsFromFileObject()
+        {
+            this.startMinTextBox.Text = OutputFileController.GetStartMinString();
+            this.startSecTextBox.Text = OutputFileController.GetStartSecString();
+            this.endMinTextBox.Text = OutputFileController.GetEndMinString();
+            this.endSecTextBox.Text = OutputFileController.GetEndSecString();
+            this.fileNameOutputBox.Text = OutputFileController.GetFileName();
+            this.artistOutputTextBox.Text = OutputFileController.GetArtist();
+            this.titleOutputTextBox.Text = OutputFileController.GetTitle();
+            this.albumOutputTextBox.Text = OutputFileController.GetAlbum();
+            this.commentOutputTextBox.Text = OutputFileController.GetComment();
 
         }
 
@@ -228,10 +203,10 @@ namespace ColdCutsNS
 
             try {
 
-                if (int.Parse(m_mainForm.startMinTextBox.Text) >= 0 &&
-                    int.Parse(m_mainForm.startSecTextBox.Text) >= 0 &&
-                    int.Parse(m_mainForm.endMinTextBox.Text) >= 0 &&
-                    int.Parse(m_mainForm.endSecTextBox.Text) >= 0) {
+                if (int.Parse(this.startMinTextBox.Text) >= 0 &&
+                    int.Parse(this.startSecTextBox.Text) >= 0 &&
+                    int.Parse(this.endMinTextBox.Text) >= 0 &&
+                    int.Parse(this.endSecTextBox.Text) >= 0) {
 
                     return true;
                 }
@@ -246,7 +221,7 @@ namespace ColdCutsNS
                 MessageBox.Show("Please enter valid start and end times.");
                 return false;
             }
-        } 
+        }
 
         public bool StartAndEndTimesInDGVAreValid(DataGridView dataGridView) {
 
@@ -284,26 +259,24 @@ namespace ColdCutsNS
             }
         }
 
-        public void LeftAndRightButtonsEnableDisable(){
-
-            OutputFileController outputFileController = m_mainForm.GetOutputFileController();
-
-            if (outputFileController.GetCurrentFileIndex() == 0){
-
-                m_mainForm.fileLeftButton.Enabled = false;
+        public void LeftAndRightButtonsEnableDisable()
+        {
+            if (OutputFileController.GetCurrentFileIndex() == 0)
+            {
+                this.fileLeftButton.Enabled = false;
             }
-            else{
-
-                m_mainForm.fileLeftButton.Enabled = true;
+            else
+            {
+                this.fileLeftButton.Enabled = true;
             }
 
-            if (outputFileController.GetCurrentFileIndex() == outputFileController.GetNumberOfSoundFiles() - 1){
-
-                m_mainForm.fileRightButton.Enabled = false;
+            if (OutputFileController.GetCurrentFileIndex() == OutputFileController.GetNumberOfSoundFiles() - 1)
+            {
+                this.fileRightButton.Enabled = false;
             }
-            else{
-
-                m_mainForm.fileRightButton.Enabled = true;
+            else
+            {
+                this.fileRightButton.Enabled = true;
             }
         }
 
@@ -311,40 +284,38 @@ namespace ColdCutsNS
 
             DisableTheEditingControls();
 
-            m_mainForm.feedBackLabel.Visible = true;
-            m_mainForm.feedBackLabel.Text = "Encoding...";
+            this.feedBackLabel.Visible = true;
+            this.feedBackLabel.Text = "Encoding...";
 
             await EncodeFilesAsync();
 
-            m_mainForm.sourceBrowseButton.Enabled = true;
-            m_mainForm.destinationBrowseButton.Enabled = true;
+            this.sourceBrowseButton.Enabled = true;
+            this.destinationBrowseButton.Enabled = true;
             EnableTheEditingControls();
 
-            m_mainForm.feedBackLabel.Text = "Done!";
-            m_mainForm.feedBackLabel2.Visible = false;
+            this.feedBackLabel.Text = "Done!";
+            this.feedBackLabel2.Visible = false;
         }
 
         public Task<Encoder> EncodeFilesAsync(){
 
             return Task.Factory.StartNew(() => MakeAnEncoder());
-        } 
+        }
 
-        public Encoder MakeAnEncoder(){
-
-            OutputFileController outputFileController = m_mainForm.GetOutputFileController();
-
-            return new Encoder(m_mainForm, this, outputFileController);
+        public Encoder MakeAnEncoder()
+        {
+            return new Encoder(this, OutputFileController);
         }
 
         public bool AreSourceAndDestinationFilled(){
 
-            return (m_mainForm.sourceFilePathTextBox.Text != "" && m_mainForm.destinationFilePathTextBox.Text != "");
+            return (this.sourceFilePathTextBox.Text != "" && this.destinationFilePathTextBox.Text != "");
         }
 
         public void FileEncodingNotification(long bytesDone, long bytesTotal){
 
             //Console.Write("Encoding: {0:P}\r", Math.Round((double)bytesDone / (double)bytesTotal, 2));
-            //feedBackLabel2.Text = Math.Round((double)bytesDone / (double)bytesTotal).ToString(); 
+            //feedBackLabel2.Text = Math.Round((double)bytesDone / (double)bytesTotal).ToString();
         }
     }
 }

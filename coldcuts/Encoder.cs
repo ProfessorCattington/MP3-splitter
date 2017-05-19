@@ -3,10 +3,10 @@ using Un4seen.Bass.Misc;
 
 namespace ColdCutsNS
 {
-    public class Encoder{
-
-        public Encoder(MainForm mainForm, MainFormHelper mainFormHelper, OutputFileController outputFileController){
-
+    public class Encoder
+    {
+        public Encoder(MainForm mainForm, OutputFileController outputFileController)
+        {
             EncoderLAME lameEncoder = new EncoderLAME(0);
             lameEncoder.LAME_UseVBR = true;
 
@@ -36,11 +36,11 @@ namespace ColdCutsNS
                 lameEncoder.TAGs = tempTags;
 
                 BaseEncoder.EncodeFile(inputFile, fileName + ".mp3", lameEncoder,
-                      new BaseEncoder.ENCODEFILEPROC(mainFormHelper.FileEncodingNotification),
+                      new BaseEncoder.ENCODEFILEPROC(mainForm.FileEncodingNotification),
                       overwriteOutput, deleteInput, useInputFileTags,
                       startPoint + 0.0f, endPoint + 0.0f);
 
-                mainFormHelper.ColorDataGrid(i);
+                mainForm.ColorDataGrid(i);
             }
         }
     }

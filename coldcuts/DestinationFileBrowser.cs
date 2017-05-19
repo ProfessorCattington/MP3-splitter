@@ -5,7 +5,7 @@ namespace ColdCutsNS
 {
     public class DestinationFileBrowser{
 
-        public DestinationFileBrowser(MainForm mainForm, MainFormHelper mainFormHelper){
+        public DestinationFileBrowser(MainForm mainForm){
 
             FolderBrowserDialog openDestinationFolderBrowserDialog = new FolderBrowserDialog();
 
@@ -19,10 +19,10 @@ namespace ColdCutsNS
                 mainForm.destinationFilePathTextBox.Text = openDestinationFolderBrowserDialog.SelectedPath + "\\";
             }
 
-            if (mainFormHelper.AreSourceAndDestinationFilled()){
+            if (mainForm.AreSourceAndDestinationFilled()){
 
-                mainFormHelper.EnableTheEditingControls();
-                mainFormHelper.InitializeDGV();
+                mainForm.EnableTheEditingControls();
+                mainForm.InitializeDGV();
             }
         }
     }
