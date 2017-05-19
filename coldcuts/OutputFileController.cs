@@ -106,9 +106,9 @@ namespace ColdCutsNS{
         public void UpdateStartAndEndTimes(string startMin, string startSec, string endMin, string endSec){
 
             long newStartMin = long.Parse(startMin);
-            long newStartSec = long.Parse(startSec);
+            double newStartSec = double.Parse(startSec);
             long newEndMin = long.Parse(endMin);
-            long newEndSec = long.Parse(endSec);
+            double newEndSec = double.Parse(endSec);
 
             m_outputFiles.UpdateStartTime(m_currentFileIndex, ((newStartMin * 60) + newStartSec));
             m_outputFiles.UpdateEndTime(m_currentFileIndex, ((newEndMin * 60) + newEndSec));
@@ -167,12 +167,12 @@ namespace ColdCutsNS{
 
             return m_outputFiles[m_currentFileIndex].tag.comment;
         }
-        public long GetStartTime(){
+        public double GetStartTime(){
 
             return m_outputFiles[m_currentFileIndex].startTimeSeconds;
         }
 
-        public long GetEndTime(){
+        public double GetEndTime(){
 
             return m_outputFiles[m_currentFileIndex].endTimeSeconds;
         }

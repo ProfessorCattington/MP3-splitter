@@ -24,8 +24,8 @@ namespace ColdCutsNS
 
                 string fileName = mainForm.destinationFilePathTextBox.Text + outputFileController.GetFileName();
 
-                long startPoint = outputFileController.GetStartTime();
-                long endPoint = outputFileController.GetEndTime();
+                double startPoint = outputFileController.GetStartTime();
+                double endPoint = outputFileController.GetEndTime();
 
                 TAG_INFO tempTags = new TAG_INFO();
                 tempTags.artist = outputFileController.GetArtist();

@@ -14,12 +14,12 @@ namespace ColdCutsNS
             Insert(index, new NewSoundFile());
         }
 
-        public void UpdateStartTime(int index, long startTime)
+        public void UpdateStartTime(int index, double startTime)
         {
             this[index].startTimeSeconds = startTime;
         }
 
-        public void UpdateEndTime(int index, long endTime)
+        public void UpdateEndTime(int index, double endTime)
         {
             this[index].endTimeSeconds = endTime;
         }

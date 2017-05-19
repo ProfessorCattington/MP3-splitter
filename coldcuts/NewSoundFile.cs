@@ -5,8 +5,8 @@ namespace ColdCutsNS
     public class NewSoundFile
     {
         public string fileName;
-        public long startTimeSeconds;
-        public long endTimeSeconds;
+        public double startTimeSeconds;
+        public double endTimeSeconds;
         public TAG_INFO tag;
 
         public NewSoundFile()

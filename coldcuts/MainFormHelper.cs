@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -8,6 +9,7 @@ namespace ColdCutsNS
     partial class MainForm
     {
 
+        private const string INVALID_TIMES = "Please enter valid start and end times.";
         private const string m_editLabelString = "Editing Output File: ";
 
         public void EnableTheEditingControls() {
@@ -91,10 +93,10 @@ namespace ColdCutsNS
                 soundFiles[i].fileName = this.dataGridView1.Rows[i].Cells[1].Value.ToString();
 
                 string stringValue = this.dataGridView1.Rows[i].Cells[2].Value.ToString();
-                soundFiles[i].startTimeSeconds = System.Convert.ToInt64(stringValue);
+                soundFiles[i].startTimeSeconds = Convert.ToDouble(stringValue);
 
                 stringValue = this.dataGridView1.Rows[i].Cells[3].Value.ToString();
-                soundFiles[i].endTimeSeconds = System.Convert.ToInt64(stringValue);
+                soundFiles[i].endTimeSeconds = Convert.ToDouble(stringValue);
             }
         }
 
@@ -135,19 +137,19 @@ namespace ColdCutsNS
 
                     this.fileNameOutputBox.Text = this.dataGridView1.Rows[i].Cells[1].Value.ToString();
 
-                    int secondsToMins = int.Parse(this.dataGridView1.Rows[i].Cells[2].Value.ToString()) / 60;
+                    int secondsToMins = (int)Math.Round(double.Parse(this.dataGridView1.Rows[i].Cells[2].Value.ToString()) / 60);
 
                     this.startMinTextBox.Text = secondsToMins.ToString();
 
-                    int remainingSecs = int.Parse(this.dataGridView1.Rows[i].Cells[2].Value.ToString()) % 60;
+                    double remainingSecs = double.Parse(this.dataGridView1.Rows[i].Cells[2].Value.ToString()) % 60;
 
                     this.startSecTextBox.Text = remainingSecs.ToString();
 
-                    secondsToMins = int.Parse(this.dataGridView1.Rows[i].Cells[3].Value.ToString()) / 60;
+                    secondsToMins = (int)Math.Round(double.Parse(this.dataGridView1.Rows[i].Cells[3].Value.ToString()) / 60);
 
                     this.endMinTextBox.Text = secondsToMins.ToString();
 
-                    remainingSecs = int.Parse(this.dataGridView1.Rows[i].Cells[3].Value.ToString()) % 60;
+                    remainingSecs = double.Parse(this.dataGridView1.Rows[i].Cells[3].Value.ToString()) % 60;
 
                     this.endSecTextBox.Text = remainingSecs.ToString();
 
@@ -199,64 +201,46 @@ namespace ColdCutsNS
 
         }
 
-        public bool StartAndEndTimesInEditFieldsAreValid() {
-
+        public bool StartAndEndTimesInEditFieldsAreValid()
+        {
             try {
-
-                if (int.Parse(this.startMinTextBox.Text) >= 0 &&
-                    int.Parse(this.startSecTextBox.Text) >= 0 &&
-                    int.Parse(this.endMinTextBox.Text) >= 0 &&
-                    int.Parse(this.endSecTextBox.Text) >= 0) {
-
+                if (int.Parse(startMinTextBox.Text) >= 0 &&
+                    double.Parse(startSecTextBox.Text) >= 0 &&
+                    int.Parse(endMinTextBox.Text) >= 0 &&
+                    double.Parse(endSecTextBox.Text) >= 0) {
                     return true;
                 }
-                else {
+            } catch { }
 
-                    MessageBox.Show("Please enter valid start and end times.");
-                    return false;
-                }
-            }
-            catch {
-
-                MessageBox.Show("Please enter valid start and end times.");
-                return false;
-            }
+            MessageBox.Show(INVALID_TIMES);
+            return false;
         }
 
-        public bool StartAndEndTimesInDGVAreValid(DataGridView dataGridView) {
-
-            try{
-
-                bool goodToGo = true;
-
-                for (int i = 0; i < dataGridView.Rows.Count; i++){
-
+        public bool StartAndEndTimesInDGVAreValid(DataGridView dataGridView)
+        {
+            bool goodToGo = true;
+            try
+            {
+                for (int i = 0; i < dataGridView.Rows.Count; i++)
+                {
                     //DGV Leave gets called after you call Add on it. This makes sure the important cells aren't null after you press the + button
                     if (dataGridView.Rows[i].Cells[1].Value == null) dataGridView.Rows[i].Cells[1].Value = "<blank>";
                     if (dataGridView.Rows[i].Cells[2].Value == null) dataGridView.Rows[i].Cells[2].Value = 0;
                     if (dataGridView.Rows[i].Cells[3].Value == null) dataGridView.Rows[i].Cells[3].Value = 0;
 
-                    if (!(int.Parse(dataGridView.Rows[i].Cells[2].Value.ToString()) >= 0) ||
-                       !(int.Parse(dataGridView.Rows[i].Cells[3].Value.ToString()) >= 0)){
-
+                    if (!(double.Parse(dataGridView.Rows[i].Cells[2].Value.ToString()) >= 0) ||
+                        !(double.Parse(dataGridView.Rows[i].Cells[3].Value.ToString()) >= 0)){
                         goodToGo = false;
                     }
                 }
-                if (!goodToGo){
-
-                    MessageBox.Show("Please enter valid start and end times.");
-                    return goodToGo;
-                }
-                else{
-
-                    return goodToGo;
-                }
             }
-            catch{
-
-                MessageBox.Show("Please enter valid start and end times.");
-                return false;
+            catch
+            {
+                goodToGo = false;
             }
+            if (!goodToGo)
+                MessageBox.Show(INVALID_TIMES);
+            return goodToGo;
         }
 
         public void LeftAndRightButtonsEnableDisable()
