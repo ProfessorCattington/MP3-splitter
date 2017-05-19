@@ -169,6 +169,7 @@ namespace ColdCutsNS{
             }
         }
 
+        #region AutoSplit
         private void backgroundWorker_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
             for (int i = 0; i < 50; i++)
@@ -218,6 +219,6 @@ namespace ColdCutsNS{
                 this.EnableTheEditingControls();
             Cursor.Current = Cursors.Default;
         }
-
+        #endregion AutoSplit
     }
 }
