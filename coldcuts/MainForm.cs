@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using Un4seen.Bass;
 
 namespace ColdCutsNS{
 
@@ -98,7 +99,7 @@ namespace ColdCutsNS{
 
             m_mainFormHelper.DeleteRowFromDataGridView();//DGV doesn't get updated properly if you modify the editing position before it
             m_outputFileController.RemoveASoundFile();
-            
+
             m_mainFormHelper.UpdateDGVRowNumbers();
 
             m_mainFormHelper.FillFieldsFromFileObject();
@@ -109,7 +110,7 @@ namespace ColdCutsNS{
             if (m_outputFileController.GetNumberOfSoundFiles() == 1){
 
                 deleteButton.Enabled = false;
-            }  
+            }
         }
 
         private void fileLeftButton_Click(object sender, EventArgs e){
@@ -140,6 +141,17 @@ namespace ColdCutsNS{
         public OutputFileController GetOutputFileController(){
 
             return m_outputFileController;
+        }
+
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Bass.BASS_Free();
+        }
+
+        private void MainForm_Shown(object sender, EventArgs e)
+        {
+            if (!Bass.BASS_Init(-1, 44100, BASSInit.BASS_DEVICE_DEFAULT, IntPtr.Zero))
+                MessageBox.Show("Error loading Un4seen.Bass", "Un4seen.Bass", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
     }
 }
