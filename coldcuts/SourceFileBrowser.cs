@@ -1,27 +1,27 @@
 ﻿using System.IO;
 using System.Windows.Forms;
 
-
 namespace ColdCutsNS
 {
-    public class SourceFileBrowser
+    public class FileBrowser
     {
         public static string Show()
         {
             string file = null;
             Stream stream;
-            OpenFileDialog openSourceFileDialog = new OpenFileDialog();
-
-            openSourceFileDialog.InitialDirectory = "c:\\";
-            openSourceFileDialog.Filter = "MP3 files (*.mp3)|*.mp3";
-            openSourceFileDialog.FilterIndex = 1;
-            openSourceFileDialog.RestoreDirectory = true;
-
-            if (openSourceFileDialog.ShowDialog() == DialogResult.OK)
+            var fileDialog = new OpenFileDialog()
             {
-                if ((stream = openSourceFileDialog.OpenFile()) != null)
+                InitialDirectory = "c:\\",
+                Filter = "MP3 files (*.mp3)|*.mp3",
+                FilterIndex = 1,
+                RestoreDirectory = true
+            };
+
+            if (fileDialog.ShowDialog() == DialogResult.OK)
+            {
+                if ((stream = fileDialog.OpenFile()) != null)
                 {
-                    file = openSourceFileDialog.FileName;
+                    file = fileDialog.FileName;
                     stream.Close();
                 }
             }

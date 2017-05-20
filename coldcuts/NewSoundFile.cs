@@ -2,23 +2,25 @@
 
 namespace ColdCutsNS
 {
-    public class NewSoundFile
+    public class SoundFile
     {
         public string fileName;
         public double startTimeSeconds;
         public double endTimeSeconds;
         public TAG_INFO tag;
 
-        public NewSoundFile()
+        public SoundFile(string name = "new", double start = 0, double end = 0)
         {
-            fileName = "<blank>";
-            startTimeSeconds = 0;
-            endTimeSeconds = 0;
-            tag = new TAG_INFO();
-            tag.artist = "<blank>";
-            tag.title = "<blank>";
-            tag.album = "<blank>";
-            tag.comment = "<blank>";
+            fileName = name;
+            startTimeSeconds = start;
+            endTimeSeconds = end;
+            tag = new TAG_INFO()
+            {
+                artist = "<blank>",
+                title = "<blank>",
+                album = "<blank>",
+                comment = "<blank>"
+            };
         }
     }
 }

@@ -2,16 +2,16 @@
 
 namespace ColdCutsNS
 {
-    public class OutputFiles: List<NewSoundFile>
+    public class OutputFiles: List<SoundFile>
     {
         public OutputFiles()
         {
-            Insert(0, new NewSoundFile());
+            Insert(0, new SoundFile());
         }
 
-        public void Add(int index)
+        public void Add(int index, SoundFile sound)
         {
-            Insert(index, new NewSoundFile());
+            Insert(index, sound);
         }
 
         public void UpdateStartTime(int index, double startTime)

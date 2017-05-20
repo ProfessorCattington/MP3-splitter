@@ -52,16 +52,8 @@
             this.endLabel = new System.Windows.Forms.Label();
             this.startLabel = new System.Windows.Forms.Label();
             this.deleteButton = new System.Windows.Forms.Button();
-            this.commentOutputTextBox = new System.Windows.Forms.TextBox();
-            this.commentOutputLabel = new System.Windows.Forms.Label();
-            this.albumOutputTextBox = new System.Windows.Forms.TextBox();
             this.fileNameOutputBox = new System.Windows.Forms.TextBox();
-            this.titleOutputTextBox = new System.Windows.Forms.TextBox();
             this.fileNameLabel = new System.Windows.Forms.Label();
-            this.artistOutputTextBox = new System.Windows.Forms.TextBox();
-            this.artistOutputLabel = new System.Windows.Forms.Label();
-            this.titleOutputLabel = new System.Windows.Forms.Label();
-            this.albumOutputLabel = new System.Windows.Forms.Label();
             this.fileLeftButton = new System.Windows.Forms.Button();
             this.fileRightButton = new System.Windows.Forms.Button();
             this.addFileButton = new System.Windows.Forms.Button();
@@ -73,16 +65,26 @@
             this.gridendtime = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.backgroundWorker = new System.ComponentModel.BackgroundWorker();
             this.btnAutoSplit = new System.Windows.Forms.Button();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.commentOutputTextBox = new System.Windows.Forms.TextBox();
+            this.commentOutputLabel = new System.Windows.Forms.Label();
+            this.albumOutputTextBox = new System.Windows.Forms.TextBox();
+            this.titleOutputTextBox = new System.Windows.Forms.TextBox();
+            this.artistOutputTextBox = new System.Windows.Forms.TextBox();
+            this.artistOutputLabel = new System.Windows.Forms.Label();
+            this.titleOutputLabel = new System.Windows.Forms.Label();
+            this.albumOutputLabel = new System.Windows.Forms.Label();
             this.inputFileGroupbox.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // sourceBrowseButton
             // 
-            this.sourceBrowseButton.Location = new System.Drawing.Point(11, 52);
+            this.sourceBrowseButton.Location = new System.Drawing.Point(14, 54);
             this.sourceBrowseButton.Name = "sourceBrowseButton";
-            this.sourceBrowseButton.Size = new System.Drawing.Size(67, 30);
+            this.sourceBrowseButton.Size = new System.Drawing.Size(67, 28);
             this.sourceBrowseButton.TabIndex = 0;
             this.sourceBrowseButton.Text = "Browse...";
             this.sourceBrowseButton.UseVisualStyleBackColor = true;
@@ -90,7 +92,7 @@
             // 
             // sourceFilePathTextBox
             // 
-            this.sourceFilePathTextBox.Location = new System.Drawing.Point(11, 26);
+            this.sourceFilePathTextBox.Location = new System.Drawing.Point(14, 32);
             this.sourceFilePathTextBox.Name = "sourceFilePathTextBox";
             this.sourceFilePathTextBox.Size = new System.Drawing.Size(310, 20);
             this.sourceFilePathTextBox.TabIndex = 2;
@@ -98,7 +100,7 @@
             // sourceLabel
             // 
             this.sourceLabel.AutoSize = true;
-            this.sourceLabel.Location = new System.Drawing.Point(9, 9);
+            this.sourceLabel.Location = new System.Drawing.Point(12, 15);
             this.sourceLabel.Name = "sourceLabel";
             this.sourceLabel.Size = new System.Drawing.Size(71, 13);
             this.sourceLabel.TabIndex = 3;
@@ -107,9 +109,9 @@
             // destinationBrowseButton
             // 
             this.destinationBrowseButton.Enabled = false;
-            this.destinationBrowseButton.Location = new System.Drawing.Point(11, 130);
+            this.destinationBrowseButton.Location = new System.Drawing.Point(13, 136);
             this.destinationBrowseButton.Name = "destinationBrowseButton";
-            this.destinationBrowseButton.Size = new System.Drawing.Size(67, 30);
+            this.destinationBrowseButton.Size = new System.Drawing.Size(67, 28);
             this.destinationBrowseButton.TabIndex = 4;
             this.destinationBrowseButton.Text = "Browse...";
             this.destinationBrowseButton.UseVisualStyleBackColor = true;
@@ -118,7 +120,7 @@
             // destinationLabel
             // 
             this.destinationLabel.AutoSize = true;
-            this.destinationLabel.Location = new System.Drawing.Point(9, 88);
+            this.destinationLabel.Location = new System.Drawing.Point(11, 98);
             this.destinationLabel.Name = "destinationLabel";
             this.destinationLabel.Size = new System.Drawing.Size(90, 13);
             this.destinationLabel.TabIndex = 5;
@@ -127,7 +129,7 @@
             // destinationFilePathTextBox
             // 
             this.destinationFilePathTextBox.Enabled = false;
-            this.destinationFilePathTextBox.Location = new System.Drawing.Point(11, 104);
+            this.destinationFilePathTextBox.Location = new System.Drawing.Point(13, 114);
             this.destinationFilePathTextBox.Name = "destinationFilePathTextBox";
             this.destinationFilePathTextBox.Size = new System.Drawing.Size(310, 20);
             this.destinationFilePathTextBox.TabIndex = 6;
@@ -142,7 +144,7 @@
             this.inputFileGroupbox.Controls.Add(this.titleInputLabel);
             this.inputFileGroupbox.Controls.Add(this.titleLabel);
             this.inputFileGroupbox.Controls.Add(this.artistLabel);
-            this.inputFileGroupbox.Location = new System.Drawing.Point(14, 176);
+            this.inputFileGroupbox.Location = new System.Drawing.Point(14, 188);
             this.inputFileGroupbox.Name = "inputFileGroupbox";
             this.inputFileGroupbox.Size = new System.Drawing.Size(309, 135);
             this.inputFileGroupbox.TabIndex = 9;
@@ -224,7 +226,7 @@
             // encodeButton
             // 
             this.encodeButton.Enabled = false;
-            this.encodeButton.Location = new System.Drawing.Point(343, 365);
+            this.encodeButton.Location = new System.Drawing.Point(199, 345);
             this.encodeButton.Name = "encodeButton";
             this.encodeButton.Size = new System.Drawing.Size(80, 26);
             this.encodeButton.TabIndex = 10;
@@ -242,19 +244,11 @@
             this.groupBox1.Controls.Add(this.endLabel);
             this.groupBox1.Controls.Add(this.startLabel);
             this.groupBox1.Controls.Add(this.deleteButton);
-            this.groupBox1.Controls.Add(this.commentOutputTextBox);
-            this.groupBox1.Controls.Add(this.commentOutputLabel);
-            this.groupBox1.Controls.Add(this.albumOutputTextBox);
             this.groupBox1.Controls.Add(this.fileNameOutputBox);
-            this.groupBox1.Controls.Add(this.titleOutputTextBox);
             this.groupBox1.Controls.Add(this.fileNameLabel);
-            this.groupBox1.Controls.Add(this.artistOutputTextBox);
-            this.groupBox1.Controls.Add(this.artistOutputLabel);
-            this.groupBox1.Controls.Add(this.titleOutputLabel);
-            this.groupBox1.Controls.Add(this.albumOutputLabel);
-            this.groupBox1.Location = new System.Drawing.Point(342, 38);
+            this.groupBox1.Location = new System.Drawing.Point(343, 52);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(250, 321);
+            this.groupBox1.Size = new System.Drawing.Size(250, 134);
             this.groupBox1.TabIndex = 11;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Output File: ";
@@ -262,7 +256,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(44, 21);
+            this.label1.Location = new System.Drawing.Point(50, 20);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(52, 13);
             this.label1.TabIndex = 32;
@@ -271,7 +265,7 @@
             // endSecTextBox
             // 
             this.endSecTextBox.Enabled = false;
-            this.endSecTextBox.Location = new System.Drawing.Point(72, 60);
+            this.endSecTextBox.Location = new System.Drawing.Point(78, 59);
             this.endSecTextBox.Name = "endSecTextBox";
             this.endSecTextBox.Size = new System.Drawing.Size(31, 20);
             this.endSecTextBox.TabIndex = 31;
@@ -280,7 +274,7 @@
             // endMinTextBox
             // 
             this.endMinTextBox.Enabled = false;
-            this.endMinTextBox.Location = new System.Drawing.Point(35, 60);
+            this.endMinTextBox.Location = new System.Drawing.Point(41, 59);
             this.endMinTextBox.Name = "endMinTextBox";
             this.endMinTextBox.Size = new System.Drawing.Size(31, 20);
             this.endMinTextBox.TabIndex = 30;
@@ -289,7 +283,7 @@
             // startSecTextBox
             // 
             this.startSecTextBox.Enabled = false;
-            this.startSecTextBox.Location = new System.Drawing.Point(72, 36);
+            this.startSecTextBox.Location = new System.Drawing.Point(78, 35);
             this.startSecTextBox.Name = "startSecTextBox";
             this.startSecTextBox.Size = new System.Drawing.Size(31, 20);
             this.startSecTextBox.TabIndex = 29;
@@ -298,7 +292,7 @@
             // startMinTextBox
             // 
             this.startMinTextBox.Enabled = false;
-            this.startMinTextBox.Location = new System.Drawing.Point(35, 36);
+            this.startMinTextBox.Location = new System.Drawing.Point(41, 35);
             this.startMinTextBox.Name = "startMinTextBox";
             this.startMinTextBox.Size = new System.Drawing.Size(31, 20);
             this.startMinTextBox.TabIndex = 28;
@@ -307,7 +301,7 @@
             // endLabel
             // 
             this.endLabel.AutoSize = true;
-            this.endLabel.Location = new System.Drawing.Point(6, 66);
+            this.endLabel.Location = new System.Drawing.Point(14, 62);
             this.endLabel.Name = "endLabel";
             this.endLabel.Size = new System.Drawing.Size(26, 13);
             this.endLabel.TabIndex = 27;
@@ -316,7 +310,7 @@
             // startLabel
             // 
             this.startLabel.AutoSize = true;
-            this.startLabel.Location = new System.Drawing.Point(5, 43);
+            this.startLabel.Location = new System.Drawing.Point(11, 38);
             this.startLabel.Name = "startLabel";
             this.startLabel.Size = new System.Drawing.Size(29, 13);
             this.startLabel.TabIndex = 26;
@@ -325,7 +319,7 @@
             // deleteButton
             // 
             this.deleteButton.Enabled = false;
-            this.deleteButton.Location = new System.Drawing.Point(142, 24);
+            this.deleteButton.Location = new System.Drawing.Point(140, 35);
             this.deleteButton.Name = "deleteButton";
             this.deleteButton.Size = new System.Drawing.Size(71, 24);
             this.deleteButton.TabIndex = 25;
@@ -333,100 +327,28 @@
             this.deleteButton.UseVisualStyleBackColor = true;
             this.deleteButton.Click += new System.EventHandler(this.deleteButton_Click);
             // 
-            // commentOutputTextBox
-            // 
-            this.commentOutputTextBox.Enabled = false;
-            this.commentOutputTextBox.Location = new System.Drawing.Point(6, 253);
-            this.commentOutputTextBox.Multiline = true;
-            this.commentOutputTextBox.Name = "commentOutputTextBox";
-            this.commentOutputTextBox.Size = new System.Drawing.Size(217, 59);
-            this.commentOutputTextBox.TabIndex = 24;
-            this.commentOutputTextBox.Leave += new System.EventHandler(this.Leave);
-            // 
-            // commentOutputLabel
-            // 
-            this.commentOutputLabel.AutoSize = true;
-            this.commentOutputLabel.Location = new System.Drawing.Point(6, 239);
-            this.commentOutputLabel.Name = "commentOutputLabel";
-            this.commentOutputLabel.Size = new System.Drawing.Size(57, 13);
-            this.commentOutputLabel.TabIndex = 20;
-            this.commentOutputLabel.Text = "Comment: ";
-            // 
-            // albumOutputTextBox
-            // 
-            this.albumOutputTextBox.Enabled = false;
-            this.albumOutputTextBox.Location = new System.Drawing.Point(6, 217);
-            this.albumOutputTextBox.Name = "albumOutputTextBox";
-            this.albumOutputTextBox.Size = new System.Drawing.Size(217, 20);
-            this.albumOutputTextBox.TabIndex = 23;
-            this.albumOutputTextBox.Leave += new System.EventHandler(this.Leave);
-            // 
             // fileNameOutputBox
             // 
             this.fileNameOutputBox.Enabled = false;
-            this.fileNameOutputBox.Location = new System.Drawing.Point(6, 98);
+            this.fileNameOutputBox.Location = new System.Drawing.Point(10, 103);
             this.fileNameOutputBox.Name = "fileNameOutputBox";
-            this.fileNameOutputBox.Size = new System.Drawing.Size(217, 20);
+            this.fileNameOutputBox.Size = new System.Drawing.Size(229, 20);
             this.fileNameOutputBox.TabIndex = 16;
             this.fileNameOutputBox.Leave += new System.EventHandler(this.Leave);
-            // 
-            // titleOutputTextBox
-            // 
-            this.titleOutputTextBox.Enabled = false;
-            this.titleOutputTextBox.Location = new System.Drawing.Point(6, 177);
-            this.titleOutputTextBox.Name = "titleOutputTextBox";
-            this.titleOutputTextBox.Size = new System.Drawing.Size(217, 20);
-            this.titleOutputTextBox.TabIndex = 22;
             // 
             // fileNameLabel
             // 
             this.fileNameLabel.AutoSize = true;
-            this.fileNameLabel.Location = new System.Drawing.Point(6, 83);
+            this.fileNameLabel.Location = new System.Drawing.Point(10, 87);
             this.fileNameLabel.Name = "fileNameLabel";
             this.fileNameLabel.Size = new System.Drawing.Size(57, 13);
             this.fileNameLabel.TabIndex = 15;
             this.fileNameLabel.Text = "File Name:";
             // 
-            // artistOutputTextBox
-            // 
-            this.artistOutputTextBox.Enabled = false;
-            this.artistOutputTextBox.Location = new System.Drawing.Point(6, 139);
-            this.artistOutputTextBox.Name = "artistOutputTextBox";
-            this.artistOutputTextBox.Size = new System.Drawing.Size(217, 20);
-            this.artistOutputTextBox.TabIndex = 21;
-            this.artistOutputTextBox.Leave += new System.EventHandler(this.Leave);
-            // 
-            // artistOutputLabel
-            // 
-            this.artistOutputLabel.AutoSize = true;
-            this.artistOutputLabel.Location = new System.Drawing.Point(6, 123);
-            this.artistOutputLabel.Name = "artistOutputLabel";
-            this.artistOutputLabel.Size = new System.Drawing.Size(36, 13);
-            this.artistOutputLabel.TabIndex = 17;
-            this.artistOutputLabel.Text = "Artist: ";
-            // 
-            // titleOutputLabel
-            // 
-            this.titleOutputLabel.AutoSize = true;
-            this.titleOutputLabel.Location = new System.Drawing.Point(6, 161);
-            this.titleOutputLabel.Name = "titleOutputLabel";
-            this.titleOutputLabel.Size = new System.Drawing.Size(33, 13);
-            this.titleOutputLabel.TabIndex = 18;
-            this.titleOutputLabel.Text = "Title: ";
-            // 
-            // albumOutputLabel
-            // 
-            this.albumOutputLabel.AutoSize = true;
-            this.albumOutputLabel.Location = new System.Drawing.Point(5, 201);
-            this.albumOutputLabel.Name = "albumOutputLabel";
-            this.albumOutputLabel.Size = new System.Drawing.Size(42, 13);
-            this.albumOutputLabel.TabIndex = 19;
-            this.albumOutputLabel.Text = "Album: ";
-            // 
             // fileLeftButton
             // 
             this.fileLeftButton.Enabled = false;
-            this.fileLeftButton.Location = new System.Drawing.Point(343, 12);
+            this.fileLeftButton.Location = new System.Drawing.Point(365, 15);
             this.fileLeftButton.Name = "fileLeftButton";
             this.fileLeftButton.Size = new System.Drawing.Size(28, 26);
             this.fileLeftButton.TabIndex = 12;
@@ -436,7 +358,7 @@
             // fileRightButton
             // 
             this.fileRightButton.Enabled = false;
-            this.fileRightButton.Location = new System.Drawing.Point(377, 12);
+            this.fileRightButton.Location = new System.Drawing.Point(399, 15);
             this.fileRightButton.Name = "fileRightButton";
             this.fileRightButton.Size = new System.Drawing.Size(28, 26);
             this.fileRightButton.TabIndex = 13;
@@ -446,7 +368,7 @@
             // addFileButton
             // 
             this.addFileButton.Enabled = false;
-            this.addFileButton.Location = new System.Drawing.Point(411, 12);
+            this.addFileButton.Location = new System.Drawing.Point(433, 15);
             this.addFileButton.Name = "addFileButton";
             this.addFileButton.Size = new System.Drawing.Size(28, 26);
             this.addFileButton.TabIndex = 14;
@@ -456,7 +378,7 @@
             // editPositionLabel
             // 
             this.editPositionLabel.AutoSize = true;
-            this.editPositionLabel.Location = new System.Drawing.Point(448, 21);
+            this.editPositionLabel.Location = new System.Drawing.Point(470, 24);
             this.editPositionLabel.Name = "editPositionLabel";
             this.editPositionLabel.Size = new System.Drawing.Size(99, 13);
             this.editPositionLabel.TabIndex = 15;
@@ -471,9 +393,9 @@
             this.gridtrackname,
             this.gridstarttime,
             this.gridendtime});
-            this.dataGridView1.Location = new System.Drawing.Point(608, 37);
+            this.dataGridView1.Location = new System.Drawing.Point(608, 15);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(315, 353);
+            this.dataGridView1.Size = new System.Drawing.Size(315, 375);
             this.dataGridView1.TabIndex = 16;
             this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridViewClickedNewRow);
             this.dataGridView1.CellLeave += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridViewLeave);
@@ -521,26 +443,112 @@
             // btnAutoSplit
             // 
             this.btnAutoSplit.Enabled = false;
-            this.btnAutoSplit.Location = new System.Drawing.Point(14, 336);
+            this.btnAutoSplit.Location = new System.Drawing.Point(45, 345);
             this.btnAutoSplit.Name = "btnAutoSplit";
-            this.btnAutoSplit.Size = new System.Drawing.Size(75, 23);
+            this.btnAutoSplit.Size = new System.Drawing.Size(75, 26);
             this.btnAutoSplit.TabIndex = 17;
             this.btnAutoSplit.Text = "Auto Split";
             this.btnAutoSplit.UseVisualStyleBackColor = true;
             this.btnAutoSplit.Click += new System.EventHandler(this.btnAutoSplit_Click);
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.commentOutputTextBox);
+            this.groupBox2.Controls.Add(this.commentOutputLabel);
+            this.groupBox2.Controls.Add(this.albumOutputTextBox);
+            this.groupBox2.Controls.Add(this.titleOutputTextBox);
+            this.groupBox2.Controls.Add(this.artistOutputTextBox);
+            this.groupBox2.Controls.Add(this.artistOutputLabel);
+            this.groupBox2.Controls.Add(this.titleOutputLabel);
+            this.groupBox2.Controls.Add(this.albumOutputLabel);
+            this.groupBox2.Location = new System.Drawing.Point(343, 171);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(250, 202);
+            this.groupBox2.TabIndex = 33;
+            this.groupBox2.TabStop = false;
+            // 
+            // commentOutputTextBox
+            // 
+            this.commentOutputTextBox.Enabled = false;
+            this.commentOutputTextBox.Location = new System.Drawing.Point(10, 148);
+            this.commentOutputTextBox.Multiline = true;
+            this.commentOutputTextBox.Name = "commentOutputTextBox";
+            this.commentOutputTextBox.Size = new System.Drawing.Size(229, 43);
+            this.commentOutputTextBox.TabIndex = 40;
+            // 
+            // commentOutputLabel
+            // 
+            this.commentOutputLabel.AutoSize = true;
+            this.commentOutputLabel.Location = new System.Drawing.Point(10, 134);
+            this.commentOutputLabel.Name = "commentOutputLabel";
+            this.commentOutputLabel.Size = new System.Drawing.Size(57, 13);
+            this.commentOutputLabel.TabIndex = 36;
+            this.commentOutputLabel.Text = "Comment: ";
+            // 
+            // albumOutputTextBox
+            // 
+            this.albumOutputTextBox.Enabled = false;
+            this.albumOutputTextBox.Location = new System.Drawing.Point(10, 112);
+            this.albumOutputTextBox.Name = "albumOutputTextBox";
+            this.albumOutputTextBox.Size = new System.Drawing.Size(229, 20);
+            this.albumOutputTextBox.TabIndex = 39;
+            // 
+            // titleOutputTextBox
+            // 
+            this.titleOutputTextBox.Enabled = false;
+            this.titleOutputTextBox.Location = new System.Drawing.Point(10, 72);
+            this.titleOutputTextBox.Name = "titleOutputTextBox";
+            this.titleOutputTextBox.Size = new System.Drawing.Size(229, 20);
+            this.titleOutputTextBox.TabIndex = 38;
+            // 
+            // artistOutputTextBox
+            // 
+            this.artistOutputTextBox.Enabled = false;
+            this.artistOutputTextBox.Location = new System.Drawing.Point(10, 34);
+            this.artistOutputTextBox.Name = "artistOutputTextBox";
+            this.artistOutputTextBox.Size = new System.Drawing.Size(229, 20);
+            this.artistOutputTextBox.TabIndex = 37;
+            // 
+            // artistOutputLabel
+            // 
+            this.artistOutputLabel.AutoSize = true;
+            this.artistOutputLabel.Location = new System.Drawing.Point(10, 18);
+            this.artistOutputLabel.Name = "artistOutputLabel";
+            this.artistOutputLabel.Size = new System.Drawing.Size(36, 13);
+            this.artistOutputLabel.TabIndex = 33;
+            this.artistOutputLabel.Text = "Artist: ";
+            // 
+            // titleOutputLabel
+            // 
+            this.titleOutputLabel.AutoSize = true;
+            this.titleOutputLabel.Location = new System.Drawing.Point(10, 56);
+            this.titleOutputLabel.Name = "titleOutputLabel";
+            this.titleOutputLabel.Size = new System.Drawing.Size(33, 13);
+            this.titleOutputLabel.TabIndex = 34;
+            this.titleOutputLabel.Text = "Title: ";
+            // 
+            // albumOutputLabel
+            // 
+            this.albumOutputLabel.AutoSize = true;
+            this.albumOutputLabel.Location = new System.Drawing.Point(9, 96);
+            this.albumOutputLabel.Name = "albumOutputLabel";
+            this.albumOutputLabel.Size = new System.Drawing.Size(42, 13);
+            this.albumOutputLabel.TabIndex = 35;
+            this.albumOutputLabel.Text = "Album: ";
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(932, 396);
+            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.btnAutoSplit);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.editPositionLabel);
             this.Controls.Add(this.addFileButton);
             this.Controls.Add(this.fileRightButton);
             this.Controls.Add(this.fileLeftButton);
-            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.encodeButton);
             this.Controls.Add(this.inputFileGroupbox);
             this.Controls.Add(this.destinationFilePathTextBox);
@@ -549,6 +557,9 @@
             this.Controls.Add(this.sourceLabel);
             this.Controls.Add(this.sourceFilePathTextBox);
             this.Controls.Add(this.sourceBrowseButton);
+            this.MaximizeBox = false;
+            this.MaximumSize = new System.Drawing.Size(948, 435);
+            this.MinimumSize = new System.Drawing.Size(948, 435);
             this.Name = "MainForm";
             this.Text = "Cold Cuts";
             this.Shown += new System.EventHandler(this.MainForm_Shown);
@@ -557,6 +568,8 @@
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -587,14 +600,6 @@
         public System.Windows.Forms.Button addFileButton;
         public System.Windows.Forms.Label fileNameLabel;
         public System.Windows.Forms.TextBox fileNameOutputBox;
-        public System.Windows.Forms.Label artistOutputLabel;
-        public System.Windows.Forms.Label titleOutputLabel;
-        public System.Windows.Forms.Label albumOutputLabel;
-        public System.Windows.Forms.Label commentOutputLabel;
-        public System.Windows.Forms.TextBox artistOutputTextBox;
-        public System.Windows.Forms.TextBox titleOutputTextBox;
-        public System.Windows.Forms.TextBox albumOutputTextBox;
-        public System.Windows.Forms.TextBox commentOutputTextBox;
         public System.Windows.Forms.Label editPositionLabel;
         public System.Windows.Forms.Button deleteButton;
         public System.Windows.Forms.Label startLabel;
@@ -611,6 +616,15 @@
         public System.Windows.Forms.DataGridViewTextBoxColumn gridendtime;
         public System.ComponentModel.BackgroundWorker backgroundWorker;
         public System.Windows.Forms.Button btnAutoSplit;
+        private System.Windows.Forms.GroupBox groupBox2;
+        public System.Windows.Forms.TextBox commentOutputTextBox;
+        public System.Windows.Forms.Label commentOutputLabel;
+        public System.Windows.Forms.TextBox albumOutputTextBox;
+        public System.Windows.Forms.TextBox titleOutputTextBox;
+        public System.Windows.Forms.TextBox artistOutputTextBox;
+        public System.Windows.Forms.Label artistOutputLabel;
+        public System.Windows.Forms.Label titleOutputLabel;
+        public System.Windows.Forms.Label albumOutputLabel;
     }
 }
 

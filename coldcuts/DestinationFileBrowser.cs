@@ -3,27 +3,23 @@ using System.Windows.Forms;
 
 namespace ColdCutsNS
 {
-    public class DestinationFileBrowser{
+    public class FolderBrowser
+    {
+        public static string Show()
+        {
+            string dir = null;
+            var folderDialog = new FolderBrowserDialog()
+            {
+                RootFolder = Environment.SpecialFolder.Desktop,
+                SelectedPath = "c:\\",
+                Description = "Select Destination Folder"
+            };
 
-        public DestinationFileBrowser(MainForm mainForm){
-
-            FolderBrowserDialog openDestinationFolderBrowserDialog = new FolderBrowserDialog();
-
-            openDestinationFolderBrowserDialog.RootFolder = Environment.SpecialFolder.Desktop;
-            openDestinationFolderBrowserDialog.SelectedPath = "c:\\";
-            openDestinationFolderBrowserDialog.Description = "Select Destination Folder";
-
-            if (openDestinationFolderBrowserDialog.ShowDialog() ==
-                System.Windows.Forms.DialogResult.OK){
-
-                mainForm.destinationFilePathTextBox.Text = openDestinationFolderBrowserDialog.SelectedPath + "\\";
+            if (folderDialog.ShowDialog() == DialogResult.OK)
+            {
+                dir = folderDialog.SelectedPath;
             }
-
-            if (mainForm.AreSourceAndDestinationFilled()){
-
-                mainForm.EnableTheEditingControls();
-                mainForm.InitializeDGV();
-            }
+            return dir;
         }
     }
 }

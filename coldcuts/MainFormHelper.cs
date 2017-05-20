@@ -12,8 +12,8 @@ namespace ColdCutsNS
         private const string INVALID_TIMES = "Please enter valid start and end times.";
         private const string m_editLabelString = "Editing Output File: ";
 
-        public void EnableTheEditingControls() {
-
+        public void EnableTheEditingControls()
+        {
             this.encodeButton.Enabled = true;
             this.addFileButton.Enabled = true;
             this.startMinTextBox.Enabled = true;
@@ -25,6 +25,7 @@ namespace ColdCutsNS
             this.titleOutputTextBox.Enabled = true;
             this.albumOutputTextBox.Enabled = true;
             this.commentOutputTextBox.Enabled = true;
+            this.btnAutoSplit.Enabled = true;
 
             UpdateEditingPosition();
             LeftAndRightButtonsEnableDisable();
@@ -36,7 +37,7 @@ namespace ColdCutsNS
             this.dataGridView1.Rows.Add();
 
             this.dataGridView1.Rows[0].Cells[0].Value = 0;
-            this.dataGridView1.Rows[0].Cells[1].Value = "<blank>";
+            this.dataGridView1.Rows[0].Cells[1].Value = "new";
             this.dataGridView1.Rows[0].Cells[2].Value = 0;
             this.dataGridView1.Rows[0].Cells[3].Value = 0;
 
@@ -49,8 +50,8 @@ namespace ColdCutsNS
 
         public void UpdateEditingPosition()
         {
-            this.editPositionLabel.Text = m_editLabelString + (OutputFileController.GetCurrentFileIndex() + 1).ToString() +
-                " / " + OutputFileController.GetNumberOfSoundFiles().ToString();
+            this.editPositionLabel.Text = m_editLabelString + (outputFiles.GetCurrentFileIndex() + 1).ToString() +
+                " / " + outputFiles.CountOfSoundFiles.ToString();
         }
 
         public void DisableTheEditingControls() {
@@ -69,50 +70,44 @@ namespace ColdCutsNS
             this.albumOutputTextBox.Enabled = false;
             this.commentOutputTextBox.Enabled = false;
             this.encodeButton.Enabled = false;
+            this.btnAutoSplit.Enabled = false;
         }
 
         public void SaveFieldsToFileObject()
         {
+            outputFiles.UpdateStartAndEndTimes(this.startMinTextBox.Text,
+                                               this.startSecTextBox.Text,
+                                               this.endMinTextBox.Text,
+                                               this.endSecTextBox.Text);
 
-            OutputFileController.UpdateStartAndEndTimes(this.startMinTextBox.Text, this.startSecTextBox.Text,
-                                                              this.endMinTextBox.Text, this.endSecTextBox.Text);
-
-            OutputFileController.UpdateInputTags(this.fileNameOutputBox.Text,
-                                                this.artistOutputTextBox.Text,
-                                                 this.titleOutputTextBox.Text,
-                                                 this.albumOutputTextBox.Text,
-                                                this.commentOutputTextBox.Text);
+            outputFiles.UpdateInputTags(this.fileNameOutputBox.Text,
+                                        this.artistOutputTextBox.Text,
+                                        this.titleOutputTextBox.Text,
+                                        this.albumOutputTextBox.Text,
+                                        this.commentOutputTextBox.Text);
         }
 
         public void SaveDataGridToFileObject()
         {
-            List<NewSoundFile> soundFiles = OutputFileController.GetOutputFiles();
-
-            for(int i = 0; i < soundFiles.Count; i++){
-
-                soundFiles[i].fileName = this.dataGridView1.Rows[i].Cells[1].Value.ToString();
-
-                string stringValue = this.dataGridView1.Rows[i].Cells[2].Value.ToString();
-                soundFiles[i].startTimeSeconds = Convert.ToDouble(stringValue);
-
-                stringValue = this.dataGridView1.Rows[i].Cells[3].Value.ToString();
-                soundFiles[i].endTimeSeconds = Convert.ToDouble(stringValue);
+            var soundFiles = outputFiles.GetOutputFiles();
+            for (int i = 0; i < soundFiles.Count; i++)
+            {
+                var row = dataGridView1.Rows[i];
+                soundFiles[i].fileName = row.Cells[1].Value.ToString();
+                soundFiles[i].startTimeSeconds = Convert.ToDouble(row.Cells[2].Value.ToString());
+                soundFiles[i].endTimeSeconds = Convert.ToDouble(row.Cells[3].Value.ToString());
             }
         }
 
         public void UpdateDGVRowNumbers()
         {
-            List<NewSoundFile> soundFiles = OutputFileController.GetOutputFiles();
-
-            for (int i = 0; i < soundFiles.Count; i++){
-
+            for (int i = 0; i < outputFiles.CountOfSoundFiles; i++)
                 this.dataGridView1.Rows[i].Cells[0].Value = i;
-            }
         }
 
         public void UpdateDataGrid()
         {
-            List<NewSoundFile> soundFiles = OutputFileController.GetOutputFiles();
+            var soundFiles = outputFiles.GetOutputFiles();
 
             for (int i = 0; i < soundFiles.Count; i++) {
 
@@ -133,7 +128,7 @@ namespace ColdCutsNS
         {
             for (int i = 0; i < this.dataGridView1.Rows.Count; i++){
 
-                if(i == OutputFileController.GetCurrentFileIndex()){
+                if(i == outputFiles.GetCurrentFileIndex()){
 
                     this.fileNameOutputBox.Text = this.dataGridView1.Rows[i].Cells[1].Value.ToString();
 
@@ -171,33 +166,40 @@ namespace ColdCutsNS
             }
         }
 
-
         public void DeleteRowFromDataGridView()
         {
-            int index = OutputFileController.GetCurrentFileIndex();
+            int index = outputFiles.GetCurrentFileIndex();
             this.dataGridView1.Rows.RemoveAt(index);
         }
 
-        public void AddRowToDataGridView()
+        public void AddRowToDataGridView(SoundFile sound)
         {
-            int index = OutputFileController.GetCurrentFileIndex() + 1;
-            this.dataGridView1.Rows.Insert(index);
-            this.dataGridView1.Rows[index].Cells[1].Value = "new";
-            this.dataGridView1.Rows[index].Cells[2].Value = 0;
-            this.dataGridView1.Rows[index].Cells[3].Value = 0;
+            int index = 0;
+            if (dataGridView1.Rows.Count == 0)
+            {
+                dataGridView1.Rows.Add();
+            }
+            else
+            {
+                index = outputFiles.GetCurrentFileIndex() + 1;
+                dataGridView1.Rows.Insert(index);
+            }
+            dataGridView1.Rows[index].Cells[1].Value = sound.fileName;
+            dataGridView1.Rows[index].Cells[2].Value = sound.startTimeSeconds;
+            dataGridView1.Rows[index].Cells[3].Value = sound.endTimeSeconds;
         }
 
         public void FillFieldsFromFileObject()
         {
-            this.startMinTextBox.Text = OutputFileController.GetStartMinString();
-            this.startSecTextBox.Text = OutputFileController.GetStartSecString();
-            this.endMinTextBox.Text = OutputFileController.GetEndMinString();
-            this.endSecTextBox.Text = OutputFileController.GetEndSecString();
-            this.fileNameOutputBox.Text = OutputFileController.GetFileName();
-            this.artistOutputTextBox.Text = OutputFileController.GetArtist();
-            this.titleOutputTextBox.Text = OutputFileController.GetTitle();
-            this.albumOutputTextBox.Text = OutputFileController.GetAlbum();
-            this.commentOutputTextBox.Text = OutputFileController.GetComment();
+            this.startMinTextBox.Text = outputFiles.GetStartMinString();
+            this.startSecTextBox.Text = outputFiles.GetStartSecString();
+            this.endMinTextBox.Text = outputFiles.GetEndMinString();
+            this.endSecTextBox.Text = outputFiles.GetEndSecString();
+            this.fileNameOutputBox.Text = outputFiles.GetFileName();
+            this.artistOutputTextBox.Text = outputFiles.GetArtist();
+            this.titleOutputTextBox.Text = outputFiles.GetTitle();
+            this.albumOutputTextBox.Text = outputFiles.GetAlbum();
+            this.commentOutputTextBox.Text = outputFiles.GetComment();
 
         }
 
@@ -224,7 +226,7 @@ namespace ColdCutsNS
                 for (int i = 0; i < dataGridView.Rows.Count; i++)
                 {
                     //DGV Leave gets called after you call Add on it. This makes sure the important cells aren't null after you press the + button
-                    if (dataGridView.Rows[i].Cells[1].Value == null) dataGridView.Rows[i].Cells[1].Value = "<blank>";
+                    if (dataGridView.Rows[i].Cells[1].Value == null) dataGridView.Rows[i].Cells[1].Value = "new";
                     if (dataGridView.Rows[i].Cells[2].Value == null) dataGridView.Rows[i].Cells[2].Value = 0;
                     if (dataGridView.Rows[i].Cells[3].Value == null) dataGridView.Rows[i].Cells[3].Value = 0;
 
@@ -245,23 +247,8 @@ namespace ColdCutsNS
 
         public void LeftAndRightButtonsEnableDisable()
         {
-            if (OutputFileController.GetCurrentFileIndex() == 0)
-            {
-                this.fileLeftButton.Enabled = false;
-            }
-            else
-            {
-                this.fileLeftButton.Enabled = true;
-            }
-
-            if (OutputFileController.GetCurrentFileIndex() == OutputFileController.GetNumberOfSoundFiles() - 1)
-            {
-                this.fileRightButton.Enabled = false;
-            }
-            else
-            {
-                this.fileRightButton.Enabled = true;
-            }
+            fileLeftButton.Enabled = (outputFiles.GetCurrentFileIndex() != 0);
+            fileRightButton.Enabled = (outputFiles.GetCurrentFileIndex() != outputFiles.CountOfSoundFiles - 1);
         }
 
         public async void PerformEncodingTasks(){
@@ -288,7 +275,7 @@ namespace ColdCutsNS
 
         public Encoder MakeAnEncoder()
         {
-            return new Encoder(this, OutputFileController);
+            return new Encoder(this, outputFiles);
         }
 
         public bool AreSourceAndDestinationFilled(){

@@ -1,14 +1,15 @@
 ﻿using System;
 using System.IO;
-using System.Threading;
 using System.Windows.Forms;
 using Un4seen.Bass;
+using Un4seen.Bass.AddOn.Tags;
 
 namespace ColdCutsNS{
 
     public partial class MainForm : Form {
 
-        protected OutputFileController m_outputFileController;
+        public OutputFileController outputFiles;
+        private TAG_INFO inputFileTags;
 
         public MainForm()
         {
@@ -16,9 +17,9 @@ namespace ColdCutsNS{
            InitializeFields();
         }
 
-        private void InitializeFields(){
-
-            m_outputFileController = new OutputFileController();
+        private void InitializeFields()
+        {
+            outputFiles = new OutputFileController();
             artistInputLabel.Text = "";
             titleInputLabel.Text = "";
             lengthInputLabel.Text = "";
@@ -26,14 +27,16 @@ namespace ColdCutsNS{
 
         private void browseButton_Click(object sender, EventArgs e)
         {
-            string file = SourceFileBrowser.Show();
+            string file = FileBrowser.Show();
             if (!string.IsNullOrEmpty(file))
                 UpdateFormWithSource(file);
         }
 
         private void destinationBrowseButton_Click(object sender, EventArgs e)
         {
-            new DestinationFileBrowser(this);
+            string dir = FolderBrowser.Show();
+            if (!string.IsNullOrEmpty(dir))
+                UpdateFormWithDestination(dir);
         }
         private void encodeButton_Click(object sender, EventArgs e){
 
@@ -59,7 +62,7 @@ namespace ColdCutsNS{
         public void DataGridViewLeave(object sender, EventArgs e){
 
             //inserting a new row into the DGV also calls leave, which can cause an exception since we end up trying to add stuff to the row before it's initialized
-            bool wasARowJustAddedToDGV = dataGridView1.RowCount == m_outputFileController.GetNumberOfSoundFiles() ? false : true;
+            bool wasARowJustAddedToDGV = dataGridView1.RowCount == outputFiles.CountOfSoundFiles ? false : true;
 
             if (this.StartAndEndTimesInDGVAreValid(dataGridView1) && !wasARowJustAddedToDGV){
 
@@ -75,51 +78,52 @@ namespace ColdCutsNS{
 
             if (index <= 0) index = 0;
 
-            m_outputFileController.GotoIndex(index);
+            outputFiles.GoToIndex(index);
             this.UpdateEditingPosition();
             this.LeftAndRightButtonsEnableDisable();
             this.UpdateTextBoxesFromDataGridLeave();
         }
 
-        private void addFileButton_Click(object sender, EventArgs e){
-
-            m_outputFileController.AddANewSoundFile();
-            this.AddRowToDataGridView();
-            this.UpdateDGVRowNumbers();
-
-            if (m_outputFileController.GetNumberOfSoundFiles() > 1){
-
-                deleteButton.Enabled = true;
-            }
-
-            this.LeftAndRightButtonsEnableDisable();
-            this.UpdateEditingPosition();
+        private void addFileButton_Click(object sender, EventArgs e)
+        {
+            addSoundFile(new SoundFile());
         }
 
-        private void deleteButton_Click(object sender, EventArgs e){
+        private void addSoundFile(SoundFile sound)
+        {
+            outputFiles.AddSoundFile(sound);
+            AddRowToDataGridView(sound);
+            UpdateDGVRowNumbers();
 
-            this.DeleteRowFromDataGridView();//DGV doesn't get updated properly if you modify the editing position before it
-            m_outputFileController.RemoveASoundFile();
+            if (outputFiles.CountOfSoundFiles > 1)
+                deleteButton.Enabled = true;
+
+            LeftAndRightButtonsEnableDisable();
+            UpdateEditingPosition();
+        }
+
+        private void deleteButton_Click(object sender, EventArgs e)
+        {
+            //DGV doesn't get updated properly if you modify the editing position before it
+            this.DeleteRowFromDataGridView();
+            outputFiles.RemoveASoundFile();
 
             this.UpdateDGVRowNumbers();
-
-            this.FillFieldsFromFileObject();
+            if (outputFiles.CountOfSoundFiles > 0)
+                this.FillFieldsFromFileObject();
 
             this.LeftAndRightButtonsEnableDisable();
             this.UpdateEditingPosition();
 
-            if (m_outputFileController.GetNumberOfSoundFiles() == 1){
-
-                deleteButton.Enabled = false;
-            }
+            deleteButton.Enabled = (outputFiles.CountOfSoundFiles > 1);
         }
 
         private void fileLeftButton_Click(object sender, EventArgs e){
 
-            if (m_outputFileController.GetCurrentFileIndex() > 0){
+            if (outputFiles.GetCurrentFileIndex() > 0){
 
                 this.SaveFieldsToFileObject();
-                m_outputFileController.DecreaseIndex();
+                outputFiles.DecreaseIndex();
 
                 this.LeftAndRightButtonsEnableDisable();
                 this.FillFieldsFromFileObject();
@@ -129,20 +133,15 @@ namespace ColdCutsNS{
 
         private void fileRightButton_Click(object sender, EventArgs e){
 
-            if (m_outputFileController.GetCurrentFileIndex() < m_outputFileController.GetNumberOfSoundFiles()-1){
-
+            if (outputFiles.GetCurrentFileIndex() < outputFiles.CountOfSoundFiles -1)
+            {
                 this.SaveFieldsToFileObject();
-                m_outputFileController.IncreaseIndex();
+                outputFiles.IncreaseIndex();
 
                 this.LeftAndRightButtonsEnableDisable();
                 this.FillFieldsFromFileObject();
                 this.UpdateEditingPosition();
             }
-        }
-
-        public OutputFileController OutputFileController
-        {
-            get { return m_outputFileController; }
         }
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -158,13 +157,13 @@ namespace ColdCutsNS{
             }
             else
             {
+                this.Refresh();
                 foreach (var item in Environment.GetCommandLineArgs())
                 {
                     if (File.Exists(item) && item.ToLower().EndsWith(".mp3"))
-                    {
                         UpdateFormWithSource(item);
-                        break;
-                    }
+                    else if(Directory.Exists(item))
+                        UpdateFormWithDestination(item);
                 }
             }
         }
@@ -172,20 +171,38 @@ namespace ColdCutsNS{
         #region AutoSplit
         private void backgroundWorker_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
-            float block = 20;
-            var chan = Bass.BASS_StreamCreateFile(sourceFilePathTextBox.Text, 0, 0, BASSFlag.BASS_STREAM_DECODE);
-            var len = Bass.BASS_ChannelSeconds2Bytes(chan, block / (float)1000 - (float)0.02);
+            const float block = 100;
+            const float minGap = 480000;
 
             int level = 0;
             int count = 0;
+            float gap = 0;
+            float start = 0;
             float position = block;
             var buffer = new IntPtr();
-            while (-1 != (level = Bass.BASS_ChannelGetLevel(chan)))
+
+            var chan = Bass.BASS_StreamCreateFile(sourceFilePathTextBox.Text, 0, 0, BASSFlag.BASS_STREAM_DECODE);
+            var len = Bass.BASS_ChannelSeconds2Bytes(chan, block / (float)1000 - (float)0.02);
+
+            while ((level = Bass.BASS_ChannelGetLevel(chan)) != -1)
             {
-                if ((count = (level < 600) ? count++ : 0) == 50)
-                    backgroundWorker.ReportProgress(level, null);
+                int left = Utils.LowWord32(level);
+                int right = Utils.HighWord32(level);
+                if (((count = ((left + right) < 40000) ? count+1 : 0) == 200) && (gap > minGap))
+                {
+                    var sound = new SoundFile($"File_{position}", start/1000.0, position/1000.0);
+                    backgroundWorker.ReportProgress((int)Math.Round(position / 1000), sound);
+                    start = position + 1;
+                    gap = 0;
+                }
+                else if (position % 50000 == 0)
+                {
+                    backgroundWorker.ReportProgress((int)Math.Round(position / 1000), null);
+                }
+                if (outputFiles.CountOfSoundFiles > 2) break;
                 Bass.BASS_ChannelGetData(chan, buffer, (int)len);
                 position += block;
+                gap += block;
             }
             Bass.BASS_StreamFree(chan);
         }
@@ -193,7 +210,18 @@ namespace ColdCutsNS{
         private void backgroundWorker_ProgressChanged(object sender, System.ComponentModel.ProgressChangedEventArgs e)
         {
             feedBackLabel2.Visible = true;
-            feedBackLabel2.Text += ".";
+            feedBackLabel2.Text = $" {Math.Round((e.ProgressPercentage/inputFileTags.duration) * 100, 2)}%";
+            if (e.UserState != null)
+            {
+                if (outputFiles.CountOfSoundFiles == 1)
+                {
+                    var outFiles = outputFiles.GetOutputFiles();
+                    if (outFiles[0].endTimeSeconds == 0 && outFiles[0].startTimeSeconds == 0)
+                        deleteButton_Click(null, null);
+                }
+                addSoundFile((SoundFile)e.UserState);
+                outputFiles.IncreaseIndex();
+            }
         }
 
         private void backgroundWorker_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
@@ -212,11 +240,21 @@ namespace ColdCutsNS{
             backgroundWorker.RunWorkerAsync();
         }
 
+        private void UpdateFormWithDestination(string dir)
+        {
+            destinationFilePathTextBox.Text = dir + "\\";
+            if (AreSourceAndDestinationFilled())
+            {
+                EnableTheEditingControls();
+                InitializeDGV();
+            }
+        }
+
         private void UpdateFormWithSource(string FileName)
         {
             Cursor.Current = Cursors.WaitCursor;
             sourceFilePathTextBox.Text = FileName;
-            var inputFileTags = OutputFileController.FillInputFileTags(sourceFilePathTextBox.Text);
+            inputFileTags = outputFiles.FillInputFileTags(sourceFilePathTextBox.Text);
 
             artistInputLabel.Text = inputFileTags.artist;
             titleInputLabel.Text = inputFileTags.title;
@@ -224,10 +262,9 @@ namespace ColdCutsNS{
 
             destinationBrowseButton.Enabled = true;
             destinationFilePathTextBox.Enabled = true;
-            btnAutoSplit.Enabled = true;
 
-            if (this.AreSourceAndDestinationFilled())
-                this.EnableTheEditingControls();
+            if (AreSourceAndDestinationFilled())
+                EnableTheEditingControls();
             Cursor.Current = Cursors.Default;
         }
         #endregion AutoSplit

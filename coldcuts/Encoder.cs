@@ -5,7 +5,7 @@ namespace ColdCutsNS
 {
     public class Encoder
     {
-        public Encoder(MainForm mainForm, OutputFileController outputFileController)
+        public Encoder(MainForm mainForm, OutputFileController outputFiles)
         {
             EncoderLAME lameEncoder = new EncoderLAME(0);
             lameEncoder.LAME_UseVBR = true;
@@ -16,22 +16,19 @@ namespace ColdCutsNS
 
             string inputFile = mainForm.sourceFilePathTextBox.Text;
 
-            int numberOfSoundFiles = outputFileController.GetNumberOfSoundFiles();
+            for (int i = 0; i < outputFiles.CountOfSoundFiles; i++)
+            {
+                outputFiles.GoToIndex(i);
+                string fileName = mainForm.destinationFilePathTextBox.Text + outputFiles.GetFileName();
 
-            for (int i = 0; i < numberOfSoundFiles; i++){
-
-                outputFileController.GoToIndex(i);
-
-                string fileName = mainForm.destinationFilePathTextBox.Text + outputFileController.GetFileName();
-
-                double startPoint = outputFileController.GetStartTime();
-                double endPoint = outputFileController.GetEndTime();
+                double startPoint = outputFiles.GetStartTime();
+                double endPoint = outputFiles.GetEndTime();
 
                 TAG_INFO tempTags = new TAG_INFO();
-                tempTags.artist = outputFileController.GetArtist();
-                tempTags.title = outputFileController.GetTitle();
-                tempTags.album = outputFileController.GetAlbum();
-                tempTags.comment = outputFileController.GetComment();
+                tempTags.artist = outputFiles.GetArtist();
+                tempTags.title = outputFiles.GetTitle();
+                tempTags.album = outputFiles.GetAlbum();
+                tempTags.comment = outputFiles.GetComment();
 
                 lameEncoder.TAGs = tempTags;
 
