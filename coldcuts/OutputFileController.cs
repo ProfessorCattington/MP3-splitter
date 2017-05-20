@@ -131,6 +131,8 @@ namespace ColdCutsNS{
             return m_outputFiles[index].fileName;
         }
 
+        public TAG_INFO TagInfo { get { return m_outputFiles[index].tag; } }
+
         public string GetArtist(){
 
             return m_outputFiles[index].tag.artist;
