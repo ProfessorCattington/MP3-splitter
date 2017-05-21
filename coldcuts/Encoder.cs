@@ -10,10 +10,13 @@ namespace ColdCutsNS
             for (int i = 0; i < outputFiles.CountOfSoundFiles; i++)
             {
                 outputFiles.GoToIndex(i);
+                var tag = outputFiles.TagInfo;
+                if (string.IsNullOrEmpty(tag.track))
+                    tag.track = (i + 1).ToString();
                 var resp = BaseEncoder.EncodeFile(
                     inputFile: inputFile,
                     outputFile: mainForm.destinationFilePathTextBox.Text + outputFiles.GetFileName() + ".mp3",
-                    encoder: new EncoderLAME(0) { LAME_UseVBR = true, TAGs = outputFiles.TagInfo },
+                    encoder: new EncoderLAME(0) { LAME_UseVBR = true, TAGs = tag },
                     proc: new BaseEncoder.ENCODEFILEPROC(mainForm.FileEncodingNotification),
                     overwriteOutput: true,
                     deleteInput: false,
