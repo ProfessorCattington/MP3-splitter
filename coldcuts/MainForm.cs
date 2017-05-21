@@ -66,9 +66,12 @@ namespace ColdCutsNS{
 
             if (StartAndEndTimesInDGVAreValid(dataGridView1) && !wasARowJustAddedToDGV)
             {
-                int RowIndex = ((DataGridViewCellEventArgs)e).RowIndex;
-                if (RowIndex <= 0) RowIndex = 0;
-                SaveDataGridToFileObject(RowIndex);
+                if (e.GetType() == typeof(DataGridViewCellEventArgs))
+                {
+                    int RowIndex = ((DataGridViewCellEventArgs)e).RowIndex;
+                    if (RowIndex <= 0) RowIndex = 0;
+                    SaveDataGridToFileObject(RowIndex);
+                }
             }
         }
 
@@ -188,8 +191,9 @@ namespace ColdCutsNS{
                 int right = Utils.HighWord32(level);
                 if (((count = ((left + right) < 40000) ? count+1 : 0) == 200) && (gap > minGap))
                 {
-                    var sound = new SoundFile($"File_{position}", start/1000.0, position/1000.0);
-                    backgroundWorker.ReportProgress((int)Math.Round(position / 1000), sound);
+                    var pos = (int)Math.Round(position / 1000);
+                    var sound = new SoundFile($"File_{pos}", start/1000.0, position/1000.0);
+                    backgroundWorker.ReportProgress(pos, sound);
                     start = position + 1;
                     gap = 0;
                 }
@@ -218,6 +222,7 @@ namespace ColdCutsNS{
                 }
                 addSoundFile((SoundFile)e.UserState);
                 outputFiles.IncreaseIndex();
+                EnableObjects(false);
             }
         }
 
@@ -226,15 +231,38 @@ namespace ColdCutsNS{
             feedBackLabel2.Text = "";
             feedBackLabel2.Visible = false;
             Cursor.Current = Cursors.Default;
-            btnAutoSplit.Enabled = true;
+            EnableObjects(true);
         }
 
         private void btnAutoSplit_Click(object sender, EventArgs e)
         {
             feedBackLabel2.Text = "";
-            btnAutoSplit.Enabled = false;
+            EnableObjects(false);
             Cursor.Current = Cursors.WaitCursor;
             backgroundWorker.RunWorkerAsync();
+        }
+
+        private void EnableObjects(bool enabled)
+        {
+            btnAutoSplit.Enabled = enabled;
+            encodeButton.Enabled = enabled;
+            fileLeftButton.Enabled = enabled;
+            fileRightButton.Enabled = enabled;
+            addFileButton.Enabled = enabled;
+            deleteButton.Enabled = enabled;
+            dataGridView1.Enabled = enabled;
+            EnableTextBox(Controls, enabled);
+        }
+
+        private void EnableTextBox(Control.ControlCollection cControls, bool enabled)
+        {
+            foreach (Control c in cControls)
+            {
+                if (c.GetType() == typeof(TextBox))
+                    c.Enabled = enabled;
+                else if (c.Controls != null)
+                    EnableTextBox(c.Controls, enabled);
+            }
         }
 
         private void UpdateFormWithDestination(string dir)
