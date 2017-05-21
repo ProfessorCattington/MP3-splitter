@@ -199,7 +199,6 @@ namespace ColdCutsNS{
                 {
                     backgroundWorker.ReportProgress((int)Math.Round(position / 1000), null);
                 }
-                if (outputFiles.CountOfSoundFiles > 2) break;
                 Bass.BASS_ChannelGetData(chan, buffer, (int)len);
                 position += block;
                 gap += block;
