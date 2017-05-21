@@ -387,6 +387,7 @@
             // dataGridView1
             // 
             this.dataGridView1.AllowUserToAddRows = false;
+            this.dataGridView1.AllowUserToDeleteRows = false;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.gridtracknumber,
@@ -394,10 +395,11 @@
             this.gridstarttime,
             this.gridendtime});
             this.dataGridView1.Location = new System.Drawing.Point(608, 15);
+            this.dataGridView1.MultiSelect = false;
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.Size = new System.Drawing.Size(315, 375);
             this.dataGridView1.TabIndex = 16;
-            this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridViewClickedNewRow);
+            this.dataGridView1.CellEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellEnter);
             this.dataGridView1.CellLeave += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridViewLeave);
             // 
             // gridtracknumber
@@ -475,6 +477,7 @@
             this.commentOutputTextBox.Name = "commentOutputTextBox";
             this.commentOutputTextBox.Size = new System.Drawing.Size(229, 43);
             this.commentOutputTextBox.TabIndex = 40;
+            this.commentOutputTextBox.Leave += new System.EventHandler(this.Leave);
             // 
             // commentOutputLabel
             // 
@@ -492,6 +495,7 @@
             this.albumOutputTextBox.Name = "albumOutputTextBox";
             this.albumOutputTextBox.Size = new System.Drawing.Size(229, 20);
             this.albumOutputTextBox.TabIndex = 39;
+            this.albumOutputTextBox.Leave += new System.EventHandler(this.Leave);
             // 
             // titleOutputTextBox
             // 
@@ -500,6 +504,7 @@
             this.titleOutputTextBox.Name = "titleOutputTextBox";
             this.titleOutputTextBox.Size = new System.Drawing.Size(229, 20);
             this.titleOutputTextBox.TabIndex = 38;
+            this.titleOutputTextBox.Leave += new System.EventHandler(this.Leave);
             // 
             // artistOutputTextBox
             // 
@@ -508,6 +513,7 @@
             this.artistOutputTextBox.Name = "artistOutputTextBox";
             this.artistOutputTextBox.Size = new System.Drawing.Size(229, 20);
             this.artistOutputTextBox.TabIndex = 37;
+            this.artistOutputTextBox.Leave += new System.EventHandler(this.Leave);
             // 
             // artistOutputLabel
             // 

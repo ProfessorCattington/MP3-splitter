@@ -5,20 +5,19 @@ namespace ColdCutsNS{
 
     public class OutputFileController{
 
-        protected TAG_INFO m_inputFileTags;
-        protected OutputFiles m_outputFiles;
-
+        private TAG_INFO m_inputFileTags;
+        private OutputFiles m_outputFiles;
         private int index;
 
-        public OutputFileController(){
-
-            m_outputFiles = new OutputFiles();
-            m_inputFileTags = new TAG_INFO();
+        public OutputFileController()
+        {
             index = 0;
         }
 
         public void AddSoundFile(SoundFile sound)
         {
+            if (sound.tag == null)
+                sound.AddTagInfo(m_inputFileTags);
             m_outputFiles.Add(index, sound);
         }
 
@@ -56,14 +55,15 @@ namespace ColdCutsNS{
                 index = 0;
         }
 
-        public TAG_INFO GetTagInfo(){
-
+        public TAG_INFO FillInputFileTags(string inputFileText)
+        {
+            m_inputFileTags = BassTags.BASS_TAG_GetFromFile(inputFileText);
+            if (m_outputFiles == null)
+            {
+                var sound = new SoundFile(tag: m_inputFileTags);
+                m_outputFiles = new OutputFiles(sound);
+            }
             return m_inputFileTags;
-        }
-
-        public TAG_INFO FillInputFileTags(string inputFileText){
-
-            return m_inputFileTags = BassTags.BASS_TAG_GetFromFile(inputFileText);
         }
 
         public int GetCurrentFileIndex(){
@@ -78,12 +78,6 @@ namespace ColdCutsNS{
         public int CountOfSoundFiles
         {
             get { return m_outputFiles.Count; }
-        }
-
-        public void UpdateStartAndEndTimes(){
-
-            m_outputFiles.UpdateStartTime(index, 0);
-            m_outputFiles.UpdateEndTime(index, 0);
         }
 
         public void UpdateStartAndEndTimes(string startMin, string startSec, string endMin, string endSec){

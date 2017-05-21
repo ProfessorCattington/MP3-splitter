@@ -59,29 +59,27 @@ namespace ColdCutsNS{
             }
         }
 
-        public void DataGridViewLeave(object sender, EventArgs e){
-
+        public void DataGridViewLeave(object sender, EventArgs e)
+        {
             //inserting a new row into the DGV also calls leave, which can cause an exception since we end up trying to add stuff to the row before it's initialized
             bool wasARowJustAddedToDGV = dataGridView1.RowCount == outputFiles.CountOfSoundFiles ? false : true;
 
-            if (this.StartAndEndTimesInDGVAreValid(dataGridView1) && !wasARowJustAddedToDGV){
-
-                this.SaveDataGridToFileObject();
-                this.UpdateTextBoxesFromDataGridLeave();
+            if (StartAndEndTimesInDGVAreValid(dataGridView1) && !wasARowJustAddedToDGV)
+            {
+                int RowIndex = ((DataGridViewCellEventArgs)e).RowIndex;
+                if (RowIndex <= 0) RowIndex = 0;
+                SaveDataGridToFileObject(RowIndex);
             }
         }
 
-        public void DataGridViewClickedNewRow(object sender, DataGridViewCellEventArgs e){
-
-            //get the file index we are switching to
-            int index = e.RowIndex;
-
-            if (index <= 0) index = 0;
-
-            outputFiles.GoToIndex(index);
-            this.UpdateEditingPosition();
-            this.LeftAndRightButtonsEnableDisable();
-            this.UpdateTextBoxesFromDataGridLeave();
+        private void dataGridView1_CellEnter(object sender, DataGridViewCellEventArgs e)
+        {
+            outputFiles.GoToIndex(e.RowIndex);
+            UpdateEditingPosition();
+            LeftAndRightButtonsEnableDisable();
+            outputFiles.GoToIndex(e.RowIndex);
+            UpdateTextBoxesFromDataGridLeave(e.RowIndex);
+            FillFieldsBottom();
         }
 
         private void addFileButton_Click(object sender, EventArgs e)
@@ -131,8 +129,8 @@ namespace ColdCutsNS{
             }
         }
 
-        private void fileRightButton_Click(object sender, EventArgs e){
-
+        private void fileRightButton_Click(object sender, EventArgs e)
+        {
             if (outputFiles.GetCurrentFileIndex() < outputFiles.CountOfSoundFiles -1)
             {
                 this.SaveFieldsToFileObject();

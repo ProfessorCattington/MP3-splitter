@@ -4,9 +4,9 @@ namespace ColdCutsNS
 {
     public class OutputFiles: List<SoundFile>
     {
-        public OutputFiles()
+        public OutputFiles(SoundFile sound)
         {
-            Insert(0, new SoundFile());
+            Insert(0, sound);
         }
 
         public void Add(int index, SoundFile sound)

@@ -87,16 +87,13 @@ namespace ColdCutsNS
                                         this.commentOutputTextBox.Text);
         }
 
-        public void SaveDataGridToFileObject()
+        public void SaveDataGridToFileObject(int RowIndex)
         {
             var soundFiles = outputFiles.GetOutputFiles();
-            for (int i = 0; i < soundFiles.Count; i++)
-            {
-                var row = dataGridView1.Rows[i];
-                soundFiles[i].fileName = row.Cells[1].Value.ToString();
-                soundFiles[i].startTimeSeconds = Convert.ToDouble(row.Cells[2].Value.ToString());
-                soundFiles[i].endTimeSeconds = Convert.ToDouble(row.Cells[3].Value.ToString());
-            }
+            var row = dataGridView1.Rows[RowIndex];
+            soundFiles[RowIndex].fileName = row.Cells[1].Value.ToString();
+            soundFiles[RowIndex].startTimeSeconds = Convert.ToDouble(row.Cells[2].Value.ToString());
+            soundFiles[RowIndex].endTimeSeconds = Convert.ToDouble(row.Cells[3].Value.ToString());
         }
 
         public void UpdateDGVRowNumbers()
@@ -124,31 +121,24 @@ namespace ColdCutsNS
             }
         }
 
-        public void UpdateTextBoxesFromDataGridLeave()
+        public void UpdateTextBoxesFromDataGridLeave(int RowIndex)
         {
-            for (int i = 0; i < this.dataGridView1.Rows.Count; i++){
+            var row = dataGridView1.Rows[RowIndex];
+            if (row.Cells[0].Value != null)
+            {
+                fileNameOutputBox.Text = row.Cells[1].Value.ToString();
 
-                if(i == outputFiles.GetCurrentFileIndex()){
+                int secondsToMins = (int)Math.Round(double.Parse(row.Cells[2].Value.ToString()) / 60);
+                startMinTextBox.Text = secondsToMins.ToString();
 
-                    this.fileNameOutputBox.Text = this.dataGridView1.Rows[i].Cells[1].Value.ToString();
+                double remainingSecs = double.Parse(row.Cells[2].Value.ToString()) % 60;
+                startSecTextBox.Text = remainingSecs.ToString();
 
-                    int secondsToMins = (int)Math.Round(double.Parse(this.dataGridView1.Rows[i].Cells[2].Value.ToString()) / 60);
+                secondsToMins = (int)Math.Round(double.Parse(row.Cells[3].Value.ToString()) / 60);
+                endMinTextBox.Text = secondsToMins.ToString();
 
-                    this.startMinTextBox.Text = secondsToMins.ToString();
-
-                    double remainingSecs = double.Parse(this.dataGridView1.Rows[i].Cells[2].Value.ToString()) % 60;
-
-                    this.startSecTextBox.Text = remainingSecs.ToString();
-
-                    secondsToMins = (int)Math.Round(double.Parse(this.dataGridView1.Rows[i].Cells[3].Value.ToString()) / 60);
-
-                    this.endMinTextBox.Text = secondsToMins.ToString();
-
-                    remainingSecs = double.Parse(this.dataGridView1.Rows[i].Cells[3].Value.ToString()) % 60;
-
-                    this.endSecTextBox.Text = remainingSecs.ToString();
-
-                }
+                remainingSecs = double.Parse(row.Cells[3].Value.ToString()) % 60;
+                endSecTextBox.Text = remainingSecs.ToString();
             }
         }
 
@@ -191,16 +181,25 @@ namespace ColdCutsNS
 
         public void FillFieldsFromFileObject()
         {
+            FillFieldsTop();
+            FillFieldsBottom();
+        }
+
+        public void FillFieldsTop()
+        {
             this.startMinTextBox.Text = outputFiles.GetStartMinString();
             this.startSecTextBox.Text = outputFiles.GetStartSecString();
             this.endMinTextBox.Text = outputFiles.GetEndMinString();
             this.endSecTextBox.Text = outputFiles.GetEndSecString();
             this.fileNameOutputBox.Text = outputFiles.GetFileName();
+        }
+
+        public void FillFieldsBottom()
+        {
             this.artistOutputTextBox.Text = outputFiles.GetArtist();
             this.titleOutputTextBox.Text = outputFiles.GetTitle();
             this.albumOutputTextBox.Text = outputFiles.GetAlbum();
             this.commentOutputTextBox.Text = outputFiles.GetComment();
-
         }
 
         public bool StartAndEndTimesInEditFieldsAreValid()
