@@ -1,46 +1,30 @@
-﻿using Un4seen.Bass.AddOn.Tags;
-using Un4seen.Bass.Misc;
+﻿using Un4seen.Bass.Misc;
 
 namespace ColdCutsNS
 {
-    public class Encoder{
-
-        public Encoder(MainForm mainForm, MainFormHelper mainFormHelper, OutputFileController outputFileController){
-
-            EncoderLAME lameEncoder = new EncoderLAME(0);
-            lameEncoder.LAME_UseVBR = true;
-
-            bool overwriteOutput = true;
-            bool deleteInput = false;
-            bool useInputFileTags = false;
-
+    public class Encoder
+    {
+        public Encoder(MainForm mainForm, OutputFileController outputFiles)
+        {
             string inputFile = mainForm.sourceFilePathTextBox.Text;
-
-            int numberOfSoundFiles = outputFileController.GetNumberOfSoundFiles();
-
-            for (int i = 0; i < numberOfSoundFiles; i++){
-
-                outputFileController.GoToIndex(i);
-
-                string fileName = mainForm.destinationFilePathTextBox.Text + outputFileController.GetFileName();
-
-                long startPoint = outputFileController.GetStartTime();
-                long endPoint = outputFileController.GetEndTime();
-
-                TAG_INFO tempTags = new TAG_INFO();
-                tempTags.artist = outputFileController.GetArtist();
-                tempTags.title = outputFileController.GetTitle();
-                tempTags.album = outputFileController.GetAlbum();
-                tempTags.comment = outputFileController.GetComment();
-
-                lameEncoder.TAGs = tempTags;
-
-                BaseEncoder.EncodeFile(inputFile, fileName + ".mp3", lameEncoder,
-                      new BaseEncoder.ENCODEFILEPROC(mainFormHelper.FileEncodingNotification),
-                      overwriteOutput, deleteInput, useInputFileTags,
-                      startPoint + 0.0f, endPoint + 0.0f);
-
-                mainFormHelper.ColorDataGrid(i);
+            for (int i = 0; i < outputFiles.CountOfSoundFiles; i++)
+            {
+                outputFiles.GoToIndex(i);
+                var tag = outputFiles.TagInfo;
+                if (string.IsNullOrEmpty(tag.track))
+                    tag.track = (i + 1).ToString();
+                var resp = BaseEncoder.EncodeFile(
+                    inputFile: inputFile,
+                    outputFile: mainForm.destinationFilePathTextBox.Text + outputFiles.GetFileName() + ".mp3",
+                    encoder: new EncoderLAME(0) { LAME_UseVBR = true, TAGs = tag },
+                    proc: new BaseEncoder.ENCODEFILEPROC(mainForm.FileEncodingNotification),
+                    overwriteOutput: true,
+                    deleteInput: false,
+                    updateTags: false,
+                    fromPos: outputFiles.GetStartTime() + 0.0f,
+                    toPos: outputFiles.GetEndTime() + 0.0f
+                );
+                mainForm.ColorDataGrid(i);
             }
         }
     }

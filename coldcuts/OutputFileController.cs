@@ -1,180 +1,159 @@
 ﻿using System;
 using Un4seen.Bass.AddOn.Tags;
 
-
 namespace ColdCutsNS{
 
     public class OutputFileController{
 
-        protected TAG_INFO m_inputFileTags;
-        protected OutputFiles m_outputFiles;
+        private TAG_INFO m_inputFileTags;
+        private OutputFiles m_outputFiles;
+        private int index;
 
-        protected int m_currentFileIndex;
-
-        public OutputFileController(){
-
-            m_outputFiles = new OutputFiles();
-            m_inputFileTags = new TAG_INFO();
-            m_currentFileIndex = 0;
+        public OutputFileController()
+        {
+            index = 0;
         }
 
-        public void AddANewSoundFile(){
-
-            m_outputFiles.AddANewSoundFile(m_currentFileIndex);
+        public void AddSoundFile(SoundFile sound)
+        {
+            if (sound.tag == null)
+                sound.AddTagInfo(m_inputFileTags);
+            m_outputFiles.Add(index, sound);
         }
 
         public void RemoveASoundFile(){
 
-            m_outputFiles.RemoveASoundFile(m_currentFileIndex);
+            m_outputFiles.RemoveAt(index);
 
             //make sure we aren't going outside the bounds of the list
-            int numberOfFiles = m_outputFiles.soundFiles.Count;
+            int numberOfFiles = m_outputFiles.Count;
 
-            if (m_currentFileIndex >= numberOfFiles){
+            if (index >= numberOfFiles)
+                index = numberOfFiles - 1;
 
-                m_currentFileIndex = numberOfFiles - 1;
+            if (index < 0)
+                index = 0;
+        }
+
+        public void GoToIndex(int index)
+        {
+            this.index = index;
+        }
+
+        public void IncreaseIndex()
+        {
+            index++;
+            int numberOfFiles = m_outputFiles.Count;
+            if (index >= numberOfFiles)
+                index = numberOfFiles - 1;
+        }
+
+        public void DecreaseIndex()
+        {
+            index--;
+            if(index < 0)
+                index = 0;
+        }
+
+        public TAG_INFO FillInputFileTags(string inputFileText)
+        {
+            m_inputFileTags = BassTags.BASS_TAG_GetFromFile(inputFileText);
+            if (m_outputFiles == null)
+            {
+                var sound = new SoundFile(tag: m_inputFileTags);
+                m_outputFiles = new OutputFiles(sound);
             }
-
-            if (m_currentFileIndex < 0){
-
-                m_currentFileIndex = 0;
-            }
-        }
-
-        public void GoToIndex(int index){
-
-            m_currentFileIndex = index;
-        }
-
-        public void IncreaseIndex(){
-
-            m_currentFileIndex++;
-
-            int numberOfFiles = m_outputFiles.soundFiles.Count;
-
-            if (m_currentFileIndex >= numberOfFiles){
-
-                m_currentFileIndex = numberOfFiles - 1;
-            }
-        }
-
-        public void DecreaseIndex(){
-
-            m_currentFileIndex--;
-
-            if(m_currentFileIndex < 0){
-
-                m_currentFileIndex = 0;
-            }
-        }
-
-        public void GotoIndex(int index){
-
-            m_currentFileIndex = index;
-        }
-
-        public TAG_INFO GetTagInfo(){
-
             return m_inputFileTags;
-        }
-
-        public TAG_INFO FillInputFileTags(string inputFileText){
-
-            return m_inputFileTags = BassTags.BASS_TAG_GetFromFile(inputFileText);
         }
 
         public int GetCurrentFileIndex(){
 
-            return m_currentFileIndex;
+            return index;
         }
 
         public OutputFiles GetOutputFiles(){
 
             return m_outputFiles;
         }
-        public int GetNumberOfSoundFiles(){
-
-            return m_outputFiles.soundFiles.Count;
-        }
-
-        public void UpdateStartAndEndTimes(){
-
-            m_outputFiles.UpdateStartTime(m_currentFileIndex, 0);
-            m_outputFiles.UpdateEndTime(m_currentFileIndex, 0);
+        public int CountOfSoundFiles
+        {
+            get { return m_outputFiles.Count; }
         }
 
         public void UpdateStartAndEndTimes(string startMin, string startSec, string endMin, string endSec){
 
             long newStartMin = long.Parse(startMin);
-            long newStartSec = long.Parse(startSec);
+            double newStartSec = double.Parse(startSec);
             long newEndMin = long.Parse(endMin);
-            long newEndSec = long.Parse(endSec);
+            double newEndSec = double.Parse(endSec);
 
-            m_outputFiles.UpdateStartTime(m_currentFileIndex, ((newStartMin * 60) + newStartSec));
-            m_outputFiles.UpdateEndTime(m_currentFileIndex, ((newEndMin * 60) + newEndSec));
+            m_outputFiles.UpdateStartTime(index, ((newStartMin * 60) + newStartSec));
+            m_outputFiles.UpdateEndTime(index, ((newEndMin * 60) + newEndSec));
         }
 
         public void UpdateInputTags(string fileName, string artist, string title, string album, string comment){
 
-            m_outputFiles.soundFiles[m_currentFileIndex].UpdateArtist(artist);
-            m_outputFiles.soundFiles[m_currentFileIndex].UpdateTitle(title);
-            m_outputFiles.soundFiles[m_currentFileIndex].UpdateAlbum(album);
-            m_outputFiles.soundFiles[m_currentFileIndex].UpdateComment(comment);
-            m_outputFiles.soundFiles[m_currentFileIndex].fileName = fileName;
+            m_outputFiles[index].tag.artist = artist;
+            m_outputFiles[index].tag.title = title;
+            m_outputFiles[index].tag.album = album;
+            m_outputFiles[index].tag.comment = comment;
+            m_outputFiles[index].fileName = fileName;
         }
 
         public string GetStartMinString(){
 
-           return (m_outputFiles.soundFiles[m_currentFileIndex].startTimeSeconds / 60).ToString();
+           return ((int)Math.Round(m_outputFiles[index].startTimeSeconds / 60)).ToString();
         }
 
         public string GetStartSecString(){
 
-            return (m_outputFiles.soundFiles[m_currentFileIndex].startTimeSeconds % 60).ToString();
+            return (m_outputFiles[index].startTimeSeconds % 60).ToString();
         }
 
         public string GetEndMinString(){
 
-            return (m_outputFiles.soundFiles[m_currentFileIndex].endTimeSeconds / 60).ToString();
+            return ((int)Math.Round(m_outputFiles[index].endTimeSeconds / 60)).ToString();
         }
 
         public string GetEndSecString(){
 
-            return (m_outputFiles.soundFiles[m_currentFileIndex].endTimeSeconds % 60).ToString();
+            return (m_outputFiles[index].endTimeSeconds % 60).ToString();
         }
 
         public string GetFileName(){
 
-            return m_outputFiles.soundFiles[m_currentFileIndex].fileName;
+            return m_outputFiles[index].fileName;
         }
+
+        public TAG_INFO TagInfo { get { return m_outputFiles[index].tag; } }
 
         public string GetArtist(){
 
-            return m_outputFiles.soundFiles[m_currentFileIndex].outputFileTags.artist;
+            return m_outputFiles[index].tag.artist;
         }
 
         public string GetTitle(){
 
-            return m_outputFiles.soundFiles[m_currentFileIndex].outputFileTags.title;
+            return m_outputFiles[index].tag.title;
         }
 
         public string GetAlbum(){
 
-            return m_outputFiles.soundFiles[m_currentFileIndex].outputFileTags.album;
+            return m_outputFiles[index].tag.album;
         }
 
         public string GetComment(){
 
-            return m_outputFiles.soundFiles[m_currentFileIndex].outputFileTags.comment;
+            return m_outputFiles[index].tag.comment;
         }
-        public long GetStartTime(){
+        public double GetStartTime(){
 
-            return m_outputFiles.soundFiles[m_currentFileIndex].startTimeSeconds;
+            return m_outputFiles[index].startTimeSeconds;
         }
 
-        public long GetEndTime(){
+        public double GetEndTime(){
 
-            return m_outputFiles.soundFiles[m_currentFileIndex].endTimeSeconds;
+            return m_outputFiles[index].endTimeSeconds;
         }
     }
 }
