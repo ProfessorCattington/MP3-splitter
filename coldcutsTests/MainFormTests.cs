@@ -1,6 +1,4 @@
 ﻿using System;
-using System.ComponentModel;
-using System.Threading;
 using Un4seen.Bass;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -18,16 +16,8 @@ namespace ColdCutsNS.Tests
             }
             else
             {
-                int pauses = 0;
-                var f = new MainForm();
-                f.sourceFilePathTextBox.Text = @"C:\Users\Public\Music\Sample Music\Kalimba.mp3";
-                f.backgroundWorker.ProgressChanged += delegate (object o, ProgressChangedEventArgs p){ pauses++; };
-                f.backgroundWorker.RunWorkerAsync();
-                while (f.backgroundWorker.IsBusy)
-                    Thread.Sleep(100);
-
-                Bass.BASS_Free();
-                Assert.IsTrue(pauses > 0);
+                var sounds = SoundSplit.FindSilence(@"C:\Users\Public\Documents\Audible\Downloads\AlgorithmstoLiveByTheComputerScienceofHumanDecisions.mp3");
+                Assert.IsTrue(sounds.Count > 0);
             }
         }
     }
