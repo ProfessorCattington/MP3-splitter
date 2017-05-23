@@ -170,7 +170,7 @@ namespace ColdCutsNS{
         }
 
         #region AutoSplit
-        private void backgroundWorker_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
+        public void backgroundWorker_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
             const float block = 100;
             const float minGap = 480000;
@@ -208,7 +208,7 @@ namespace ColdCutsNS{
             Bass.BASS_StreamFree(chan);
         }
 
-        private void backgroundWorker_ProgressChanged(object sender, System.ComponentModel.ProgressChangedEventArgs e)
+        public void backgroundWorker_ProgressChanged(object sender, System.ComponentModel.ProgressChangedEventArgs e)
         {
             feedBackLabel2.Visible = true;
             feedBackLabel2.Text = $" {Math.Round((e.ProgressPercentage/inputFileTags.duration) * 100, 2)}%";
@@ -226,7 +226,7 @@ namespace ColdCutsNS{
             }
         }
 
-        private void backgroundWorker_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
+        public void backgroundWorker_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
         {
             feedBackLabel2.Text = "";
             feedBackLabel2.Visible = false;
