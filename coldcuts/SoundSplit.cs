@@ -11,11 +11,12 @@ namespace ColdCutsNS
         /// Finds sections of silence in a sound stream.
         /// </summary>
         /// <param name="file">Filename for the sound stream.</param>
-        /// <param name="block">The block of time of a sample to get the level (peak amplitude), default is 100 miliseconds.</param>
+        /// <param name="block">The block of time of a sample to get the level (peak amplitude), default is 20 miliseconds.</param>
+        /// <param name="silence">The silence time to split by default is 2000 miliseconds (2 seconds).</param>
         /// <param name="minGap">The minimum time for the splits, default is 480000 miliseconds (8 mins).</param>
         /// <param name="bgWorker">The BackgroundWorker to report progress.</param>
         /// <returns>List of sound files</returns>
-        public static List<SoundFile> FindSilence(string file, float block = 100, float minGap = 480000, BackgroundWorker bgWorker = null)
+        public static List<SoundFile> FindSilence(string file, float block = 20, float silence = 2000, float minGap = 480000, BackgroundWorker bgWorker = null)
         {
             int level = 0;
             int count = 0;
@@ -32,7 +33,7 @@ namespace ColdCutsNS
             {
                 int left = Utils.LowWord32(level);
                 int right = Utils.HighWord32(level);
-                if (((count = ((left + right) < 40000) ? count + 1 : 0) == 200) && (gap > minGap))
+                if (((count = ((left + right) < 40000) ? count + 1 : 0) == silence/block) && (gap > minGap))
                 {
                     var pos = (int)Math.Round(position / 1000);
                     var sound = new SoundFile($"File_{pos}", start / 1000.0, position / 1000.0);

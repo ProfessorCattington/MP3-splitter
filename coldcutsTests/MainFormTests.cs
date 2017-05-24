@@ -8,7 +8,7 @@ namespace ColdCutsNS.Tests
     public class MainFormTests
     {
         [TestMethod()]
-        public void backgroundWorker_DoWorkTest()
+        public void FindSilenceTest()
         {
             if (!Bass.BASS_Init(-1, 44100, BASSInit.BASS_DEVICE_DEFAULT, IntPtr.Zero))
             {
@@ -16,8 +16,10 @@ namespace ColdCutsNS.Tests
             }
             else
             {
-                var sounds = SoundSplit.FindSilence(@"C:\Users\Public\Documents\Audible\Downloads\AlgorithmstoLiveByTheComputerScienceofHumanDecisions.mp3");
-                Assert.IsTrue(sounds.Count > 0);
+                int loops = 10;
+                var sound = SoundWave.CreateFile(Guid.NewGuid().ToString() + ".wav", loops);
+                var sounds = SoundSplit.FindSilence(sound, 20, 1000, 2500);
+                Assert.AreEqual(sounds.Count, loops);
             }
         }
     }

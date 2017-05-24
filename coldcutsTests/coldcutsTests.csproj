@@ -57,6 +57,7 @@
   <ItemGroup>
     <Compile Include="MainFormTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SoundWave.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\coldcuts\coldcuts.csproj">
@@ -97,6 +98,9 @@ IF EXIST "$(SolutionDir)packages" COPY "$(SolutionDir)packages\BASS.Native.2.4.1
 COPY "$(SolutionDir)coldcuts\*.EXE" "$(TargetDir)"
 
 </PreBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PostBuildEvent>DEL "$(TargetDir)*.wav"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
