@@ -21,6 +21,7 @@ namespace ColdCutsNS.Tests
                 var sounds = SoundSplit.FindSilence(sound, 20, 1000, 2500);
                 Assert.AreEqual(sounds.Count, loops);
             }
+            Bass.BASS_Free();
         }
     }
 }

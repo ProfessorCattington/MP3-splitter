@@ -23,9 +23,9 @@ namespace ColdCutsNS.Tests
 
             targetStream.Write(FORMAT_WAVE, 0, FORMAT_WAVE.Length);
             targetStream.Write(FORMAT_TAG, 0, FORMAT_TAG.Length);
-            targetStream.Write(PackageInt(16, 4), 0, 4);//Subchunk1Size    
+            targetStream.Write(PackageInt(16, 4), 0, 4);//Subchunk1Size
 
-            targetStream.Write(AUDIO_FORMAT, 0, AUDIO_FORMAT.Length);//AudioFormat   
+            targetStream.Write(AUDIO_FORMAT, 0, AUDIO_FORMAT.Length);//AudioFormat
             targetStream.Write(PackageInt(channelCount, 2), 0, 2);
             targetStream.Write(PackageInt(sampleRate, 4), 0, 4);
             targetStream.Write(PackageInt(byteRate, 4), 0, 4);
@@ -54,27 +54,22 @@ namespace ColdCutsNS.Tests
 
     public class SoundWave
     {
-        public static byte[] CreateSinWave(int sampleRate, double frequency, double seconds, double magnitude)
+        public static byte[] CreateSinWave(int sampleRate, double seconds)
         {
             int sampleCount = (int)(((double)sampleRate) * seconds);
             short[] tempBuffer = new short[sampleCount];
+
+            for (int i = 0; i < sampleCount; ++i)
+                tempBuffer[i] = (short)(Math.Sin(i / 360) * short.MaxValue);
+
             byte[] retVal = new byte[sampleCount * 2];
-            double step = Math.PI * 2.0d / frequency;
-            double current = 0;
-
-            for (int i = 0; i < tempBuffer.Length; ++i)
-            {
-                tempBuffer[i] = (short)(Math.Sin(current) * magnitude * ((double)short.MaxValue));
-                current += step;
-            }
-
             Buffer.BlockCopy(tempBuffer, 0, retVal, 0, retVal.Length);
             return retVal;
         }
 
-        public static string CreateFile(string fileName = "sound.wav", int loops = 10)
+        public static string CreateFile(string fileName, int loops)
         {
-            var soundData = CreateSinWave(44000, 120, 2, 1d);
+            var soundData = CreateSinWave(44000, 2);
             var silence = new byte[44000 * 6]; // 3 sec silence
 
             var d = soundData.Length;
