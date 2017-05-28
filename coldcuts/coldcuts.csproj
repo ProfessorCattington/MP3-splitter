@@ -64,6 +64,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DestinationFileBrowser.cs" />
+    <Compile Include="SoundSplit.cs" />
     <Compile Include="SourceFileBrowser.cs" />
     <Compile Include="NewSoundFile.cs" />
     <Compile Include="OutputFileController.cs" />
