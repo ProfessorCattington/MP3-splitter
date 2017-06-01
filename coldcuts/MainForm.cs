@@ -170,45 +170,12 @@ namespace ColdCutsNS{
         }
 
         #region AutoSplit
-        private void backgroundWorker_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
+        public void backgroundWorker_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
-            const float block = 100;
-            const float minGap = 480000;
-
-            int level = 0;
-            int count = 0;
-            float gap = 0;
-            float start = 0;
-            float position = block;
-            var buffer = new IntPtr();
-
-            var chan = Bass.BASS_StreamCreateFile(sourceFilePathTextBox.Text, 0, 0, BASSFlag.BASS_STREAM_DECODE);
-            var len = Bass.BASS_ChannelSeconds2Bytes(chan, block / (float)1000 - (float)0.02);
-
-            while ((level = Bass.BASS_ChannelGetLevel(chan)) != -1)
-            {
-                int left = Utils.LowWord32(level);
-                int right = Utils.HighWord32(level);
-                if (((count = ((left + right) < 40000) ? count+1 : 0) == 200) && (gap > minGap))
-                {
-                    var pos = (int)Math.Round(position / 1000);
-                    var sound = new SoundFile($"File_{pos}", start/1000.0, position/1000.0);
-                    backgroundWorker.ReportProgress(pos, sound);
-                    start = position + 1;
-                    gap = 0;
-                }
-                else if (position % 50000 == 0)
-                {
-                    backgroundWorker.ReportProgress((int)Math.Round(position / 1000), null);
-                }
-                Bass.BASS_ChannelGetData(chan, buffer, (int)len);
-                position += block;
-                gap += block;
-            }
-            Bass.BASS_StreamFree(chan);
+            SoundSplit.FindSilence(sourceFilePathTextBox.Text, bgWorker: backgroundWorker);
         }
 
-        private void backgroundWorker_ProgressChanged(object sender, System.ComponentModel.ProgressChangedEventArgs e)
+        public void backgroundWorker_ProgressChanged(object sender, System.ComponentModel.ProgressChangedEventArgs e)
         {
             feedBackLabel2.Visible = true;
             feedBackLabel2.Text = $" {Math.Round((e.ProgressPercentage/inputFileTags.duration) * 100, 2)}%";
@@ -226,7 +193,7 @@ namespace ColdCutsNS{
             }
         }
 
-        private void backgroundWorker_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
+        public void backgroundWorker_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
         {
             feedBackLabel2.Text = "";
             feedBackLabel2.Visible = false;
@@ -264,6 +231,7 @@ namespace ColdCutsNS{
                     EnableTextBox(c.Controls, enabled);
             }
         }
+        #endregion AutoSplit
 
         private void UpdateFormWithDestination(string dir)
         {
@@ -292,6 +260,5 @@ namespace ColdCutsNS{
                 EnableTheEditingControls();
             Cursor.Current = Cursors.Default;
         }
-        #endregion AutoSplit
     }
 }
