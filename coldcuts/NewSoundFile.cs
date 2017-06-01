@@ -2,59 +2,31 @@
 
 namespace ColdCutsNS
 {
-    public class NewSoundFile
+    public class SoundFile
     {
-
         public string fileName;
-        public long startTimeSeconds;
-        public long endTimeSeconds;
-        public TAG_INFO outputFileTags;
+        public double startTimeSeconds;
+        public double endTimeSeconds;
+        public TAG_INFO tag;
 
-        public NewSoundFile(){
-
-            fileName = "<blank>";
-            startTimeSeconds = 0;
-            endTimeSeconds = 0;
-            outputFileTags = new TAG_INFO();
-            outputFileTags.artist = "<blank>";
-            outputFileTags.title = "<blank>";
-            outputFileTags.album = "<blank>";
-            outputFileTags.comment = "<blank>";
+        public SoundFile(string name = "new", double start = 0, double end = 0, TAG_INFO tag = null)
+        {
+            fileName = name;
+            startTimeSeconds = start;
+            endTimeSeconds = end;
+            if (tag != null)
+                AddTagInfo(tag);
         }
 
-        public void UpdateFileName(string fileName){
-
-            this.fileName = fileName;
-        }
-
-        public void UpdateStartPoint(long startPoint){
-
-            this.startTimeSeconds = startPoint;
-        }
-
-        public void UpdateEndPoint(long endPoint){
-
-            this.endTimeSeconds = endPoint;
-        }
-
-        public void UpdateArtist(string artist){
-
-            outputFileTags.artist = artist;
-        }
-
-        public void UpdateTitle(string title){
-
-            outputFileTags.title = title;
-        }
-
-        public void UpdateAlbum(string album){
-
-            outputFileTags.album = album;
-        }
-
-        public void UpdateComment(string comment){
-
-            outputFileTags.comment = comment;
+        public void AddTagInfo(TAG_INFO tag)
+        {
+            this.tag = new TAG_INFO()
+            {
+                artist = tag.artist,
+                title = tag.title,
+                album = tag.album,
+                comment = tag.comment
+            };
         }
     }
 }
