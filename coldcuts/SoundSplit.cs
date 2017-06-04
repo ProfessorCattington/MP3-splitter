@@ -25,6 +25,7 @@ namespace ColdCutsNS
             float position = block;
             var buffer = new IntPtr();
             var sounds = new List<SoundFile>();
+            var volumeStream = new List<int>();
 
             var chan = Bass.BASS_StreamCreateFile(file, 0, 0, BASSFlag.BASS_STREAM_DECODE);
             var len = Bass.BASS_ChannelSeconds2Bytes(chan, block / (float)1000 - (float)0.02);
@@ -33,6 +34,7 @@ namespace ColdCutsNS
             {
                 int left = Utils.LowWord32(level);
                 int right = Utils.HighWord32(level);
+                volumeStream.Add(left + right);
                 if (((count = ((left + right) < 40000) ? count + 1 : 0) == silence/block) && (gap > minGap))
                 {
                     var pos = (int)Math.Round(position / 1000);
@@ -44,7 +46,7 @@ namespace ColdCutsNS
                 }
                 else if (position % 50000 == 0)
                 {
-                    bgWorker?.ReportProgress((int)Math.Round(position / 1000), null);
+                    bgWorker?.ReportProgress((int)Math.Round(position / 1000), volumeStream);
                 }
                 Bass.BASS_ChannelGetData(chan, buffer, (int)len);
                 position += block;
