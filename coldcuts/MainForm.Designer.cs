@@ -74,10 +74,17 @@
             this.artistOutputLabel = new System.Windows.Forms.Label();
             this.titleOutputLabel = new System.Windows.Forms.Label();
             this.albumOutputLabel = new System.Windows.Forms.Label();
+            this.menu = new System.Windows.Forms.MenuStrip();
+            this.ToolStripMenuItemOptions = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemSilence = new System.Windows.Forms.ToolStripMenuItem();
+            this.silenceMenuItem = new System.Windows.Forms.ToolStripTextBox();
+            this.toolStripMenuItemMinGap = new System.Windows.Forms.ToolStripMenuItem();
+            this.minGapMenuItem = new System.Windows.Forms.ToolStripTextBox();
             this.inputFileGroupbox.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.groupBox2.SuspendLayout();
+            this.menu.SuspendLayout();
             this.SuspendLayout();
             // 
             // sourceBrowseButton
@@ -452,6 +459,7 @@
             this.btnAutoSplit.Text = "Auto Split";
             this.btnAutoSplit.UseVisualStyleBackColor = true;
             this.btnAutoSplit.Click += new System.EventHandler(this.btnAutoSplit_Click);
+            this.btnAutoSplit.MouseUp += new System.Windows.Forms.MouseEventHandler(this.btnAutoSplit_MouseUp);
             // 
             // groupBox2
             // 
@@ -542,20 +550,73 @@
             this.albumOutputLabel.TabIndex = 35;
             this.albumOutputLabel.Text = "Album: ";
             // 
+            // menu
+            // 
+            this.menu.Dock = System.Windows.Forms.DockStyle.None;
+            this.menu.GripMargin = new System.Windows.Forms.Padding(0);
+            this.menu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ToolStripMenuItemOptions});
+            this.menu.Location = new System.Drawing.Point(53, 364);
+            this.menu.Name = "menu";
+            this.menu.Padding = new System.Windows.Forms.Padding(0);
+            this.menu.Size = new System.Drawing.Size(107, 24);
+            this.menu.TabIndex = 34;
+            this.menu.Text = "menuStrip1";
+            this.menu.Visible = false;
+            // 
+            // ToolStripMenuItemOptions
+            // 
+            this.ToolStripMenuItemOptions.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItemSilence,
+            this.toolStripMenuItemMinGap});
+            this.ToolStripMenuItemOptions.Name = "ToolStripMenuItemOptions";
+            this.ToolStripMenuItemOptions.Size = new System.Drawing.Size(105, 24);
+            this.ToolStripMenuItemOptions.Text = "Auto Split Options";
+            // 
+            // toolStripMenuItemSilence
+            // 
+            this.toolStripMenuItemSilence.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.silenceMenuItem});
+            this.toolStripMenuItemSilence.Name = "toolStripMenuItemSilence";
+            this.toolStripMenuItemSilence.Size = new System.Drawing.Size(136, 22);
+            this.toolStripMenuItemSilence.Text = "Silence";
+            // 
+            // silenceMenuItem
+            // 
+            this.silenceMenuItem.Name = "silenceMenuItem";
+            this.silenceMenuItem.Size = new System.Drawing.Size(60, 21);
+            this.silenceMenuItem.Text = "2000";
+            this.silenceMenuItem.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.objectIntOnly_KeyPress);
+            this.silenceMenuItem.KeyUp += new System.Windows.Forms.KeyEventHandler(this.silenceMenuItem_KeyUp);
+            // 
+            // toolStripMenuItemMinGap
+            // 
+            this.toolStripMenuItemMinGap.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.minGapMenuItem});
+            this.toolStripMenuItemMinGap.Name = "toolStripMenuItemMinGap";
+            this.toolStripMenuItemMinGap.Size = new System.Drawing.Size(136, 22);
+            this.toolStripMenuItemMinGap.Text = "Minimum Gap";
+            // 
+            // minGapMenuItem
+            // 
+            this.minGapMenuItem.Name = "minGapMenuItem";
+            this.minGapMenuItem.Size = new System.Drawing.Size(60, 21);
+            this.minGapMenuItem.Text = "480000";
+            this.minGapMenuItem.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.objectIntOnly_KeyPress);
+            this.minGapMenuItem.KeyUp += new System.Windows.Forms.KeyEventHandler(this.minGapMenuItem_KeyUp);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(932, 396);
+            this.ClientSize = new System.Drawing.Size(940, 408);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.groupBox2);
-            this.Controls.Add(this.btnAutoSplit);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.editPositionLabel);
             this.Controls.Add(this.addFileButton);
             this.Controls.Add(this.fileRightButton);
             this.Controls.Add(this.fileLeftButton);
-            this.Controls.Add(this.encodeButton);
             this.Controls.Add(this.inputFileGroupbox);
             this.Controls.Add(this.destinationFilePathTextBox);
             this.Controls.Add(this.destinationLabel);
@@ -563,12 +624,17 @@
             this.Controls.Add(this.sourceLabel);
             this.Controls.Add(this.sourceFilePathTextBox);
             this.Controls.Add(this.sourceBrowseButton);
+            this.Controls.Add(this.menu);
+            this.Controls.Add(this.btnAutoSplit);
+            this.Controls.Add(this.encodeButton);
+            this.MainMenuStrip = this.menu;
             this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(948, 435);
             this.MinimumSize = new System.Drawing.Size(948, 435);
             this.Name = "MainForm";
             this.Text = "Cold Cuts";
             this.Shown += new System.EventHandler(this.MainForm_Shown);
+            this.Click += new System.EventHandler(this.MainForm_Click);
             this.inputFileGroupbox.ResumeLayout(false);
             this.inputFileGroupbox.PerformLayout();
             this.groupBox1.ResumeLayout(false);
@@ -576,6 +642,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
+            this.menu.ResumeLayout(false);
+            this.menu.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -631,6 +699,12 @@
         public System.Windows.Forms.Label artistOutputLabel;
         public System.Windows.Forms.Label titleOutputLabel;
         public System.Windows.Forms.Label albumOutputLabel;
+        private System.Windows.Forms.MenuStrip menu;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItemOptions;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemSilence;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemMinGap;
+        private System.Windows.Forms.ToolStripTextBox silenceMenuItem;
+        private System.Windows.Forms.ToolStripTextBox minGapMenuItem;
     }
 }
 

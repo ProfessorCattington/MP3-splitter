@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using Un4seen.Bass;
@@ -27,6 +28,7 @@ namespace ColdCutsNS{
 
         private void browseButton_Click(object sender, EventArgs e)
         {
+            menu.Hide();
             string file = FileBrowser.Show();
             if (!string.IsNullOrEmpty(file))
                 UpdateFormWithSource(file);
@@ -34,12 +36,13 @@ namespace ColdCutsNS{
 
         private void destinationBrowseButton_Click(object sender, EventArgs e)
         {
+            menu.Hide();
             string dir = FolderBrowser.Show();
             if (!string.IsNullOrEmpty(dir))
                 UpdateFormWithDestination(dir);
         }
         private void encodeButton_Click(object sender, EventArgs e){
-
+            menu.Hide();
             Leave(sender, e);
             DataGridViewLeave(sender, e);
             this.PerformEncodingTasks();
@@ -170,9 +173,12 @@ namespace ColdCutsNS{
         }
 
         #region AutoSplit
+        float silence = 2000;
+        float minGap = 480000;
+
         public void backgroundWorker_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
-            SoundSplit.FindSilence(sourceFilePathTextBox.Text, bgWorker: backgroundWorker);
+            SoundSplit.FindSilence(sourceFilePathTextBox.Text, silence:silence, minGap: minGap, bgWorker: backgroundWorker);
         }
 
         public void backgroundWorker_ProgressChanged(object sender, System.ComponentModel.ProgressChangedEventArgs e)
@@ -203,10 +209,27 @@ namespace ColdCutsNS{
 
         private void btnAutoSplit_Click(object sender, EventArgs e)
         {
+            menu.Hide();
+            menu.Visible = false;
             feedBackLabel2.Text = "";
             EnableObjects(false);
             Cursor.Current = Cursors.WaitCursor;
             backgroundWorker.RunWorkerAsync();
+        }
+
+        private void btnAutoSplit_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                var b = btnAutoSplit.Location;
+                menu.Location = new Point(b.X + e.X, b.Y + e.Y);
+                menu.Visible = !menu.Visible;
+                if (menu.Visible)
+                {
+                    menu.Show();
+                    ToolStripMenuItemOptions.ShowDropDown();
+                }
+            }
         }
 
         private void EnableObjects(bool enabled)
@@ -230,6 +253,22 @@ namespace ColdCutsNS{
                 else if (c.Controls != null)
                     EnableTextBox(c.Controls, enabled);
             }
+        }
+
+        private void objectIntOnly_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if ((e.KeyChar < '0' || e.KeyChar > '9') && e.KeyChar != '\b')
+                e.Handled = true;
+        }
+
+        private void minGapMenuItem_KeyUp(object sender, KeyEventArgs e)
+        {
+            minGap = float.Parse(minGapMenuItem.Text);
+        }
+
+        private void silenceMenuItem_KeyUp(object sender, KeyEventArgs e)
+        {
+            silence = float.Parse(silenceMenuItem.Text);
         }
         #endregion AutoSplit
 
@@ -259,6 +298,11 @@ namespace ColdCutsNS{
             if (AreSourceAndDestinationFilled())
                 EnableTheEditingControls();
             Cursor.Current = Cursors.Default;
+        }
+
+        private void MainForm_Click(object sender, EventArgs e)
+        {
+            menu.Hide();
         }
     }
 }
