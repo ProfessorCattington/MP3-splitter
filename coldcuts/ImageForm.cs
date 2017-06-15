@@ -22,17 +22,19 @@ namespace ColdCutsNS
         {
             busy = true;
             double max = 0;
+            int height = 100;
             int count = sound.Count;
+            panel.Controls.Clear();
             if (count < 90000)
             {
                 for (int i = 0; i < count; i++)
                     if (sound[i] > max) max = sound[i];
-                var b = new Bitmap(count, pictureBox.Height);
+                var b = new Bitmap(count, height);
                 using (var g = Graphics.FromImage(b))
                 {
                     for (int i = 1; i < count; i++)
                     {
-                        g.DrawLine(penGreen, i, 0, i, (int)Math.Round((sound[i] / max) * pictureBox.Height));
+                        g.DrawLine(penGreen, i, 0, i, (int)Math.Round((sound[i] / max) * height));
                         if (i % 100 == 0)
                         {
                             g.DrawLine(penRed, i, 0, i, 10);
@@ -44,10 +46,21 @@ namespace ColdCutsNS
                         }
                     }
                 }
-                pictureBox.Image = b;
-                pictureBox.Width = count;
+                panel.Controls.Add(new SoundPicture(b, count, height));
             }
             busy = false;
+        }
+
+        private class SoundPicture: PictureBox
+        {
+            public SoundPicture(Bitmap b, int width, int height)
+            {
+                Image = b;
+                Width = width;
+                Height = height;
+                Location = new Point(0, 0);
+                Margin = new Padding(0);
+            }
         }
     }
 }

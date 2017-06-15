@@ -11,6 +11,6 @@
     <VerifyUploadedFiles>false</VerifyUploadedFiles>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
-    <StartArguments>"I:\Music\Elisa\IVY\01-elisa-lullaby.mp3" C:\TEMP</StartArguments>
+    <StartArguments>"C:\Users\Public\Music\Sample Music\Kalimba.mp3" C:\TEMP</StartArguments>
   </PropertyGroup>
 </Project>
