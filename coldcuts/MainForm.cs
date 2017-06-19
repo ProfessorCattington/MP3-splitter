@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
@@ -11,6 +12,7 @@ namespace ColdCutsNS{
 
         public OutputFileController outputFiles;
         private TAG_INFO inputFileTags;
+        private ImageForm imageForm = new ImageForm();
 
         public MainForm()
         {
@@ -187,15 +189,28 @@ namespace ColdCutsNS{
             feedBackLabel2.Text = $" {Math.Round((e.ProgressPercentage/inputFileTags.duration) * 100, 2)}%";
             if (e.UserState != null)
             {
-                if (outputFiles.CountOfSoundFiles == 1)
+                if (e.UserState.GetType() == typeof(SoundFile))
                 {
-                    var outFiles = outputFiles.GetOutputFiles();
-                    if (outFiles[0].endTimeSeconds == 0 && outFiles[0].startTimeSeconds == 0)
-                        deleteButton_Click(null, null);
+                    if (outputFiles.CountOfSoundFiles == 1)
+                    {
+                        var outFiles = outputFiles.GetOutputFiles();
+                        if (outFiles[0].endTimeSeconds == 0 && outFiles[0].startTimeSeconds == 0)
+                            deleteButton_Click(null, null);
+                    }
+                    addSoundFile((SoundFile)e.UserState);
+                    outputFiles.IncreaseIndex();
+                    EnableObjects(false);
                 }
-                addSoundFile((SoundFile)e.UserState);
-                outputFiles.IncreaseIndex();
-                EnableObjects(false);
+                else if (!imageForm.IsDisposed)
+                {
+                    if (!imageForm.Visible)
+                    {
+                        imageForm.Show();
+                        imageForm.Location = new Point(Location.X, Location.Y + Height);
+                    }
+                    if (!imageForm.IsBusy)
+                        imageForm.ShowSound((List<int>)e.UserState);
+                }
             }
         }
 
