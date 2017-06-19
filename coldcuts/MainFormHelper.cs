@@ -171,7 +171,7 @@ namespace ColdCutsNS
             }
             else
             {
-                index = outputFiles.GetCurrentFileIndex() + 1;
+                index = outputFiles.GetCurrentFileIndex();
                 dataGridView1.Rows.Insert(index);
             }
             dataGridView1.Rows[index].Cells[1].Value = sound.fileName;
