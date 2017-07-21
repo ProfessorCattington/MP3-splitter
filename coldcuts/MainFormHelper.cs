@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -33,6 +34,8 @@ namespace ColdCutsNS
         }
 
         public void InitializeDGV(){
+
+            this.dataGridView1.Rows.Clear();
 
             this.dataGridView1.Rows.Add();
 
@@ -219,7 +222,7 @@ namespace ColdCutsNS
 
         public bool StartAndEndTimesInDGVAreValid(DataGridView dataGridView)
         {
-            bool goodToGo = true;
+            bool startAndEndTimesValid = true;
             try
             {
                 for (int i = 0; i < dataGridView.Rows.Count; i++)
@@ -231,23 +234,96 @@ namespace ColdCutsNS
 
                     if (!(double.Parse(dataGridView.Rows[i].Cells[2].Value.ToString()) >= 0) ||
                         !(double.Parse(dataGridView.Rows[i].Cells[3].Value.ToString()) >= 0)){
-                        goodToGo = false;
+                        startAndEndTimesValid = false;
                     }
                 }
             }
             catch
             {
-                goodToGo = false;
+                startAndEndTimesValid = false;
             }
-            if (!goodToGo)
+            if (!startAndEndTimesValid)
                 MessageBox.Show(INVALID_TIMES);
-            return goodToGo;
+            return startAndEndTimesValid;
         }
 
         public void LeftAndRightButtonsEnableDisable()
         {
             fileLeftButton.Enabled = (outputFiles.GetCurrentFileIndex() != 0);
             fileRightButton.Enabled = (outputFiles.GetCurrentFileIndex() != outputFiles.CountOfSoundFiles - 1);
+        }
+
+        #region AutoSplit
+        float silence = 2000;
+        float minGap = 480000;
+
+        private void EnableObjects(bool enabled)
+        {
+            btnAutoSplit.Enabled = enabled;
+            encodeButton.Enabled = enabled;
+            fileLeftButton.Enabled = enabled;
+            fileRightButton.Enabled = enabled;
+            addFileButton.Enabled = enabled;
+            deleteButton.Enabled = enabled;
+            dataGridView1.Enabled = enabled;
+            EnableTextBox(Controls, enabled);
+        }
+
+        private void EnableTextBox(Control.ControlCollection cControls, bool enabled)
+        {
+            foreach (Control c in cControls)
+            {
+                if (c.GetType() == typeof(TextBox))
+                    c.Enabled = enabled;
+                else if (c.Controls != null)
+                    EnableTextBox(c.Controls, enabled);
+            }
+        }
+
+        private void objectIntOnly_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if ((e.KeyChar < '0' || e.KeyChar > '9') && e.KeyChar != '\b')
+                e.Handled = true;
+        }
+
+        private void minGapMenuItem_KeyUp(object sender, KeyEventArgs e)
+        {
+            minGap = float.Parse(minGapMenuItem.Text);
+        }
+
+        private void silenceMenuItem_KeyUp(object sender, KeyEventArgs e)
+        {
+            silence = float.Parse(silenceMenuItem.Text);
+        }
+#endregion AutoSplit
+
+        private void UpdateFormWithDestination(string dir)
+        {
+            destinationFilePathTextBox.Text = dir + "\\";
+            if (SourceAndDestinationFilled())
+            {
+                EnableTheEditingControls();
+                InitializeDGV();
+
+            }
+        }
+
+        private void UpdateFormWithSource(string FileName)
+        {
+            Cursor.Current = Cursors.WaitCursor;
+            sourceFilePathTextBox.Text = FileName;
+            inputFileTags = outputFiles.FillInputFileTags(sourceFilePathTextBox.Text);
+
+            artistInputLabel.Text = inputFileTags.artist;
+            titleInputLabel.Text = inputFileTags.title;
+            lengthInputLabel.Text = Math.Round(inputFileTags.duration, 0).ToString() + " seconds";
+
+            destinationBrowseButton.Enabled = true;
+            destinationFilePathTextBox.Enabled = true;
+
+            if (SourceAndDestinationFilled())
+                EnableTheEditingControls();
+            Cursor.Current = Cursors.Default;
         }
 
         public async void PerformEncodingTasks(){
@@ -263,28 +339,55 @@ namespace ColdCutsNS
             this.destinationBrowseButton.Enabled = true;
             EnableTheEditingControls();
 
-            this.feedBackLabel.Text = "Done!";
+            this.feedBackLabel.Text = "Done Encoding!";
             this.feedBackLabel2.Visible = false;
         }
 
         public Task<Encoder> EncodeFilesAsync(){
 
-            return Task.Factory.StartNew(() => MakeAnEncoder());
+            return Task.Factory.StartNew(() => new Encoder(this, outputFiles));
+            //return Task.Factory.StartNew(() => MakeAnEncoder());
         }
 
-        public Encoder MakeAnEncoder()
-        {
-            return new Encoder(this, outputFiles);
-        }
+        //public Encoder MakeAnEncoder()
+        //{
+        //    return new Encoder(this, outputFiles);
+        //}
 
-        public bool AreSourceAndDestinationFilled(){
+        public bool SourceAndDestinationFilled(){
 
             return (this.sourceFilePathTextBox.Text != "" && this.destinationFilePathTextBox.Text != "");
         }
 
+        public async void UpdateTheImageForm()
+        {
+
+            List<int> soundWave = new List<int>();
+            soundWave = await LoadSoundWaveAsync(sourceFilePathTextBox.Text);
+
+            if (!imageForm.IsDisposed)
+            {
+                if (!imageForm.Visible)
+                {
+                    imageForm.Show();
+                    imageForm.Location = new Point(Location.X, Location.Y + Height);
+                }
+
+                imageForm.Text = sourceFilePathTextBox.Text;
+                imageForm.ShowSound(soundWave);
+            }
+        }
+
+        public Task<List<int>> LoadSoundWaveAsync(string fileName)
+        {
+
+            return Task.Factory.StartNew(
+                () => SoundSplit.GetSoundWave(fileName));
+        }
+
         public void FileEncodingNotification(long bytesDone, long bytesTotal){
 
-            //Console.Write("Encoding: {0:P}\r", Math.Round((double)bytesDone / (double)bytesTotal, 2));
+            Console.Write("Encoding: {0:P}\r", Math.Round((double)bytesDone / (double)bytesTotal, 2));
             //feedBackLabel2.Text = Math.Round((double)bytesDone / (double)bytesTotal).ToString();
         }
     }

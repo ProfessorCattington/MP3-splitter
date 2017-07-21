@@ -7,59 +7,80 @@ namespace ColdCutsNS
 {
     public partial class ImageForm : Form
     {
-        Pen penGreen = new Pen(Color.LimeGreen, 1);
-        Pen penRed = new Pen(Color.Red, 1);
-        bool busy = false;
+        private Pen penGreen = new Pen(Color.LimeGreen, 1);
+        private Pen penRed = new Pen(Color.Red, 1);
+
+        private PictureBox soundwavePictureBox;
 
         public ImageForm()
         {
             InitializeComponent();
         }
 
-        public bool IsBusy { get { return busy; } }
-
-        public void ShowSound(List<int> sound)
+        public void ShowSound(List<int> volumeSamples)
         {
-            busy = true;
-            double max = 0;
-            int height = 100;
-            int count = sound.Count;
+            double maxVolume = 0;
+            int waveHeight = 130;
+            int sampleCount = volumeSamples.Count;
             panel.Controls.Clear();
-            if (count < 90000)
+
+            for (int i = 0; i < sampleCount; i++)
             {
-                for (int i = 0; i < count; i++)
-                    if (sound[i] > max) max = sound[i];
-                var b = new Bitmap(count, height);
-                using (var g = Graphics.FromImage(b))
+                if (volumeSamples[i] > maxVolume)
                 {
-                    for (int i = 1; i < count; i++)
-                    {
-                        g.DrawLine(penGreen, i, 0, i, (int)Math.Round((sound[i] / max) * height));
-                        if (i % 100 == 0)
-                        {
-                            g.DrawLine(penRed, i, 0, i, 10);
-                            if (i % 500 == 0)
-                            {
-                                g.DrawLine(penRed, i - 1, 0, i - 1, 6);
-                                g.DrawLine(penRed, i - 2, 0, i - 2, 2);
-                            }
-                        }
-                    }
+                    maxVolume = volumeSamples[i];
                 }
-                panel.Controls.Add(new SoundPicture(b, count, height));
             }
-            busy = false;
+
+            Bitmap bitmap = new Bitmap(sampleCount, waveHeight);
+            using (Graphics graphics = Graphics.FromImage(bitmap))
+            {
+                for (int i = 1; i < sampleCount; i++)
+                {
+                   graphics.DrawLine(penGreen, i, waveHeight, i, waveHeight - (int)Math.Round((volumeSamples[i] / maxVolume) * waveHeight));
+                   if (i % 50 == 0)
+                   {
+                       graphics.DrawLine(penRed, i, 0, i, 10);
+                       if (i % 5000 == 0)
+                       {
+                           graphics.DrawLine(penRed, i - 1, 0, i - 1, 6);
+                           graphics.DrawLine(penRed, i - 2, 0, i - 2, 2);
+                       }
+                   }
+               }
+           }
+
+            soundwavePictureBox = new SoundPicture(bitmap, sampleCount, waveHeight);
+            soundwavePictureBox.MouseClick += WaveFormPictureBoxClicked;
+
+            panel.Controls.Add(soundwavePictureBox);
         }
 
-        private class SoundPicture: PictureBox
+        public void WaveFormPictureBoxClicked(Object sender, MouseEventArgs e)
         {
-            public SoundPicture(Bitmap b, int width, int height)
+
+            int mouseX = e.X;
+            int mouseY = e.Y;
+
+            Bitmap bitmap = (Bitmap)soundwavePictureBox.Image;
+
+            using (Graphics graphics = Graphics.FromImage(bitmap))
             {
-                Image = b;
-                Width = width;
-                Height = height;
-                Location = new Point(0, 0);
-                Margin = new Padding(0);
+
+                graphics.DrawLine(penRed, mouseX, 0, mouseX, mouseY + bitmap.Height);
+            }
+            panel.Refresh();
+
+            Console.WriteLine(sender.ToString() + " clicked me");
+
+            int[] intarray = { 1, 2, 3, 4, 5 };
+
+            for (int i = 0; i < intarray.Length; i++)
+            {
+                if (intarray[i] % 2 == 0)
+                {
+                    Console.WriteLine(intarray[i] + ": is divisible by 2");
+                }
             }
         }
     }

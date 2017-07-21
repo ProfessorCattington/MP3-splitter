@@ -70,6 +70,9 @@
     <Compile Include="ImageForm.Designer.cs">
       <DependentUpon>ImageForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="SoundPicture.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="SoundSplit.cs" />
     <Compile Include="SourceFileBrowser.cs" />
     <Compile Include="NewSoundFile.cs" />
