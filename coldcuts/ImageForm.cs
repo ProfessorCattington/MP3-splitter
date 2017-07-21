@@ -67,21 +67,15 @@ namespace ColdCutsNS
             using (Graphics graphics = Graphics.FromImage(bitmap))
             {
 
-                graphics.DrawLine(penRed, mouseX, 0, mouseX, mouseY + bitmap.Height);
+               // graphics.DrawLine(penRed, mouseX, 0, mouseX, mouseY + bitmap.Height);
             }
             panel.Refresh();
 
-            Console.WriteLine(sender.ToString() + " clicked me");
-
-            int[] intarray = { 1, 2, 3, 4, 5 };
-
-            for (int i = 0; i < intarray.Length; i++)
+            if (e.Button == MouseButtons.Right)
             {
-                if (intarray[i] % 2 == 0)
-                {
-                    Console.WriteLine(intarray[i] + ": is divisible by 2");
-                }
-            }
+
+                Console.WriteLine("let's make a context menu");
+            }                       
         }
     }
 }
