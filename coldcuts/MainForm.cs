@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
@@ -48,10 +47,14 @@ namespace ColdCutsNS{
                 UpdateFormWithDestination(dir);
         }
         private void encodeButton_Click(object sender, EventArgs e){
-            menu.Hide();
-            Leave(sender, e);
-            DataGridViewLeave(sender, e);
-            PerformEncodingTasks();
+
+            if (EndTimesArentZero(dataGridView1))
+            {
+                menu.Hide();
+                Leave(sender, e);
+                DataGridViewLeave(sender, e);
+                PerformEncodingTasks();
+            }
         }
 
         public new void Leave(object sender, EventArgs e){

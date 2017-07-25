@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -11,6 +10,7 @@ namespace ColdCutsNS
     {
 
         private const string INVALID_TIMES = "Please enter valid start and end times.";
+        private const string m_endTimeIsZero = "End time on track set to '0' seconds. Please verify that this is correct. Setting track end time to 0 will encode to source file end time.";
         private const string m_editLabelString = "Editing Output File: ";
 
         public void EnableTheEditingControls()
@@ -126,22 +126,30 @@ namespace ColdCutsNS
 
         public void UpdateTextBoxesFromDataGridLeave(int RowIndex)
         {
-            var row = dataGridView1.Rows[RowIndex];
-            if (row.Cells[0].Value != null)
+            try
             {
-                fileNameOutputBox.Text = row.Cells[1].Value.ToString();
+                var row = dataGridView1.Rows[RowIndex];
+                if (row.Cells[0].Value != null)
+                {
+                    fileNameOutputBox.Text = row.Cells[1].Value.ToString();
 
-                int secondsToMins = (int)Math.Round(double.Parse(row.Cells[2].Value.ToString()) / 60);
-                startMinTextBox.Text = secondsToMins.ToString();
+                    int secondsToMins = (int)Math.Round(double.Parse(row.Cells[2].Value.ToString()) / 60);
+                    startMinTextBox.Text = secondsToMins.ToString();
 
-                double remainingSecs = double.Parse(row.Cells[2].Value.ToString()) % 60;
-                startSecTextBox.Text = remainingSecs.ToString();
+                    double remainingSecs = double.Parse(row.Cells[2].Value.ToString()) % 60;
+                    startSecTextBox.Text = remainingSecs.ToString();
 
-                secondsToMins = (int)Math.Round(double.Parse(row.Cells[3].Value.ToString()) / 60);
-                endMinTextBox.Text = secondsToMins.ToString();
+                    secondsToMins = (int)Math.Round(double.Parse(row.Cells[3].Value.ToString()) / 60);
+                    endMinTextBox.Text = secondsToMins.ToString();
 
-                remainingSecs = double.Parse(row.Cells[3].Value.ToString()) % 60;
-                endSecTextBox.Text = remainingSecs.ToString();
+                    remainingSecs = double.Parse(row.Cells[3].Value.ToString()) % 60;
+                    endSecTextBox.Text = remainingSecs.ToString();
+                }
+            }
+            catch
+            {
+
+                MessageBox.Show(INVALID_TIMES);
             }
         }
 
@@ -218,6 +226,36 @@ namespace ColdCutsNS
 
             MessageBox.Show(INVALID_TIMES);
             return false;
+        }
+
+        //if the user has a '0' as their end time it will encode the entire file from their start location
+        //this is to warn users
+        public bool EndTimesArentZero(DataGridView dataGridView)
+        {
+            bool userContinues = true;
+
+            for (int i = 0; i < dataGridView.Rows.Count; i++){
+
+                if (double.Parse(dataGridView.Rows[i].Cells[3].Value.ToString()) == 0){
+
+                    DialogResult errorMessageResult = MessageBox.Show(m_endTimeIsZero, "End Time 0 Seconds", MessageBoxButtons.OKCancel);
+
+                    if (errorMessageResult == DialogResult.Cancel){
+
+                        userContinues = false;
+                    }
+                    else{
+
+                        userContinues = true;
+                    }
+                }
+                else{
+
+                    userContinues = true;
+                }
+            }
+
+            return userContinues;
         }
 
         public bool StartAndEndTimesInDGVAreValid(DataGridView dataGridView)
@@ -375,6 +413,10 @@ namespace ColdCutsNS
 
                 imageForm.Text = sourceFilePathTextBox.Text;
                 imageForm.ShowSound(soundWave);
+
+                imageForm.increaseResolutionButton.Enabled = true;
+                imageForm.decreaseResolutionButton.Enabled = true;
+
             }
         }
 
