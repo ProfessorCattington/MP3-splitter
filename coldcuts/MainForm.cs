@@ -11,12 +11,13 @@ namespace ColdCutsNS{
 
         public OutputFileController outputFiles;
         private TAG_INFO inputFileTags;
-        private ImageForm imageForm = new ImageForm();
+        private ImageForm imageForm;
 
         public MainForm()
         {
-           InitializeComponent();
-           InitializeFields();
+            InitializeComponent();
+            InitializeFields();
+            imageForm = new ImageForm(this);
         }
 
         private void InitializeFields()

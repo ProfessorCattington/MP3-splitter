@@ -23,10 +23,12 @@ namespace ColdCutsNS
 
         private const int m_redMarkerModifier = 50;
         private int m_resolutionScale = 1;
+        private Control m_parent;
 
-        public ImageForm()
+        public ImageForm(Control parent)
         {
             InitializeComponent();
+            m_parent = parent;
         }
 
         public void ShowSound(List<int> volumeSamples)
@@ -158,25 +160,31 @@ namespace ColdCutsNS
 
         public void DecreaseSoundwaveResolution(object sender, EventArgs e)
         {
+            decreaseResolutionButton.Enabled = true;
             m_resolutionScale++;
             if(m_resolutionScale >= 3)
             {
                 m_resolutionScale = 3;
+                increaseResolutionButton.Enabled = false;
             }
             RedrawSound(m_volumeSamples.Count);
         }
 
         public void IncreaseSoundwaveResolution(object sender, EventArgs e)
         {
-
+            increaseResolutionButton.Enabled = true;
             m_resolutionScale--;
-
             if(m_resolutionScale < 1)
             {
                 m_resolutionScale = 1;
+                decreaseResolutionButton.Enabled = false;
             }
-
             RedrawSound(m_volumeSamples.Count);
+        }
+
+        private void ImageForm_DoubleClick(object sender, EventArgs e)
+        {
+            Location = new Point(m_parent.Location.X, m_parent.Location.Y + m_parent.Height);
         }
     }
 }
