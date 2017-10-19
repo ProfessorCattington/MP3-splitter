@@ -117,7 +117,10 @@ namespace ColdCutsNS
             this.Controls.Add(this.increaseResolutionButton);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.ImeMode = System.Windows.Forms.ImeMode.On;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "ImageForm";
+            this.ShowInTaskbar = false;
             this.DoubleClick += new System.EventHandler(this.ImageForm_DoubleClick);
             this.contextMenu.ResumeLayout(false);
             this.ResumeLayout(false);
