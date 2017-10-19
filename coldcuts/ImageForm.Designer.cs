@@ -35,9 +35,9 @@ namespace ColdCutsNS
             this.increaseResolutionButton = new System.Windows.Forms.Button();
             this.decreaseResolutionButton = new System.Windows.Forms.Button();
             this.contextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.blaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.cloneToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.MoveMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.DeleteMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.CloneMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -80,29 +80,29 @@ namespace ColdCutsNS
             // contextMenu
             // 
             this.contextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.blaToolStripMenuItem,
-            this.deleteToolStripMenuItem,
-            this.cloneToolStripMenuItem});
+            this.MoveMenuItem,
+            this.DeleteMenuItem,
+            this.CloneMenuItem});
             this.contextMenu.Name = "contextMenu";
-            this.contextMenu.Size = new System.Drawing.Size(153, 92);
+            this.contextMenu.Size = new System.Drawing.Size(106, 70);
             // 
-            // blaToolStripMenuItem
+            // MoveMenuItem
             // 
-            this.blaToolStripMenuItem.Name = "blaToolStripMenuItem";
-            this.blaToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.blaToolStripMenuItem.Text = "Move";
+            this.MoveMenuItem.Name = "MoveMenuItem";
+            this.MoveMenuItem.Size = new System.Drawing.Size(105, 22);
+            this.MoveMenuItem.Text = "Move";
             // 
-            // deleteToolStripMenuItem
+            // DeleteMenuItem
             // 
-            this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
-            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.deleteToolStripMenuItem.Text = "Delete";
+            this.DeleteMenuItem.Name = "DeleteMenuItem";
+            this.DeleteMenuItem.Size = new System.Drawing.Size(105, 22);
+            this.DeleteMenuItem.Text = "Delete";
             // 
-            // cloneToolStripMenuItem
+            // CloneMenuItem
             // 
-            this.cloneToolStripMenuItem.Name = "cloneToolStripMenuItem";
-            this.cloneToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.cloneToolStripMenuItem.Text = "Clone";
+            this.CloneMenuItem.Name = "CloneMenuItem";
+            this.CloneMenuItem.Size = new System.Drawing.Size(105, 22);
+            this.CloneMenuItem.Text = "Clone";
             // 
             // ImageForm
             // 
@@ -118,7 +118,7 @@ namespace ColdCutsNS
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.ImeMode = System.Windows.Forms.ImeMode.On;
             this.Name = "ImageForm";
-            this.MouseClick += new System.Windows.Forms.MouseEventHandler(this.WaveFormPictureBoxClicked);
+            this.DoubleClick += new System.EventHandler(this.ImageForm_DoubleClick);
             this.contextMenu.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -129,8 +129,8 @@ namespace ColdCutsNS
         public System.Windows.Forms.Button decreaseResolutionButton;
         public System.Windows.Forms.Button increaseResolutionButton;
         private System.Windows.Forms.ContextMenuStrip contextMenu;
-        private System.Windows.Forms.ToolStripMenuItem blaToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem cloneToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem MoveMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem DeleteMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem CloneMenuItem;
     }
 }
