@@ -9,6 +9,7 @@ namespace ColdCutsNS
     {
         private Pen m_penGreen = new Pen(Color.LimeGreen, 1);
         private Pen m_penRed = new Pen(Color.Red, 1);
+        private Pen m_penBlue = new Pen(Color.Blue, 1);
 
         private Font m_font = new Font("Arial", 7, FontStyle.Regular);
         private Brush m_brush = new SolidBrush(Color.Black);
@@ -81,7 +82,7 @@ namespace ColdCutsNS
                     else
                     {
                         bitmaps.Add(new Bitmap(65535, m_waveHeight));
-                    }   
+                    }
                 }
             }
             else
@@ -128,42 +129,40 @@ namespace ColdCutsNS
 
                 m_soundwavePictureBox = new SoundPicture(bitmaps[j], currentImageSamples, m_waveHeight, currentImagePosition);
                 m_soundwavePictureBox.MouseClick += WaveFormPictureBoxClicked;
-                
+
                 panel.Controls.Add(m_soundwavePictureBox);
             }
         }
 
         private void WaveFormPictureBoxClicked(Object sender, MouseEventArgs e)
         {
-
-            int mouseX = e.X;
-            int mouseY = e.Y;
-
-            Bitmap bitmap = (Bitmap)m_soundwavePictureBox.Image;
-
-            using (Graphics graphics = Graphics.FromImage(bitmap))
-            {
-
-               // graphics.DrawLine(penRed, mouseX, 0, mouseX, mouseY + bitmap.Height);
-            }
-            panel.Refresh();
-
             if (e.Button == MouseButtons.Right)
             {
+                contextMenu.Show(Cursor.Position);
+            }
+            else
+            {
+                AddMarker(e.X, e.Y);
+            }
+        }
 
-                Console.WriteLine("let's make a context menu");
-            }                       
+        private void AddMarker(int x, int y)
+        {
+            Bitmap bitmap = (Bitmap)m_soundwavePictureBox.Image;
+            using (Graphics graphics = Graphics.FromImage(bitmap))
+            {
+                graphics.DrawLine(m_penBlue, x, 0, x, y + bitmap.Height);
+            }
+            panel.Refresh();
         }
 
         public void DecreaseSoundwaveResolution(object sender, EventArgs e)
         {
             m_resolutionScale++;
-
             if(m_resolutionScale >= 3)
             {
                 m_resolutionScale = 3;
             }
-
             RedrawSound(m_volumeSamples.Count);
         }
 

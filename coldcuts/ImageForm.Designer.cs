@@ -30,9 +30,15 @@ namespace ColdCutsNS
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.panel = new System.Windows.Forms.Panel();
             this.increaseResolutionButton = new System.Windows.Forms.Button();
             this.decreaseResolutionButton = new System.Windows.Forms.Button();
+            this.contextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.blaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.cloneToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.contextMenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel
@@ -59,7 +65,6 @@ namespace ColdCutsNS
             this.increaseResolutionButton.Text = "+";
             this.increaseResolutionButton.UseVisualStyleBackColor = true;
             this.increaseResolutionButton.Click += new System.EventHandler(this.DecreaseSoundwaveResolution);
-             
             // 
             // decreaseResolutionButton
             // 
@@ -71,6 +76,33 @@ namespace ColdCutsNS
             this.decreaseResolutionButton.Text = "-";
             this.decreaseResolutionButton.UseVisualStyleBackColor = true;
             this.decreaseResolutionButton.Click += new System.EventHandler(this.IncreaseSoundwaveResolution);
+            // 
+            // contextMenu
+            // 
+            this.contextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.blaToolStripMenuItem,
+            this.deleteToolStripMenuItem,
+            this.cloneToolStripMenuItem});
+            this.contextMenu.Name = "contextMenu";
+            this.contextMenu.Size = new System.Drawing.Size(153, 92);
+            // 
+            // blaToolStripMenuItem
+            // 
+            this.blaToolStripMenuItem.Name = "blaToolStripMenuItem";
+            this.blaToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.blaToolStripMenuItem.Text = "Move";
+            // 
+            // deleteToolStripMenuItem
+            // 
+            this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
+            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.deleteToolStripMenuItem.Text = "Delete";
+            // 
+            // cloneToolStripMenuItem
+            // 
+            this.cloneToolStripMenuItem.Name = "cloneToolStripMenuItem";
+            this.cloneToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.cloneToolStripMenuItem.Text = "Clone";
             // 
             // ImageForm
             // 
@@ -87,6 +119,7 @@ namespace ColdCutsNS
             this.ImeMode = System.Windows.Forms.ImeMode.On;
             this.Name = "ImageForm";
             this.MouseClick += new System.Windows.Forms.MouseEventHandler(this.WaveFormPictureBoxClicked);
+            this.contextMenu.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -95,5 +128,9 @@ namespace ColdCutsNS
         private System.Windows.Forms.Panel panel;
         public System.Windows.Forms.Button decreaseResolutionButton;
         public System.Windows.Forms.Button increaseResolutionButton;
+        private System.Windows.Forms.ContextMenuStrip contextMenu;
+        private System.Windows.Forms.ToolStripMenuItem blaToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem cloneToolStripMenuItem;
     }
 }
