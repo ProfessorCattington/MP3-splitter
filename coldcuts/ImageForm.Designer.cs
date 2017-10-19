@@ -121,6 +121,7 @@ namespace ColdCutsNS
             this.MinimizeBox = false;
             this.Name = "ImageForm";
             this.ShowInTaskbar = false;
+            this.LocationChanged += new System.EventHandler(this.ImageForm_LocationChanged);
             this.DoubleClick += new System.EventHandler(this.ImageForm_DoubleClick);
             this.contextMenu.ResumeLayout(false);
             this.ResumeLayout(false);

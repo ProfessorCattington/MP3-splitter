@@ -186,5 +186,14 @@ namespace ColdCutsNS
         {
             Location = new Point(m_parent.Location.X, m_parent.Location.Y + m_parent.Height);
         }
+
+        private void ImageForm_LocationChanged(object sender, EventArgs e)
+        {
+            if ((Math.Abs(Location.X - m_parent.Location.X) < 20) &&
+                (Math.Abs(Location.Y - (m_parent.Location.Y + m_parent.Height)) < 20))
+            {
+                Location = new Point(m_parent.Location.X, m_parent.Location.Y + m_parent.Height);
+            }
+        }
     }
 }
