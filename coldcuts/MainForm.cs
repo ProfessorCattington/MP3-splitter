@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
@@ -12,12 +11,13 @@ namespace ColdCutsNS{
 
         public OutputFileController outputFiles;
         private TAG_INFO inputFileTags;
-        private ImageForm imageForm = new ImageForm();
+        private ImageForm imageForm;
 
         public MainForm()
         {
-           InitializeComponent();
-           InitializeFields();
+            InitializeComponent();
+            InitializeFields();
+            imageForm = new ImageForm(this);
         }
 
         private void InitializeFields()
@@ -32,8 +32,12 @@ namespace ColdCutsNS{
         {
             menu.Hide();
             string file = FileBrowser.Show();
+
             if (!string.IsNullOrEmpty(file))
+            {
                 UpdateFormWithSource(file);
+                UpdateTheImageForm();
+            }
         }
 
         private void destinationBrowseButton_Click(object sender, EventArgs e)
@@ -44,10 +48,14 @@ namespace ColdCutsNS{
                 UpdateFormWithDestination(dir);
         }
         private void encodeButton_Click(object sender, EventArgs e){
-            menu.Hide();
-            Leave(sender, e);
-            DataGridViewLeave(sender, e);
-            this.PerformEncodingTasks();
+
+            if (EndTimesArentZero(dataGridView1))
+            {
+                menu.Hide();
+                Leave(sender, e);
+                DataGridViewLeave(sender, e);
+                PerformEncodingTasks();
+            }
         }
 
         public new void Leave(object sender, EventArgs e){
@@ -167,16 +175,15 @@ namespace ColdCutsNS{
                 foreach (var item in Environment.GetCommandLineArgs())
                 {
                     if (File.Exists(item) && item.ToLower().EndsWith(".mp3"))
+                    {
                         UpdateFormWithSource(item);
-                    else if(Directory.Exists(item))
+                        UpdateTheImageForm();
+                    }
+                    else if (Directory.Exists(item))
                         UpdateFormWithDestination(item);
                 }
             }
         }
-
-        #region AutoSplit
-        float silence = 2000;
-        float minGap = 480000;
 
         public void backgroundWorker_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
@@ -200,16 +207,6 @@ namespace ColdCutsNS{
                     addSoundFile((SoundFile)e.UserState);
                     outputFiles.IncreaseIndex();
                     EnableObjects(false);
-                }
-                else if (!imageForm.IsDisposed)
-                {
-                    if (!imageForm.Visible)
-                    {
-                        imageForm.Show();
-                        imageForm.Location = new Point(Location.X, Location.Y + Height);
-                    }
-                    if (!imageForm.IsBusy)
-                        imageForm.ShowSound((List<int>)e.UserState);
                 }
             }
         }
@@ -246,75 +243,6 @@ namespace ColdCutsNS{
                 }
             }
         }
-
-        private void EnableObjects(bool enabled)
-        {
-            btnAutoSplit.Enabled = enabled;
-            encodeButton.Enabled = enabled;
-            fileLeftButton.Enabled = enabled;
-            fileRightButton.Enabled = enabled;
-            addFileButton.Enabled = enabled;
-            deleteButton.Enabled = enabled;
-            dataGridView1.Enabled = enabled;
-            EnableTextBox(Controls, enabled);
-        }
-
-        private void EnableTextBox(Control.ControlCollection cControls, bool enabled)
-        {
-            foreach (Control c in cControls)
-            {
-                if (c.GetType() == typeof(TextBox))
-                    c.Enabled = enabled;
-                else if (c.Controls != null)
-                    EnableTextBox(c.Controls, enabled);
-            }
-        }
-
-        private void objectIntOnly_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if ((e.KeyChar < '0' || e.KeyChar > '9') && e.KeyChar != '\b')
-                e.Handled = true;
-        }
-
-        private void minGapMenuItem_KeyUp(object sender, KeyEventArgs e)
-        {
-            minGap = float.Parse(minGapMenuItem.Text);
-        }
-
-        private void silenceMenuItem_KeyUp(object sender, KeyEventArgs e)
-        {
-            silence = float.Parse(silenceMenuItem.Text);
-        }
-        #endregion AutoSplit
-
-        private void UpdateFormWithDestination(string dir)
-        {
-            destinationFilePathTextBox.Text = dir + "\\";
-            if (AreSourceAndDestinationFilled())
-            {
-                EnableTheEditingControls();
-                InitializeDGV();
-            }
-        }
-
-        private void UpdateFormWithSource(string FileName)
-        {
-            Cursor.Current = Cursors.WaitCursor;
-            sourceFilePathTextBox.Text = FileName;
-            inputFileTags = outputFiles.FillInputFileTags(sourceFilePathTextBox.Text);
-
-            artistInputLabel.Text = inputFileTags.artist;
-            titleInputLabel.Text = inputFileTags.title;
-            lengthInputLabel.Text = Math.Round(inputFileTags.duration, 0).ToString() + " seconds";
-
-            destinationBrowseButton.Enabled = true;
-            destinationFilePathTextBox.Enabled = true;
-
-            if (AreSourceAndDestinationFilled())
-                EnableTheEditingControls();
-            Cursor.Current = Cursors.Default;
-        }
-
         private void MainForm_Click(object sender, EventArgs e)
         {
             menu.Hide();
