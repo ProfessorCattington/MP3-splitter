@@ -256,7 +256,12 @@ namespace ColdCutsNS
 
         private void MainForm_LocationChanged(object sender, EventArgs e)
         {
-            if (imageForm.Visible) imageForm.StickToParent();
+            if (imageForm.Visible)
+            {
+                imageForm.StickToParent();
+                imageForm.BringToFront();
+                BringToFront();
+            }
         }
 
         private void sourceFilePathTextBox_KeyPress(object sender, KeyPressEventArgs e)
@@ -270,6 +275,6 @@ namespace ColdCutsNS
                     UpdateTheImageForm();
                 }
             }
-        }        
+        }
     }
 }
