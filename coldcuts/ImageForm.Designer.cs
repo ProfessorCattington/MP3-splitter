@@ -35,9 +35,9 @@ namespace ColdCutsNS
             this.increaseResolutionButton = new System.Windows.Forms.Button();
             this.decreaseResolutionButton = new System.Windows.Forms.Button();
             this.contextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.MoveMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.AddMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.DeleteMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.CloneMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.PlayMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -68,6 +68,7 @@ namespace ColdCutsNS
             // 
             // decreaseResolutionButton
             // 
+            this.decreaseResolutionButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.decreaseResolutionButton.Enabled = false;
             this.decreaseResolutionButton.Location = new System.Drawing.Point(27, 157);
             this.decreaseResolutionButton.Name = "decreaseResolutionButton";
@@ -80,29 +81,32 @@ namespace ColdCutsNS
             // contextMenu
             // 
             this.contextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.MoveMenuItem,
-            this.DeleteMenuItem,
-            this.CloneMenuItem});
+            this.PlayMenuItem,
+            this.AddMenuItem,
+            this.DeleteMenuItem});
             this.contextMenu.Name = "contextMenu";
-            this.contextMenu.Size = new System.Drawing.Size(106, 70);
+            this.contextMenu.Size = new System.Drawing.Size(153, 92);
             // 
-            // MoveMenuItem
+            // AddMenuItem
             // 
-            this.MoveMenuItem.Name = "MoveMenuItem";
-            this.MoveMenuItem.Size = new System.Drawing.Size(105, 22);
-            this.MoveMenuItem.Text = "Move";
+            this.AddMenuItem.Name = "AddMenuItem";
+            this.AddMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.AddMenuItem.Text = "Add";
+            this.AddMenuItem.Click += new System.EventHandler(this.AddMenuItem_Click);
             // 
             // DeleteMenuItem
             // 
             this.DeleteMenuItem.Name = "DeleteMenuItem";
-            this.DeleteMenuItem.Size = new System.Drawing.Size(105, 22);
+            this.DeleteMenuItem.Size = new System.Drawing.Size(152, 22);
             this.DeleteMenuItem.Text = "Delete";
+            this.DeleteMenuItem.Click += new System.EventHandler(this.DeleteMenuItem_Click);
             // 
-            // CloneMenuItem
+            // PlayMenuItem
             // 
-            this.CloneMenuItem.Name = "CloneMenuItem";
-            this.CloneMenuItem.Size = new System.Drawing.Size(105, 22);
-            this.CloneMenuItem.Text = "Clone";
+            this.PlayMenuItem.Name = "PlayMenuItem";
+            this.PlayMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.PlayMenuItem.Text = "Play";
+            this.PlayMenuItem.Click += new System.EventHandler(this.PlayMenuItem_Click);
             // 
             // ImageForm
             // 
@@ -115,7 +119,6 @@ namespace ColdCutsNS
             this.Controls.Add(this.decreaseResolutionButton);
             this.Controls.Add(this.panel);
             this.Controls.Add(this.increaseResolutionButton);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.ImeMode = System.Windows.Forms.ImeMode.On;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -133,8 +136,8 @@ namespace ColdCutsNS
         public System.Windows.Forms.Button decreaseResolutionButton;
         public System.Windows.Forms.Button increaseResolutionButton;
         private System.Windows.Forms.ContextMenuStrip contextMenu;
-        private System.Windows.Forms.ToolStripMenuItem MoveMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem AddMenuItem;
         private System.Windows.Forms.ToolStripMenuItem DeleteMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem CloneMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem PlayMenuItem;
     }
 }

@@ -35,9 +35,7 @@ namespace ColdCutsNS
 
         public void InitializeDGV()
         {
-
             this.dataGridView1.Rows.Clear();
-
             this.dataGridView1.Rows.Add();
 
             this.dataGridView1.Rows[0].Cells[0].Value = 0;
@@ -47,7 +45,6 @@ namespace ColdCutsNS
 
             foreach (DataGridViewColumn column in this.dataGridView1.Columns)
             {
-
                 column.SortMode = DataGridViewColumnSortMode.NotSortable;
             }
 
@@ -376,12 +373,19 @@ namespace ColdCutsNS
 
             if (SourceAndDestinationFilled())
                 EnableTheEditingControls();
+
+            if (string.IsNullOrEmpty(destinationFilePathTextBox.Text))
+                destinationFilePathTextBox.Focus();
             Cursor.Current = Cursors.Default;
+        }
+
+        public string Mp3File
+        {
+            get { return sourceFilePathTextBox.Text; }
         }
 
         public async void PerformEncodingTasks()
         {
-
             DisableTheEditingControls();
 
             this.feedBackLabel.Visible = true;

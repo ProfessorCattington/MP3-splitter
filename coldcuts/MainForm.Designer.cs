@@ -103,6 +103,7 @@
             this.sourceFilePathTextBox.Name = "sourceFilePathTextBox";
             this.sourceFilePathTextBox.Size = new System.Drawing.Size(310, 20);
             this.sourceFilePathTextBox.TabIndex = 2;
+            this.sourceFilePathTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.sourceFilePathTextBox_KeyPress);
             // 
             // sourceLabel
             // 
@@ -559,7 +560,7 @@
             this.menu.Location = new System.Drawing.Point(53, 364);
             this.menu.Name = "menu";
             this.menu.Padding = new System.Windows.Forms.Padding(0);
-            this.menu.Size = new System.Drawing.Size(107, 24);
+            this.menu.Size = new System.Drawing.Size(118, 24);
             this.menu.TabIndex = 34;
             this.menu.Text = "menuStrip1";
             this.menu.Visible = false;
@@ -570,7 +571,7 @@
             this.toolStripMenuItemSilence,
             this.toolStripMenuItemMinGap});
             this.ToolStripMenuItemOptions.Name = "ToolStripMenuItemOptions";
-            this.ToolStripMenuItemOptions.Size = new System.Drawing.Size(105, 24);
+            this.ToolStripMenuItemOptions.Size = new System.Drawing.Size(116, 24);
             this.ToolStripMenuItemOptions.Text = "Auto Split Options";
             // 
             // toolStripMenuItemSilence
@@ -578,13 +579,13 @@
             this.toolStripMenuItemSilence.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.silenceMenuItem});
             this.toolStripMenuItemSilence.Name = "toolStripMenuItemSilence";
-            this.toolStripMenuItemSilence.Size = new System.Drawing.Size(136, 22);
+            this.toolStripMenuItemSilence.Size = new System.Drawing.Size(151, 22);
             this.toolStripMenuItemSilence.Text = "Silence";
             // 
             // silenceMenuItem
             // 
             this.silenceMenuItem.Name = "silenceMenuItem";
-            this.silenceMenuItem.Size = new System.Drawing.Size(60, 21);
+            this.silenceMenuItem.Size = new System.Drawing.Size(60, 23);
             this.silenceMenuItem.Text = "2000";
             this.silenceMenuItem.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.objectIntOnly_KeyPress);
             this.silenceMenuItem.KeyUp += new System.Windows.Forms.KeyEventHandler(this.silenceMenuItem_KeyUp);
@@ -594,13 +595,13 @@
             this.toolStripMenuItemMinGap.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.minGapMenuItem});
             this.toolStripMenuItemMinGap.Name = "toolStripMenuItemMinGap";
-            this.toolStripMenuItemMinGap.Size = new System.Drawing.Size(136, 22);
+            this.toolStripMenuItemMinGap.Size = new System.Drawing.Size(151, 22);
             this.toolStripMenuItemMinGap.Text = "Minimum Gap";
             // 
             // minGapMenuItem
             // 
             this.minGapMenuItem.Name = "minGapMenuItem";
-            this.minGapMenuItem.Size = new System.Drawing.Size(60, 21);
+            this.minGapMenuItem.Size = new System.Drawing.Size(60, 23);
             this.minGapMenuItem.Text = "480000";
             this.minGapMenuItem.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.objectIntOnly_KeyPress);
             this.minGapMenuItem.KeyUp += new System.Windows.Forms.KeyEventHandler(this.minGapMenuItem_KeyUp);
@@ -609,7 +610,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(940, 408);
+            this.ClientSize = new System.Drawing.Size(932, 396);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.dataGridView1);
@@ -633,7 +634,9 @@
             this.MinimumSize = new System.Drawing.Size(948, 435);
             this.Name = "MainForm";
             this.Text = "Cold Cuts";
+            this.Activated += new System.EventHandler(this.MainForm_Activated);
             this.Shown += new System.EventHandler(this.MainForm_Shown);
+            this.LocationChanged += new System.EventHandler(this.MainForm_LocationChanged);
             this.Click += new System.EventHandler(this.MainForm_Click);
             this.inputFileGroupbox.ResumeLayout(false);
             this.inputFileGroupbox.PerformLayout();

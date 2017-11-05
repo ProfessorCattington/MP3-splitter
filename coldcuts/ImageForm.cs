@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
+using Un4seen.Bass;
 
 namespace ColdCutsNS
 {
@@ -23,12 +24,13 @@ namespace ColdCutsNS
 
         private const int m_redMarkerModifier = 50;
         private int m_resolutionScale = 1;
-        private Control m_parent;
+        private MainForm m_parent;
 
-        public ImageForm(Control parent)
+        public ImageForm(MainForm parent)
         {
             InitializeComponent();
             m_parent = parent;
+            Width = parent.Width;
         }
 
         public void ShowSound(List<int> volumeSamples)
@@ -136,24 +138,26 @@ namespace ColdCutsNS
             }
         }
 
-        private void WaveFormPictureBoxClicked(Object sender, MouseEventArgs e)
+        private double PointToTime(Point p)
         {
-            if (e.Button == MouseButtons.Right)
-            {
-                contextMenu.Show(Cursor.Position);
-            }
-            else
-            {
-                AddMarker(e.X, e.Y);
-            }
+            return 0;
         }
 
-        private void AddMarker(int x, int y)
+        private void PlayAt(Point p)
+        {
+            var stream = Bass.BASS_StreamCreateFile(m_parent.Mp3File, p.X, 0, BASSFlag.BASS_SAMPLE_MONO);
+            Bass.BASS_ChannelPlay(stream, false);
+            Timer timer = new Timer { Interval = 5000 };
+            timer.Tick += (s, e) => { Bass.BASS_ChannelStop(stream); };
+            timer.Start();
+        }
+
+        private void AddMarker(Point p)
         {
             Bitmap bitmap = (Bitmap)m_soundwavePictureBox.Image;
             using (Graphics graphics = Graphics.FromImage(bitmap))
             {
-                graphics.DrawLine(m_penBlue, x, 0, x, y + bitmap.Height);
+                graphics.DrawLine(m_penBlue, p.X, 0, p.X, p.Y + bitmap.Height);
             }
             panel.Refresh();
         }
@@ -187,13 +191,52 @@ namespace ColdCutsNS
             Location = new Point(m_parent.Location.X, m_parent.Location.Y + m_parent.Height);
         }
 
+        public bool IsNearParent
+        {
+            get
+            {
+                return (Math.Abs(Location.X - m_parent.Location.X) < 20) &&
+                (Math.Abs(Location.Y - (m_parent.Location.Y + m_parent.Height)) < 20);
+            }
+        }
+
+        public void StickToParent()
+        {
+            Location = new Point(m_parent.Location.X, m_parent.Location.Y + m_parent.Height);
+        }
+
         private void ImageForm_LocationChanged(object sender, EventArgs e)
         {
-            if ((Math.Abs(Location.X - m_parent.Location.X) < 20) &&
-                (Math.Abs(Location.Y - (m_parent.Location.Y + m_parent.Height)) < 20))
+            if (IsNearParent) StickToParent();
+        }
+
+        private Point Click_Position;
+        private void WaveFormPictureBoxClicked(Object sender, MouseEventArgs e)
+        {
+            Click_Position = new Point(e.X, e.Y);
+            if (e.Button == MouseButtons.Right)
             {
-                Location = new Point(m_parent.Location.X, m_parent.Location.Y + m_parent.Height);
+                contextMenu.Show(Cursor.Position);
             }
+            else
+            {
+                AddMarker(Click_Position);
+            }
+        }
+
+        private void AddMenuItem_Click(object sender, EventArgs e)
+        {
+            AddMarker(Click_Position);
+        }
+
+        private void PlayMenuItem_Click(object sender, EventArgs e)
+        {
+            PlayAt(Click_Position);
+        }
+
+        private void DeleteMenuItem_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

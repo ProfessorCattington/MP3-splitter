@@ -5,9 +5,11 @@ using System.Windows.Forms;
 using Un4seen.Bass;
 using Un4seen.Bass.AddOn.Tags;
 
-namespace ColdCutsNS{
+namespace ColdCutsNS
+{
 
-    public partial class MainForm : Form {
+    public partial class MainForm : Form
+    {
 
         public OutputFileController outputFiles;
         private TAG_INFO inputFileTags;
@@ -47,8 +49,8 @@ namespace ColdCutsNS{
             if (!string.IsNullOrEmpty(dir))
                 UpdateFormWithDestination(dir);
         }
-        private void encodeButton_Click(object sender, EventArgs e){
-
+        private void encodeButton_Click(object sender, EventArgs e)
+        {
             if (EndTimesArentZero(dataGridView1))
             {
                 menu.Hide();
@@ -58,14 +60,15 @@ namespace ColdCutsNS{
             }
         }
 
-        public new void Leave(object sender, EventArgs e){
-
+        public new void Leave(object sender, EventArgs e)
+        {
             if (startMinTextBox.Text == "") { startMinTextBox.Text = "0"; }
             if (startSecTextBox.Text == "") { startSecTextBox.Text = "0"; }
             if (endMinTextBox.Text == "") { endMinTextBox.Text = "0"; }
             if (endSecTextBox.Text == "") { endSecTextBox.Text = "0"; }
 
-            if (this.StartAndEndTimesInEditFieldsAreValid()){
+            if (this.StartAndEndTimesInEditFieldsAreValid())
+            {
 
                 this.SaveFieldsToFileObject();
                 this.UpdateDataGrid();
@@ -132,9 +135,11 @@ namespace ColdCutsNS{
             deleteButton.Enabled = (outputFiles.CountOfSoundFiles > 1);
         }
 
-        private void fileLeftButton_Click(object sender, EventArgs e){
+        private void fileLeftButton_Click(object sender, EventArgs e)
+        {
 
-            if (outputFiles.GetCurrentFileIndex() > 0){
+            if (outputFiles.GetCurrentFileIndex() > 0)
+            {
 
                 this.SaveFieldsToFileObject();
                 outputFiles.DecreaseIndex();
@@ -147,7 +152,7 @@ namespace ColdCutsNS{
 
         private void fileRightButton_Click(object sender, EventArgs e)
         {
-            if (outputFiles.GetCurrentFileIndex() < outputFiles.CountOfSoundFiles -1)
+            if (outputFiles.GetCurrentFileIndex() < outputFiles.CountOfSoundFiles - 1)
             {
                 this.SaveFieldsToFileObject();
                 outputFiles.IncreaseIndex();
@@ -187,13 +192,13 @@ namespace ColdCutsNS{
 
         public void backgroundWorker_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
-            SoundSplit.FindSilence(sourceFilePathTextBox.Text, silence:silence, minGap: minGap, bgWorker: backgroundWorker);
+            SoundSplit.FindSilence(sourceFilePathTextBox.Text, silence: silence, minGap: minGap, bgWorker: backgroundWorker);
         }
 
         public void backgroundWorker_ProgressChanged(object sender, System.ComponentModel.ProgressChangedEventArgs e)
         {
             feedBackLabel2.Visible = true;
-            feedBackLabel2.Text = $" {Math.Round((e.ProgressPercentage/inputFileTags.duration) * 100, 2)}%";
+            feedBackLabel2.Text = $" {Math.Round((e.ProgressPercentage / inputFileTags.duration) * 100, 2)}%";
             if (e.UserState != null)
             {
                 if (e.UserState.GetType() == typeof(SoundFile))
@@ -246,6 +251,29 @@ namespace ColdCutsNS{
         private void MainForm_Click(object sender, EventArgs e)
         {
             menu.Hide();
+        }
+
+        private void MainForm_LocationChanged(object sender, EventArgs e)
+        {
+            if (imageForm.Visible) imageForm.StickToParent();
+        }
+
+        private void sourceFilePathTextBox_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == 13)
+            {
+                string file = sourceFilePathTextBox.Text;
+                if (!string.IsNullOrEmpty(file) && File.Exists(file))
+                {
+                    UpdateFormWithSource(file);
+                    UpdateTheImageForm();
+                }
+            }
+        }
+
+        private void MainForm_Activated(object sender, EventArgs e)
+        {
+            if (imageForm.Visible) imageForm.BringToFront();
         }
     }
 }

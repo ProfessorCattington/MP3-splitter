@@ -5,7 +5,6 @@ using Un4seen.Bass;
 
 namespace ColdCutsNS
 {
-    //TODO update this class so it's less redundant.
     public class SoundSplit
     {
         /// <summary>
@@ -57,14 +56,10 @@ namespace ColdCutsNS
             return sounds;
         }
 
-       
         public static List<int> GetSoundWave(string file)
         {
-
             int amplitude = 0;
-
             List<int> volumeStream = new List<int>();
-
             int channel = Bass.BASS_StreamCreateFile(file, 0, 0, BASSFlag.BASS_STREAM_DECODE);
 
             while (amplitude != -1)
@@ -78,7 +73,6 @@ namespace ColdCutsNS
             }
 
             Bass.BASS_StreamFree(channel);
-
             return volumeStream;
         }
     }
