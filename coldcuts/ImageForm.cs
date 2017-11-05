@@ -140,12 +140,13 @@ namespace ColdCutsNS
 
         private double PointToTime(Point p)
         {
-            return 0;
+            return p.X * m_resolutionScale / (double)m_redMarkerModifier;
         }
 
         private void PlayAt(Point p)
         {
-            var stream = Bass.BASS_StreamCreateFile(m_parent.Mp3File, p.X, 0, BASSFlag.BASS_SAMPLE_MONO);
+            int stream = Bass.BASS_StreamCreateFile(m_parent.Mp3File, 0, 0, BASSFlag.BASS_SAMPLE_MONO);
+            Bass.BASS_ChannelSetPosition(stream, seconds: PointToTime(p));
             Bass.BASS_ChannelPlay(stream, false);
             Timer timer = new Timer { Interval = 5000 };
             timer.Tick += (s, e) => { Bass.BASS_ChannelStop(stream); };
