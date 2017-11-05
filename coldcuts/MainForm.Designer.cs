@@ -634,7 +634,6 @@
             this.MinimumSize = new System.Drawing.Size(948, 435);
             this.Name = "MainForm";
             this.Text = "Cold Cuts";
-            this.Activated += new System.EventHandler(this.MainForm_Activated);
             this.Shown += new System.EventHandler(this.MainForm_Shown);
             this.LocationChanged += new System.EventHandler(this.MainForm_LocationChanged);
             this.Click += new System.EventHandler(this.MainForm_Click);

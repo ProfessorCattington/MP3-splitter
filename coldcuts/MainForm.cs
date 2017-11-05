@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
@@ -269,11 +270,6 @@ namespace ColdCutsNS
                     UpdateTheImageForm();
                 }
             }
-        }
-
-        private void MainForm_Activated(object sender, EventArgs e)
-        {
-            if (imageForm.Visible) imageForm.BringToFront();
-        }
+        }        
     }
 }
