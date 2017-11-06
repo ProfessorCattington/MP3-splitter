@@ -33,10 +33,9 @@ namespace ColdCutsNS
             FillFieldsFromFileObject();
         }
 
-        public void InitializeDGV(){
-
+        public void InitializeDGV()
+        {
             this.dataGridView1.Rows.Clear();
-
             this.dataGridView1.Rows.Add();
 
             this.dataGridView1.Rows[0].Cells[0].Value = 0;
@@ -44,8 +43,8 @@ namespace ColdCutsNS
             this.dataGridView1.Rows[0].Cells[2].Value = 0;
             this.dataGridView1.Rows[0].Cells[3].Value = 0;
 
-            foreach(DataGridViewColumn column in this.dataGridView1.Columns){
-
+            foreach (DataGridViewColumn column in this.dataGridView1.Columns)
+            {
                 column.SortMode = DataGridViewColumnSortMode.NotSortable;
             }
 
@@ -57,7 +56,8 @@ namespace ColdCutsNS
                 " / " + outputFiles.CountOfSoundFiles.ToString();
         }
 
-        public void DisableTheEditingControls() {
+        public void DisableTheEditingControls()
+        {
 
             this.fileLeftButton.Enabled = false;
             this.fileRightButton.Enabled = false;
@@ -109,7 +109,8 @@ namespace ColdCutsNS
         {
             var soundFiles = outputFiles.GetOutputFiles();
 
-            for (int i = 0; i < soundFiles.Count; i++) {
+            for (int i = 0; i < soundFiles.Count; i++)
+            {
 
                 this.dataGridView1.Rows[i].Cells[0].ReadOnly = true;
 
@@ -153,7 +154,8 @@ namespace ColdCutsNS
             }
         }
 
-        public void ColorDataGrid(int rowNumber) {
+        public void ColorDataGrid(int rowNumber)
+        {
 
             DataGridViewCellStyle cellStyle = new DataGridViewCellStyle();
 
@@ -161,7 +163,8 @@ namespace ColdCutsNS
 
             int numberOfCells = 4;
 
-            for (int i = 0; i < numberOfCells; i++) {
+            for (int i = 0; i < numberOfCells; i++)
+            {
 
                 this.dataGridView1.Rows[rowNumber].Cells[i].Style = cellStyle;
             }
@@ -215,14 +218,17 @@ namespace ColdCutsNS
 
         public bool StartAndEndTimesInEditFieldsAreValid()
         {
-            try {
+            try
+            {
                 if (int.Parse(startMinTextBox.Text) >= 0 &&
                     double.Parse(startSecTextBox.Text) >= 0 &&
                     int.Parse(endMinTextBox.Text) >= 0 &&
-                    double.Parse(endSecTextBox.Text) >= 0) {
+                    double.Parse(endSecTextBox.Text) >= 0)
+                {
                     return true;
                 }
-            } catch { }
+            }
+            catch { }
 
             MessageBox.Show(INVALID_TIMES);
             return false;
@@ -234,22 +240,27 @@ namespace ColdCutsNS
         {
             bool userContinues = true;
 
-            for (int i = 0; i < dataGridView.Rows.Count; i++){
+            for (int i = 0; i < dataGridView.Rows.Count; i++)
+            {
 
-                if (double.Parse(dataGridView.Rows[i].Cells[3].Value.ToString()) == 0){
+                if (double.Parse(dataGridView.Rows[i].Cells[3].Value.ToString()) == 0)
+                {
 
                     DialogResult errorMessageResult = MessageBox.Show(m_endTimeIsZero, "End Time 0 Seconds", MessageBoxButtons.OKCancel);
 
-                    if (errorMessageResult == DialogResult.Cancel){
+                    if (errorMessageResult == DialogResult.Cancel)
+                    {
 
                         userContinues = false;
                     }
-                    else{
+                    else
+                    {
 
                         userContinues = true;
                     }
                 }
-                else{
+                else
+                {
 
                     userContinues = true;
                 }
@@ -271,7 +282,8 @@ namespace ColdCutsNS
                     if (dataGridView.Rows[i].Cells[3].Value == null) dataGridView.Rows[i].Cells[3].Value = 0;
 
                     if (!(double.Parse(dataGridView.Rows[i].Cells[2].Value.ToString()) >= 0) ||
-                        !(double.Parse(dataGridView.Rows[i].Cells[3].Value.ToString()) >= 0)){
+                        !(double.Parse(dataGridView.Rows[i].Cells[3].Value.ToString()) >= 0))
+                    {
                         startAndEndTimesValid = false;
                     }
                 }
@@ -333,7 +345,7 @@ namespace ColdCutsNS
         {
             silence = float.Parse(silenceMenuItem.Text);
         }
-#endregion AutoSplit
+        #endregion AutoSplit
 
         private void UpdateFormWithDestination(string dir)
         {
@@ -361,11 +373,19 @@ namespace ColdCutsNS
 
             if (SourceAndDestinationFilled())
                 EnableTheEditingControls();
+
+            if (string.IsNullOrEmpty(destinationFilePathTextBox.Text))
+                destinationFilePathTextBox.Focus();
             Cursor.Current = Cursors.Default;
         }
 
-        public async void PerformEncodingTasks(){
+        public string Mp3File
+        {
+            get { return sourceFilePathTextBox.Text; }
+        }
 
+        public async void PerformEncodingTasks()
+        {
             DisableTheEditingControls();
 
             this.feedBackLabel.Visible = true;
@@ -381,7 +401,8 @@ namespace ColdCutsNS
             this.feedBackLabel2.Visible = false;
         }
 
-        public Task<Encoder> EncodeFilesAsync(){
+        public Task<Encoder> EncodeFilesAsync()
+        {
 
             return Task.Factory.StartNew(() => new Encoder(this, outputFiles));
             //return Task.Factory.StartNew(() => MakeAnEncoder());
@@ -392,14 +413,14 @@ namespace ColdCutsNS
         //    return new Encoder(this, outputFiles);
         //}
 
-        public bool SourceAndDestinationFilled(){
+        public bool SourceAndDestinationFilled()
+        {
 
             return (this.sourceFilePathTextBox.Text != "" && this.destinationFilePathTextBox.Text != "");
         }
 
         public async void UpdateTheImageForm()
         {
-
             List<int> soundWave = new List<int>();
             soundWave = await LoadSoundWaveAsync(sourceFilePathTextBox.Text);
 
@@ -416,19 +437,17 @@ namespace ColdCutsNS
 
                 imageForm.increaseResolutionButton.Enabled = true;
                 imageForm.decreaseResolutionButton.Enabled = true;
-
             }
         }
 
         public Task<List<int>> LoadSoundWaveAsync(string fileName)
         {
-
             return Task.Factory.StartNew(
                 () => SoundSplit.GetSoundWave(fileName));
         }
 
-        public void FileEncodingNotification(long bytesDone, long bytesTotal){
-
+        public void FileEncodingNotification(long bytesDone, long bytesTotal)
+        {
             Console.Write("Encoding: {0:P}\r", Math.Round((double)bytesDone / (double)bytesTotal, 2));
             //feedBackLabel2.Text = Math.Round((double)bytesDone / (double)bytesTotal).ToString();
         }

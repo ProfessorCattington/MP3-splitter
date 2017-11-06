@@ -30,9 +30,15 @@ namespace ColdCutsNS
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.panel = new System.Windows.Forms.Panel();
             this.increaseResolutionButton = new System.Windows.Forms.Button();
             this.decreaseResolutionButton = new System.Windows.Forms.Button();
+            this.contextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.AddMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.DeleteMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.PlayMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.contextMenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel
@@ -59,10 +65,10 @@ namespace ColdCutsNS
             this.increaseResolutionButton.Text = "+";
             this.increaseResolutionButton.UseVisualStyleBackColor = true;
             this.increaseResolutionButton.Click += new System.EventHandler(this.DecreaseSoundwaveResolution);
-             
             // 
             // decreaseResolutionButton
             // 
+            this.decreaseResolutionButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.decreaseResolutionButton.Enabled = false;
             this.decreaseResolutionButton.Location = new System.Drawing.Point(27, 157);
             this.decreaseResolutionButton.Name = "decreaseResolutionButton";
@@ -71,6 +77,36 @@ namespace ColdCutsNS
             this.decreaseResolutionButton.Text = "-";
             this.decreaseResolutionButton.UseVisualStyleBackColor = true;
             this.decreaseResolutionButton.Click += new System.EventHandler(this.IncreaseSoundwaveResolution);
+            // 
+            // contextMenu
+            // 
+            this.contextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.PlayMenuItem,
+            this.AddMenuItem,
+            this.DeleteMenuItem});
+            this.contextMenu.Name = "contextMenu";
+            this.contextMenu.Size = new System.Drawing.Size(153, 92);
+            // 
+            // AddMenuItem
+            // 
+            this.AddMenuItem.Name = "AddMenuItem";
+            this.AddMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.AddMenuItem.Text = "Add";
+            this.AddMenuItem.Click += new System.EventHandler(this.AddMenuItem_Click);
+            // 
+            // DeleteMenuItem
+            // 
+            this.DeleteMenuItem.Name = "DeleteMenuItem";
+            this.DeleteMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.DeleteMenuItem.Text = "Delete";
+            this.DeleteMenuItem.Click += new System.EventHandler(this.DeleteMenuItem_Click);
+            // 
+            // PlayMenuItem
+            // 
+            this.PlayMenuItem.Name = "PlayMenuItem";
+            this.PlayMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.PlayMenuItem.Text = "Play";
+            this.PlayMenuItem.Click += new System.EventHandler(this.PlayMenuItem_Click);
             // 
             // ImageForm
             // 
@@ -83,10 +119,14 @@ namespace ColdCutsNS
             this.Controls.Add(this.decreaseResolutionButton);
             this.Controls.Add(this.panel);
             this.Controls.Add(this.increaseResolutionButton);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.ImeMode = System.Windows.Forms.ImeMode.On;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "ImageForm";
-            this.MouseClick += new System.Windows.Forms.MouseEventHandler(this.WaveFormPictureBoxClicked);
+            this.ShowInTaskbar = false;
+            this.LocationChanged += new System.EventHandler(this.ImageForm_LocationChanged);
+            this.DoubleClick += new System.EventHandler(this.ImageForm_DoubleClick);
+            this.contextMenu.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -95,5 +135,9 @@ namespace ColdCutsNS
         private System.Windows.Forms.Panel panel;
         public System.Windows.Forms.Button decreaseResolutionButton;
         public System.Windows.Forms.Button increaseResolutionButton;
+        private System.Windows.Forms.ContextMenuStrip contextMenu;
+        private System.Windows.Forms.ToolStripMenuItem AddMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem DeleteMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem PlayMenuItem;
     }
 }
