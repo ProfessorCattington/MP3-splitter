@@ -25,7 +25,7 @@ namespace ColdCutsNS
         const int m_redMarkerModifier = 50;
         int m_resolutionScale = 1;
         MainForm m_parent;
-        List<double> markers = new List<double>();
+        List<int> markers = new List<int>();
 
         public ImageForm(MainForm parent)
         {
@@ -128,6 +128,12 @@ namespace ColdCutsNS
 
                         sampleLocation++;
                     }
+
+                    for (int i = 0; i < markers.Count; i++)
+                    {
+                        var x = markers[i] / m_resolutionScale;
+                        graphics.DrawLine(m_penBlue, x, 0, x, m_waveHeight);
+                    }
                 }
 
                 Point currentImagePosition = new Point(0, m_waveHeight * j);
@@ -141,7 +147,12 @@ namespace ColdCutsNS
 
         private double PointToTime(Point p)
         {
-            return p.X * m_resolutionScale / (double)m_redMarkerModifier;
+            return PointToTime(p.X);
+        }
+
+        private double PointToTime(int x)
+        {
+            return x * m_resolutionScale / (double)m_redMarkerModifier;
         }
 
         private void PlayAt(Point p)
@@ -154,20 +165,20 @@ namespace ColdCutsNS
             timer.Start();
         }
 
-        private void AddMarker(Point p)
+        private void AddMarker(int x)
         {            
             Bitmap bitmap = (Bitmap)m_soundwavePictureBox.Image;
             using (Graphics graphics = Graphics.FromImage(bitmap))
             {
-                graphics.DrawLine(m_penBlue, p.X, 0, p.X, p.Y + bitmap.Height);
+                graphics.DrawLine(m_penBlue, x, 0, x, bitmap.Height);
             }
             panel.Refresh();            
-            RefreshMarkers(p);
+            RefreshMarkers(x);
         }
 
-        private void RefreshMarkers(Point p)
+        private void RefreshMarkers(int x)
         {
-            markers.Add(PointToTime(p));
+            markers.Add(x);
             markers.Sort();
 
             m_parent.outputFiles.RemoveAllSoundFiles();
@@ -181,16 +192,16 @@ namespace ColdCutsNS
                 soundFile = new SoundFile
                 {
                     fileName = $"File_{i}",
-                    startTimeSeconds = (i == 0) ? 0 : markers[i - 1],
-                    endTimeSeconds = markers[i]
+                    startTimeSeconds = (i == 0) ? 0 : PointToTime(markers[i - 1]),
+                    endTimeSeconds = PointToTime(markers[i])
                 };
                 m_parent.addSoundFile(soundFile);
             }
             soundFile = new SoundFile
             {
                 fileName = $"File_{markers.Count}",
-                startTimeSeconds = markers[markers.Count-1],
-                endTimeSeconds = m_volumeSamples.Count
+                startTimeSeconds = PointToTime(markers[markers.Count-1]),
+                endTimeSeconds = PointToTime(m_volumeSamples.Count)
             };
             m_parent.addSoundFile(soundFile);
         }
@@ -253,13 +264,13 @@ namespace ColdCutsNS
             }
             else
             {
-                AddMarker(Click_Position);
+                AddMarker(Click_Position.X);
             }
         }
 
         private void AddMenuItem_Click(object sender, EventArgs e)
         {
-            AddMarker(Click_Position);
+            AddMarker(Click_Position.X);
         }
 
         private void PlayMenuItem_Click(object sender, EventArgs e)
