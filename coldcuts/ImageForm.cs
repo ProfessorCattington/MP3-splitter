@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
 using Un4seen.Bass;
@@ -8,23 +9,23 @@ namespace ColdCutsNS
 {
     public partial class ImageForm : Form
     {
-        private Pen m_penGreen = new Pen(Color.LimeGreen, 1);
-        private Pen m_penRed = new Pen(Color.Red, 1);
-        private Pen m_penBlue = new Pen(Color.Blue, 1);
+        Pen m_penGreen = new Pen(Color.LimeGreen, 1);
+        Pen m_penRed = new Pen(Color.Red, 1);
+        Pen m_penBlue = new Pen(Color.Blue, 1);        
 
-        private Font m_font = new Font("Arial", 7, FontStyle.Regular);
-        private Brush m_brush = new SolidBrush(Color.Black);
+        Font m_font = new Font("Arial", 7, FontStyle.Regular);
+        Brush m_brush = new SolidBrush(Color.Black);
 
-        private PictureBox m_soundwavePictureBox;
+        PictureBox m_soundwavePictureBox;
+        List<int> m_volumeSamples;
 
-        private List<int> m_volumeSamples;
+        double m_maxVolume = 0;
+        const int m_waveHeight = 130;
 
-        private double m_maxVolume = 0;
-        private const int m_waveHeight = 130;
-
-        private const int m_redMarkerModifier = 50;
-        private int m_resolutionScale = 1;
-        private MainForm m_parent;
+        const int m_redMarkerModifier = 50;
+        int m_resolutionScale = 1;
+        MainForm m_parent;
+        List<double> markers = new List<double>();
 
         public ImageForm(MainForm parent)
         {
@@ -154,13 +155,44 @@ namespace ColdCutsNS
         }
 
         private void AddMarker(Point p)
-        {
+        {            
             Bitmap bitmap = (Bitmap)m_soundwavePictureBox.Image;
             using (Graphics graphics = Graphics.FromImage(bitmap))
             {
                 graphics.DrawLine(m_penBlue, p.X, 0, p.X, p.Y + bitmap.Height);
             }
-            panel.Refresh();
+            panel.Refresh();            
+            RefreshMarkers(p);
+        }
+
+        private void RefreshMarkers(Point p)
+        {
+            markers.Add(PointToTime(p));
+            markers.Sort();
+
+            m_parent.outputFiles.RemoveAllSoundFiles();
+            m_parent.dataGridView1.Rows.Clear();
+            m_parent.Refresh();
+
+            var soundFile = new SoundFile();
+            m_parent.addSoundFile(soundFile);
+            for (int i = 0; i < markers.Count; i++)
+            {
+                soundFile = new SoundFile
+                {
+                    fileName = $"File_{i}",
+                    startTimeSeconds = (i == 0) ? 0 : markers[i - 1],
+                    endTimeSeconds = markers[i]
+                };
+                m_parent.addSoundFile(soundFile);
+            }
+            soundFile = new SoundFile
+            {
+                fileName = $"File_{markers.Count}",
+                startTimeSeconds = markers[markers.Count-1],
+                endTimeSeconds = m_volumeSamples.Count
+            };
+            m_parent.addSoundFile(soundFile);
         }
 
         public void DecreaseSoundwaveResolution(object sender, EventArgs e)

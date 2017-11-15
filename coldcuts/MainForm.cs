@@ -50,6 +50,7 @@ namespace ColdCutsNS
             if (!string.IsNullOrEmpty(dir))
                 UpdateFormWithDestination(dir);
         }
+
         private void encodeButton_Click(object sender, EventArgs e)
         {
             if (EndTimesArentZero(dataGridView1))
@@ -107,7 +108,7 @@ namespace ColdCutsNS
             addSoundFile(new SoundFile());
         }
 
-        private void addSoundFile(SoundFile sound)
+        public void addSoundFile(SoundFile sound)
         {
             outputFiles.AddSoundFile(sound);
             AddRowToDataGridView(sound);
