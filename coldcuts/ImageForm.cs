@@ -1,6 +1,6 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
 using Un4seen.Bass;
@@ -46,8 +46,22 @@ namespace ColdCutsNS
                     m_maxVolume = m_volumeSamples[i];
                 }
             }
-
             RedrawSound(sampleCount);
+        }
+
+        public void UpdateDrawSound(OutputFiles soundFiles)
+        {
+            markers.Clear();
+            var files = soundFiles.OrderBy(x => x.startTimeSeconds);
+            foreach (var file in files)
+            {
+                if (file.endTimeSeconds > 0)
+                {
+                    markers.Add(TimeToPoint(file.endTimeSeconds));
+                }
+            }
+            markers.Sort();
+            RedrawSound(m_volumeSamples.Count);
         }
 
         private void RedrawSound(int sampleCount)
@@ -153,6 +167,11 @@ namespace ColdCutsNS
         private double PointToTime(int x)
         {
             return x * m_resolutionScale / (double)m_redMarkerModifier;
+        }
+
+        private int TimeToPoint(double time)
+        {
+            return (int)Math.Truncate(time * m_redMarkerModifier / m_resolutionScale);
         }
 
         private void PlayAt(Point p)

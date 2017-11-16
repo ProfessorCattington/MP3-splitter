@@ -58,7 +58,6 @@ namespace ColdCutsNS
 
         public void DisableTheEditingControls()
         {
-
             this.fileLeftButton.Enabled = false;
             this.fileRightButton.Enabled = false;
             this.addFileButton.Enabled = false;
@@ -105,23 +104,20 @@ namespace ColdCutsNS
                 this.dataGridView1.Rows[i].Cells[0].Value = i;
         }
 
-        public void UpdateDataGrid()
+        public void UpdateDataGrid(OutputFiles soundFiles)
         {
-            var soundFiles = outputFiles.GetOutputFiles();
-
             for (int i = 0; i < soundFiles.Count; i++)
             {
+                dataGridView1.Rows[i].Cells[0].ReadOnly = true;
 
-                this.dataGridView1.Rows[i].Cells[0].ReadOnly = true;
+                dataGridView1.Rows[i].Cells[1].Value = soundFiles[i].fileName;
+                dataGridView1.Rows[i].Cells[1].ReadOnly = false;
 
-                this.dataGridView1.Rows[i].Cells[1].Value = soundFiles[i].fileName;
-                this.dataGridView1.Rows[i].Cells[1].ReadOnly = false;
+                dataGridView1.Rows[i].Cells[2].Value = soundFiles[i].startTimeSeconds;
+                dataGridView1.Rows[i].Cells[2].ReadOnly = false;
 
-                this.dataGridView1.Rows[i].Cells[2].Value = soundFiles[i].startTimeSeconds;
-                this.dataGridView1.Rows[i].Cells[2].ReadOnly = false;
-
-                this.dataGridView1.Rows[i].Cells[3].Value = soundFiles[i].endTimeSeconds;
-                this.dataGridView1.Rows[i].Cells[3].ReadOnly = false;
+                dataGridView1.Rows[i].Cells[3].Value = soundFiles[i].endTimeSeconds;
+                dataGridView1.Rows[i].Cells[3].ReadOnly = false;
             }
         }
 

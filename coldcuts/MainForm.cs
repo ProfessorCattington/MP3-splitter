@@ -64,16 +64,18 @@ namespace ColdCutsNS
 
         public new void Leave(object sender, EventArgs e)
         {
-            if (startMinTextBox.Text == "") { startMinTextBox.Text = "0"; }
-            if (startSecTextBox.Text == "") { startSecTextBox.Text = "0"; }
-            if (endMinTextBox.Text == "") { endMinTextBox.Text = "0"; }
-            if (endSecTextBox.Text == "") { endSecTextBox.Text = "0"; }
+            if (startMinTextBox.Text == "") startMinTextBox.Text = "0";
+            if (startSecTextBox.Text == "") startSecTextBox.Text = "0";
+            if (endMinTextBox.Text == "") endMinTextBox.Text = "0";
+            if (endSecTextBox.Text == "") endSecTextBox.Text = "0";
 
-            if (this.StartAndEndTimesInEditFieldsAreValid())
+            if (StartAndEndTimesInEditFieldsAreValid())
             {
-
-                this.SaveFieldsToFileObject();
-                this.UpdateDataGrid();
+                SaveFieldsToFileObject();
+                var soundFiles = outputFiles.GetOutputFiles();                
+                UpdateDataGrid(soundFiles);
+                if (imageForm.Visible)
+                    imageForm.UpdateDrawSound(soundFiles);
             }
         }
 
