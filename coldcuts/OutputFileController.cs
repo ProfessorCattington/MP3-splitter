@@ -1,10 +1,10 @@
 ﻿using System;
 using Un4seen.Bass.AddOn.Tags;
 
-namespace ColdCutsNS{
-
-    public class OutputFileController{
-
+namespace ColdCutsNS
+{
+    public class OutputFileController
+    {
         private TAG_INFO m_inputFileTags;
         private OutputFiles m_outputFiles;
         private int index;
@@ -21,8 +21,14 @@ namespace ColdCutsNS{
             m_outputFiles.Add(index, sound);
         }
 
-        public void RemoveASoundFile(){
+        public void RemoveAllSoundFiles()
+        {
+            m_outputFiles.Clear();
+            index = 0;
+        }
 
+        public void RemoveASoundFile()
+        {
             m_outputFiles.RemoveAt(index);
 
             //make sure we aren't going outside the bounds of the list
@@ -51,7 +57,7 @@ namespace ColdCutsNS{
         public void DecreaseIndex()
         {
             index--;
-            if(index < 0)
+            if (index < 0)
                 index = 0;
         }
 
@@ -66,22 +72,23 @@ namespace ColdCutsNS{
             return m_inputFileTags;
         }
 
-        public int GetCurrentFileIndex(){
-
+        public int GetCurrentFileIndex()
+        {
             return index;
         }
 
-        public OutputFiles GetOutputFiles(){
-
+        public OutputFiles GetOutputFiles()
+        {
             return m_outputFiles;
         }
+
         public int CountOfSoundFiles
         {
             get { return m_outputFiles.Count; }
         }
 
-        public void UpdateStartAndEndTimes(string startMin, string startSec, string endMin, string endSec){
-
+        public void UpdateStartAndEndTimes(string startMin, string startSec, string endMin, string endSec)
+        {
             long newStartMin = long.Parse(startMin);
             double newStartSec = double.Parse(startSec);
             long newEndMin = long.Parse(endMin);
@@ -91,8 +98,8 @@ namespace ColdCutsNS{
             m_outputFiles.UpdateEndTime(index, ((newEndMin * 60) + newEndSec));
         }
 
-        public void UpdateInputTags(string fileName, string artist, string title, string album, string comment){
-
+        public void UpdateInputTags(string fileName, string artist, string title, string album, string comment)
+        {
             m_outputFiles[index].tag.artist = artist;
             m_outputFiles[index].tag.title = title;
             m_outputFiles[index].tag.album = album;
@@ -100,58 +107,59 @@ namespace ColdCutsNS{
             m_outputFiles[index].fileName = fileName;
         }
 
-        public string GetStartMinString(){
-
-           return ((int)Math.Round(m_outputFiles[index].startTimeSeconds / 60)).ToString();
+        public string GetStartMinString()
+        {
+            return ((int)Math.Round(m_outputFiles[index].startTimeSeconds / 60)).ToString();
         }
 
-        public string GetStartSecString(){
-
+        public string GetStartSecString()
+        {
             return (m_outputFiles[index].startTimeSeconds % 60).ToString();
         }
 
-        public string GetEndMinString(){
-
+        public string GetEndMinString()
+        {
             return ((int)Math.Round(m_outputFiles[index].endTimeSeconds / 60)).ToString();
         }
 
-        public string GetEndSecString(){
-
+        public string GetEndSecString()
+        {
             return (m_outputFiles[index].endTimeSeconds % 60).ToString();
         }
 
-        public string GetFileName(){
-
+        public string GetFileName()
+        {
             return m_outputFiles[index].fileName;
         }
 
         public TAG_INFO TagInfo { get { return m_outputFiles[index].tag; } }
 
-        public string GetArtist(){
-
+        public string GetArtist()
+        {
             return m_outputFiles[index].tag.artist;
         }
 
-        public string GetTitle(){
-
+        public string GetTitle()
+        {
             return m_outputFiles[index].tag.title;
         }
 
-        public string GetAlbum(){
-
+        public string GetAlbum()
+        {
             return m_outputFiles[index].tag.album;
         }
 
-        public string GetComment(){
-
+        public string GetComment()
+        {
             return m_outputFiles[index].tag.comment;
         }
-        public double GetStartTime(){
-
+        public double GetStartTime()
+        {
             return m_outputFiles[index].startTimeSeconds;
         }
 
-        public double GetEndTime(){
+        public double GetEndTime()
+        {
 
             return m_outputFiles[index].endTimeSeconds;
         }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
@@ -8,23 +9,23 @@ namespace ColdCutsNS
 {
     public partial class ImageForm : Form
     {
-        private Pen m_penGreen = new Pen(Color.LimeGreen, 1);
-        private Pen m_penRed = new Pen(Color.Red, 1);
-        private Pen m_penBlue = new Pen(Color.Blue, 1);
+        Pen m_penGreen = new Pen(Color.LimeGreen, 1);
+        Pen m_penRed = new Pen(Color.Red, 1);
+        Pen m_penBlue = new Pen(Color.Blue, 1);        
 
-        private Font m_font = new Font("Arial", 7, FontStyle.Regular);
-        private Brush m_brush = new SolidBrush(Color.Black);
+        Font m_font = new Font("Arial", 7, FontStyle.Regular);
+        Brush m_brush = new SolidBrush(Color.Black);
 
-        private PictureBox m_soundwavePictureBox;
+        PictureBox m_soundwavePictureBox;
+        List<int> m_volumeSamples;
 
-        private List<int> m_volumeSamples;
+        double m_maxVolume = 0;
+        const int m_waveHeight = 130;
 
-        private double m_maxVolume = 0;
-        private const int m_waveHeight = 130;
-
-        private const int m_redMarkerModifier = 50;
-        private int m_resolutionScale = 1;
-        private MainForm m_parent;
+        const int m_redMarkerModifier = 50;
+        int m_resolutionScale = 1;
+        MainForm m_parent;
+        List<int> markers = new List<int>();
 
         public ImageForm(MainForm parent)
         {
@@ -45,8 +46,22 @@ namespace ColdCutsNS
                     m_maxVolume = m_volumeSamples[i];
                 }
             }
-
             RedrawSound(sampleCount);
+        }
+
+        public void UpdateDrawSound(OutputFiles soundFiles)
+        {
+            markers.Clear();
+            var files = soundFiles.OrderBy(x => x.startTimeSeconds);
+            foreach (var file in files)
+            {
+                if (file.endTimeSeconds > 0)
+                {
+                    markers.Add(TimeToPoint(file.endTimeSeconds));
+                }
+            }
+            markers.Sort();
+            RedrawSound(m_volumeSamples.Count);
         }
 
         private void RedrawSound(int sampleCount)
@@ -127,6 +142,12 @@ namespace ColdCutsNS
 
                         sampleLocation++;
                     }
+
+                    for (int i = 0; i < markers.Count; i++)
+                    {
+                        var x = markers[i] / m_resolutionScale;
+                        graphics.DrawLine(m_penBlue, x, 0, x, m_waveHeight);
+                    }
                 }
 
                 Point currentImagePosition = new Point(0, m_waveHeight * j);
@@ -140,7 +161,17 @@ namespace ColdCutsNS
 
         private double PointToTime(Point p)
         {
-            return p.X * m_resolutionScale / (double)m_redMarkerModifier;
+            return PointToTime(p.X);
+        }
+
+        private double PointToTime(int x)
+        {
+            return x * m_resolutionScale / (double)m_redMarkerModifier;
+        }
+
+        private int TimeToPoint(double time)
+        {
+            return (int)Math.Truncate(time * m_redMarkerModifier / m_resolutionScale);
         }
 
         private void PlayAt(Point p)
@@ -153,14 +184,45 @@ namespace ColdCutsNS
             timer.Start();
         }
 
-        private void AddMarker(Point p)
-        {
+        private void AddMarker(int x)
+        {            
             Bitmap bitmap = (Bitmap)m_soundwavePictureBox.Image;
             using (Graphics graphics = Graphics.FromImage(bitmap))
             {
-                graphics.DrawLine(m_penBlue, p.X, 0, p.X, p.Y + bitmap.Height);
+                graphics.DrawLine(m_penBlue, x, 0, x, bitmap.Height);
             }
-            panel.Refresh();
+            panel.Refresh();            
+            RefreshMarkers(x);
+        }
+
+        private void RefreshMarkers(int x)
+        {
+            markers.Add(x);
+            markers.Sort();
+
+            m_parent.outputFiles.RemoveAllSoundFiles();
+            m_parent.dataGridView1.Rows.Clear();
+            m_parent.Refresh();
+
+            var soundFile = new SoundFile();
+            m_parent.addSoundFile(soundFile);
+            for (int i = 0; i < markers.Count; i++)
+            {
+                soundFile = new SoundFile
+                {
+                    fileName = $"File_{i}",
+                    startTimeSeconds = (i == 0) ? 0 : PointToTime(markers[i - 1]),
+                    endTimeSeconds = PointToTime(markers[i])
+                };
+                m_parent.addSoundFile(soundFile);
+            }
+            soundFile = new SoundFile
+            {
+                fileName = $"File_{markers.Count}",
+                startTimeSeconds = PointToTime(markers[markers.Count-1]),
+                endTimeSeconds = PointToTime(m_volumeSamples.Count)
+            };
+            m_parent.addSoundFile(soundFile);
         }
 
         public void DecreaseSoundwaveResolution(object sender, EventArgs e)
@@ -221,13 +283,13 @@ namespace ColdCutsNS
             }
             else
             {
-                AddMarker(Click_Position);
+                AddMarker(Click_Position.X);
             }
         }
 
         private void AddMenuItem_Click(object sender, EventArgs e)
         {
-            AddMarker(Click_Position);
+            AddMarker(Click_Position.X);
         }
 
         private void PlayMenuItem_Click(object sender, EventArgs e)

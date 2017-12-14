@@ -50,6 +50,7 @@ namespace ColdCutsNS
             if (!string.IsNullOrEmpty(dir))
                 UpdateFormWithDestination(dir);
         }
+
         private void encodeButton_Click(object sender, EventArgs e)
         {
             if (EndTimesArentZero(dataGridView1))
@@ -63,16 +64,18 @@ namespace ColdCutsNS
 
         public new void Leave(object sender, EventArgs e)
         {
-            if (startMinTextBox.Text == "") { startMinTextBox.Text = "0"; }
-            if (startSecTextBox.Text == "") { startSecTextBox.Text = "0"; }
-            if (endMinTextBox.Text == "") { endMinTextBox.Text = "0"; }
-            if (endSecTextBox.Text == "") { endSecTextBox.Text = "0"; }
+            if (startMinTextBox.Text == "") startMinTextBox.Text = "0";
+            if (startSecTextBox.Text == "") startSecTextBox.Text = "0";
+            if (endMinTextBox.Text == "") endMinTextBox.Text = "0";
+            if (endSecTextBox.Text == "") endSecTextBox.Text = "0";
 
-            if (this.StartAndEndTimesInEditFieldsAreValid())
+            if (StartAndEndTimesInEditFieldsAreValid())
             {
-
-                this.SaveFieldsToFileObject();
-                this.UpdateDataGrid();
+                SaveFieldsToFileObject();
+                var soundFiles = outputFiles.GetOutputFiles();                
+                UpdateDataGrid(soundFiles);
+                if (imageForm.Visible)
+                    imageForm.UpdateDrawSound(soundFiles);
             }
         }
 
@@ -107,7 +110,7 @@ namespace ColdCutsNS
             addSoundFile(new SoundFile());
         }
 
-        private void addSoundFile(SoundFile sound)
+        public void addSoundFile(SoundFile sound)
         {
             outputFiles.AddSoundFile(sound);
             AddRowToDataGridView(sound);
