@@ -11,7 +11,7 @@ namespace ColdCutsNS
     {
         Pen m_penGreen = new Pen(Color.LimeGreen, 1);
         Pen m_penRed = new Pen(Color.Red, 1);
-        Pen m_penBlue = new Pen(Color.Blue, 1);        
+        Pen m_penBlue = new Pen(Color.Blue, 1);
 
         Font m_font = new Font("Arial", 7, FontStyle.Regular);
         Brush m_brush = new SolidBrush(Color.Black);
@@ -185,13 +185,13 @@ namespace ColdCutsNS
         }
 
         private void AddMarker(int x)
-        {            
+        {
             Bitmap bitmap = (Bitmap)m_soundwavePictureBox.Image;
             using (Graphics graphics = Graphics.FromImage(bitmap))
             {
                 graphics.DrawLine(m_penBlue, x, 0, x, bitmap.Height);
             }
-            panel.Refresh();            
+            panel.Refresh();
             RefreshMarkers(x);
         }
 

@@ -72,7 +72,7 @@ namespace ColdCutsNS
             if (StartAndEndTimesInEditFieldsAreValid())
             {
                 SaveFieldsToFileObject();
-                var soundFiles = outputFiles.GetOutputFiles();                
+                var soundFiles = outputFiles.GetOutputFiles();
                 UpdateDataGrid(soundFiles);
                 if (imageForm.Visible)
                     imageForm.UpdateDrawSound(soundFiles);
