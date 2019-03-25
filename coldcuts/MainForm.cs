@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
@@ -56,6 +56,7 @@ namespace ColdCutsNS
             if (EndTimesArentZero(dataGridView1))
             {
                 menu.Hide();
+                imageForm.Hide();
                 Leave(sender, e);
                 DataGridViewLeave(sender, e);
                 PerformEncodingTasks();
