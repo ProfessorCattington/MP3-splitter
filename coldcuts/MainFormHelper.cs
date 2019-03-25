@@ -372,6 +372,9 @@ namespace ColdCutsNS
 
             if (string.IsNullOrEmpty(destinationFilePathTextBox.Text))
                 destinationFilePathTextBox.Focus();
+
+            outputFiles.RemoveAllSoundFiles();
+            dataGridView1.Rows.Clear();
             Cursor.Current = Cursors.Default;
         }
 

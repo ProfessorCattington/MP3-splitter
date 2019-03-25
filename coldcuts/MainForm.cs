@@ -56,6 +56,7 @@ namespace ColdCutsNS
             if (EndTimesArentZero(dataGridView1))
             {
                 menu.Hide();
+                imageForm.Hide();
                 Leave(sender, e);
                 DataGridViewLeave(sender, e);
                 PerformEncodingTasks();
@@ -71,8 +72,9 @@ namespace ColdCutsNS
 
             if (StartAndEndTimesInEditFieldsAreValid())
             {
-                SaveFieldsToFileObject();
-                var soundFiles = outputFiles.GetOutputFiles();                
+                if ((sender is TextBox) && ((TextBox)sender).Enabled)
+                    SaveFieldsToFileObject();
+                var soundFiles = outputFiles.GetOutputFiles();
                 UpdateDataGrid(soundFiles);
                 if (imageForm.Visible)
                     imageForm.UpdateDrawSound(soundFiles);
