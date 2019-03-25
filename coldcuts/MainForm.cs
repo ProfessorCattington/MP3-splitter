@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
@@ -71,7 +71,8 @@ namespace ColdCutsNS
 
             if (StartAndEndTimesInEditFieldsAreValid())
             {
-                SaveFieldsToFileObject();
+                if ((sender is TextBox) && ((TextBox)sender).Enabled)
+                    SaveFieldsToFileObject();
                 var soundFiles = outputFiles.GetOutputFiles();
                 UpdateDataGrid(soundFiles);
                 if (imageForm.Visible)
