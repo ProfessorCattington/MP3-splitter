@@ -420,22 +420,25 @@ namespace ColdCutsNS
 
         public async void UpdateTheImageForm()
         {
-            List<int> soundWave = new List<int>();
-            soundWave = await LoadSoundWaveAsync(sourceFilePathTextBox.Text);
-
-            if (!imageForm.IsDisposed)
+            if (inputFileTags.duration < 3600)
             {
-                if (!imageForm.Visible)
+                List<int> soundWave = new List<int>();
+                soundWave = await LoadSoundWaveAsync(sourceFilePathTextBox.Text);
+
+                if (!imageForm.IsDisposed)
                 {
-                    imageForm.Show();
-                    imageForm.Location = new Point(Location.X, Location.Y + Height);
+                    if (!imageForm.Visible)
+                    {
+                        imageForm.Show();
+                        imageForm.Location = new Point(Location.X, Location.Y + Height);
+                    }
+
+                    imageForm.Text = sourceFilePathTextBox.Text;
+                    imageForm.ShowSound(soundWave);
+
+                    imageForm.increaseResolutionButton.Enabled = true;
+                    imageForm.decreaseResolutionButton.Enabled = true;
                 }
-
-                imageForm.Text = sourceFilePathTextBox.Text;
-                imageForm.ShowSound(soundWave);
-
-                imageForm.increaseResolutionButton.Enabled = true;
-                imageForm.decreaseResolutionButton.Enabled = true;
             }
         }
 
